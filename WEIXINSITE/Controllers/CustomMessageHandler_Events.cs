@@ -40,24 +40,16 @@ namespace WEIXINSITE.Controllers
                 case "BuildQrCode":
                     {
                         string tjr = requestMessage.FromUserName;
+                        // 本处逻辑从数据库取二维码上传后，下传
+                        string imgPic = "";
 
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
+                        //上传图片
+                        var accessToken = Senparc.Weixin.MP.CommonAPIs.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
+                        var uploadResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image, imgPic);
+                        //设置图片信息
+                        var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
                         reponseMessage = strongResponseMessage;
-                        
-                        //return responseMessage;
-
-                        
-                        //strongResponseMessage.Content = "BuildQrCode:" + qrResult.url;
-
-                        //string imgPic  = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
-
-                        ////上传图片
-                        ////var accessToken = CommonAPIs.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
-                        //var uploadResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image, imgPic);
-                        ////设置图片信息
-                        ////var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
-                        //reponseMessage = strongResponseMessage;
-                        ////strongResponseMessage.Image.MediaId = uploadResult.media_id;
+                        strongResponseMessage.Image.MediaId = uploadResult.media_id;
 
                         break;
                     }
