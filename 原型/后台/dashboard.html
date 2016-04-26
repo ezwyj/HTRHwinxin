@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<title>管理后台</title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="css/style.css" media="all" />
+	<!--[if IE]><link rel="stylesheet" href="css/ie.css" media="all" /><![endif]-->
+	<!--[if lt IE 9]><link rel="stylesheet" href="css/lt-ie-9.css" media="all" /><![endif]-->
+</head>
+<body>
+<div class="testing">
+<header class="main">
+	<h1><strong>管理后台</strong> </h1>
+	<input type="text" value="search" />
+</header>
+
+</div>
+<nav>
+	<ul>
+		<li class="section"><a href="index.html"><span class="icon">&#128711;</span> 概述</a></li>
+		<li ><a href="pages-table.html"><span class="icon">&#128196;</span> 菜单管理</a></li>
+		<li>
+			<a href="blog-timeline.html"><span class="icon">&#59160;</span> 新闻管理 <span class="pip">12</span></a>
+			<ul class="submenu">
+				<li><a href="blog-new.html">发布新闻</a></li>
+				<li><a href="blog-table.html">历史发布</a></li>
+				<li><a href="comments-timeline.html">View comments</a></li>
+			</ul>
+		</li>
+		<li><a href="statistics.html"><span class="icon">&#128202;</span> 统计</a>
+            <ul class="submenu">
+                <li><a href="icon-fonts.html">Icon fonts</a></li>
+            </ul>    
+        </li>
+
+		<li><a href="users.html"><span class="icon">&#128101;</span> 用户管理 <span class="pip">3</span></a></li>
+		<li>
+			<a href="ui-elements.html"><span class="icon">&#9881;</span> 配置</a>
+		</li>
+	</ul>
+</nav>
+
+<section class="alert">
+	<div class="green">	
+		<p>Hi Lee, you have <a href="#">3 new pages</a> and <a href="#">16 comments</a> to approve, better get going!</p>
+		<span class="close">&#10006;</span>
+	</div>
+</section>
+<section class="content">
+	<section class="widget">
+		<header>
+			<span class="icon">&#128200;</span>
+			<hgroup>
+				<h1>用户增加</h1>
+				<h2>An insiders view</h2>
+			</hgroup>
+			<aside>
+				<button class="left-btn">&#59229;</button><button class="right-btn">&#59230;</button>
+			</aside>
+		</header>
+        <div class="content cycle ">
+            <div id="flot-example-2" class="graph-area"></div>
+            <div id="flot-example-1" class="graph-area"></div>
+        </div>
+		</div>
+	</section>
+	
+	
+	<div class="widget-container">
+		<section class="widget small">
+			<header> 
+				<span class="icon">&#128318;</span>
+				<hgroup>
+					<h1>用户情况</h1>
+					<h2>Facts &amp; figures</h2>
+				</hgroup>
+				
+			</header>
+			<div class="content">
+				<section class="stats-wrapper">
+					<div class="stats">
+						<p><span>64</span></p>
+						<p title="经微信进入的注册会员数">注册数</p>
+					</div>
+					<div class="stats">
+						<p><span>362</span></p>
+						<p title="经微信进行开户数量">开户数</p>
+					</div>
+				</section>
+				<section class="stats-wrapper">
+					<div class="stats">
+						<p><span>7</span></p>
+						<p title="二级开户数">介绍开户数</p>
+					</div>
+					<div class="stats">
+						<p><span>927</span></p>
+						<p title="">总开户数</p>
+					</div>
+				</section>
+			</div>
+		</section>
+		
+		<section class="widget small">
+			<header> 
+				<span class="icon">&#128363;</span>
+				<hgroup>
+					<h1>最新情况</h1>
+					<h2>Insiders news</h2>
+				</hgroup>
+
+			</header>
+			<div class="content no-padding timeline">
+				<div class="tl-post">
+					<span class="icon">&#128206;</span>
+					<p><a href="#">John Doe</a> 提交注册资料</p>
+				</div>
+				<div class="tl-post">
+					<span class="icon">&#59172;</span>
+					<p><a href="#">John Doe</a> 申请二维码</p>
+				</div>
+				<div class="tl-post">
+					<span class="icon">&#59170;</span>
+					<p><a href="#">John Doe</a> edited his profile.</p>
+				</div>
+				<div class="tl-post">
+					<span class="icon">&#9993;</span>
+					<p><a href="#">John Doe</a> has sent you  private message.</p>
+				</div>
+				<div class="pie graph-area"></div>
+			</div>
+		</section>
+		
+	</div>
+    <div class=".navbar-fixed-bottom">
+
+        
+    </div>
+</section>
+<script src="js/jquery-1.6.1.min.js"></script>
+<script src="js/jquery.wysiwyg.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/cycle.js"></script>
+<script src="js/jquery.checkbox.min.js"></script>
+<script src="js/flot.js"></script>
+<script src="js/flot.resize.js"></script>
+<script src="js/flot-time.js"></script>
+<script src="js/flot-pie.js"></script>
+<script src="js/flot-graphs.js"></script>
+<script src="js/cycle.js"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript">
+// Feature slider for graphs
+$('.cycle').cycle({
+	fx: "scrollHorz",
+	timeout: 0,
+    slideResize: 0,
+    prev:    '.left-btn', 
+    next:    '.right-btn'
+});
+</script>
+</body>
+</html>

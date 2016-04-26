@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Senparc.Weixin.Cache.Memcached</id>
+    <version>0.0.1</version>
+    <title>Senparc.Weixin.Cache.Memcached.dll</title>
+    <authors>苏震巍</authors>
+    <owners>苏震巍</owners>
+    <licenseUrl>https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md</licenseUrl>
+    <projectUrl>https://github.com/JeffreySu/WeiXinMPSDK</projectUrl>
+    <iconUrl>http://weixin.senparc.com/Images/Logo.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>微信公众账号SDK：Senparc.Weixin.MP.dll
+开源项目：
+https://github.com/JeffreySu/WeiXinMPSDK</description>
+    <summary>微信公众号SDK for C#</summary>
+    <releaseNotes>v0.0.1
+提供分布式缓存支持
+.NET 4.0版本暂时未提供</releaseNotes>
+    <copyright>Senparc</copyright>
+    <tags>微信 weixin SDK C# JSSDK 微信支付</tags>
+    <dependencies>
+      <dependency id="Senparc.Weixin" version="4.5.12" />
+      <dependency id="EnyimMemcached" version="2.13.0" />
+    </dependencies>
+  </metadata>
+</package>
