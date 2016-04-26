@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Senparc.Weixin.MP.CommonAPIs;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -14,6 +16,8 @@ namespace WEIXINSITE
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
+        private string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -22,6 +26,8 @@ namespace WEIXINSITE
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            AccessTokenContainer.Register(appId, secret);
         }
     }
 }

@@ -164,6 +164,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Generated\Database.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PetaPoco.cs" />
     <Compile Include="Models\RegUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,6 +260,11 @@
     <Content Include="Content\assets\img\.DS_Store" />
     <Content Include="Content\assets\js\.DS_Store" />
     <Content Include="Models\Generated\PetaPoco.Core.ttinclude" />
+    <Content Include="Models\Generated\PetaPoco.Generator.ttinclude" />
+    <Content Include="Models\Generated\Database.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -285,6 +295,8 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\OAuth2\Index.cshtml" />
+    <Content Include="Views\Client\TestQrCode.cshtml" />
+    <Content Include="Views\Client\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

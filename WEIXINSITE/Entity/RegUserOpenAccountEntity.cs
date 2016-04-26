@@ -5,6 +5,8 @@ using System.Web;
 
 namespace WEIXINSITE.Entity
 {
+    [PetaPoco.TableName("UserOpenAccount")]
+    [PetaPoco.PrimaryKey("Id")]
     public class RegUserOpenAccountEntity
     {
         public int Id { get; set; }

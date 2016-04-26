@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WEIXINSITE.Controllers
+namespace WEIXINSITE.Entity
 {
     [PetaPoco.TableName("RegUser")]
-    [PetaPoco.PrimaryKey("weixinOpenId")]
     public class regUserEntity
     {
         /// <summary>
@@ -14,7 +13,7 @@ namespace WEIXINSITE.Controllers
         ///         
         /// 
         /// </summary>
-        public string weixnOpenId { get; set; }
+        public string weixinOpenId { get; set; }
         public string nickName { get; set; }
 
         public string realName { get; set; }
@@ -34,6 +33,8 @@ namespace WEIXINSITE.Controllers
         /// <summary>
         /// 银行卡照片
         /// </summary>
-        public string BankCard { get; set; }
+        public string BankCardPic { get; set; }
+
+        public string QrCodeURL { get; set; }
     }
 }

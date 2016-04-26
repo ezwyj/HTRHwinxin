@@ -2,6 +2,7 @@
 using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
+using Senparc.Weixin.MP.AdvancedAPIs.QrCode;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,6 +20,8 @@ namespace WEIXINSITE.Controllers
         // GET: /Client/
         private string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
         private string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
+
+      
 
         public ActionResult Index(string code, string state)
         {
@@ -59,35 +62,43 @@ namespace WEIXINSITE.Controllers
             {
                 OAuthUserInfo userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
 
-                RegUserModel retModel = new RegUserModel();
-                retModel.WeixinUserInfo = userInfo;
-
-                //var db=new PetaPoco.Database("DefaultConnection");
-
-                //regUserEntity user = new regUserEntity();
-                //user.weixnOpenId = userInfo.openid;
-                //user.nickName = userInfo.nickname;
-
-
                 
 
-                //判断是否是首次
-                //if(db.IsNew(user)){
-                //        //注册用户
-                //    //UserValue uv = new UserValue();
-                //    //uv.
-                //    db.Insert(user);
-                //}
-                     
+                RegUserModel retModel = new RegUserModel();
+                retModel.RegUser = new regUserEntity();
+                retModel.WeixinUserInfo = userInfo;
+
+
+                var db = new PetaPoco.Database("DefaultConnection");
+
+                regUserEntity user = new regUserEntity();
+                user.weixinOpenId = userInfo.openid;
+                user.nickName = userInfo.nickname;
+                user.regTime = DateTime.Now;
+
+
+                if (!db.Exists<regUserEntity>("weixinOpenId='{0}'", user.weixinOpenId))
+                {
+                    //判断是否是首次
+                    
+                    CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
+                    retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+
+                    db.Insert("RegUser", "weixinOpenId", user);
+                }
+
+                    
 
 
                 return View(retModel);
             }
             catch (ErrorJsonResultException ex)
             {
+                ViewBag.Error = ex.Message;
                 return Content(ex.Message);
             }
         }
+
 
         public ActionResult New(int id)
         {

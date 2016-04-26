@@ -37,6 +37,8 @@ namespace WEIXINSITE.Controllers
             }
         }
 
+
+
         /// <summary>
         /// 用户发送消息后，微信平台自动Post一个请求到这里，并等待响应XML。
         /// PS：此方法为简化方法，效果与OldPost一致。

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Senparc.Weixin.MP;
+using Senparc.Weixin.MP.CommonAPIs;
+using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 
 namespace WEIXINSITE.Controllers
 {
@@ -44,8 +46,8 @@ namespace WEIXINSITE.Controllers
                         
                         //return responseMessage;
 
-                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, tjr);
-                        strongResponseMessage.Content = "BuildQrCode:" + qrResult.url;
+                        
+                        //strongResponseMessage.Content = "BuildQrCode:" + qrResult.url;
 
                         //string imgPic  = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
 
@@ -179,9 +181,22 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
         {
             //通过扫描关注
+            string openWeixinId = requestMessage.EventKey;
+
+            OAuthUserInfo userinfo = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetUserInfo( AccessTokenContainer.GetAccessToken(appId) ,openWeixinId);
+            
+
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            responseMessage.ToUserName = openWeixinId;
             responseMessage.Content = "通过扫描关注。";
+
+
+            //增加在后台数据库操作
+
+
             return responseMessage;
+
+
         }
 
         public override IResponseMessageBase OnEvent_ViewRequest(RequestMessageEvent_View requestMessage)
@@ -209,7 +224,7 @@ namespace WEIXINSITE.Controllers
             responseMessage.Content = "";
             if (!string.IsNullOrEmpty(requestMessage.EventKey))
             {
-                responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey;
+                responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey + "_"+ requestMessage.FromUserName;
             }
             return responseMessage;
         }
