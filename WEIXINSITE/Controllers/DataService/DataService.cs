@@ -36,7 +36,7 @@ namespace WEIXINSITE.Controllers.DataService
             {
                 //判断是否是首次
 
-                CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(AccessTokenContainer.GetAccessToken(appId) , userInfo.openid);
+                CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(AccessTokenContainer.TryGetAccessToken(appId,secret) , userInfo.openid);
                 user.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
 
                 //GetPicture(user.QrCodeURL, user.weixinOpenId);

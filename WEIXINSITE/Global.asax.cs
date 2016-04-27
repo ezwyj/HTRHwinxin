@@ -16,8 +16,8 @@ namespace WEIXINSITE
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        private string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
-        private string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
+        private string appId = ConfigurationManager.AppSettings["WeixinAppId"];
+        private string secret = ConfigurationManager.AppSettings["WeixinAppSecret"];
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

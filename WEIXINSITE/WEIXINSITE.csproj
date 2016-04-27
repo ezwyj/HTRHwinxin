@@ -299,6 +299,7 @@
     <Content Include="Views\OAuth2\Index.cshtml" />
     <Content Include="Views\Client\TestQrCode.cshtml" />
     <Content Include="Views\Client\Test.cshtml" />
+    <Content Include="Views\Client\Debug.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

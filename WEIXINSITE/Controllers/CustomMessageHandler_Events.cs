@@ -218,19 +218,17 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
-
-
-
-
-            
             if (!string.IsNullOrEmpty(requestMessage.EventKey))
             {
-                responseMessage.ToUserName = requestMessage.EventKey.Replace("qrscene_", "");
+                string tjr = requestMessage.EventKey.Replace("qrscene_", "");
                 responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey + "_"+ requestMessage.FromUserName;
+
+                OAuthUserInfo user = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetUserInfo(AccessTokenContainer.TryGetAccessToken(appId, appSecret), requestMessage.ToUserName);
+                DataService.DataService.AddNewUser(user,tjr);
             }
 
             
-
+            
 
             return responseMessage;
         }

@@ -4,6 +4,7 @@ using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.AdvancedAPIs.QrCode;
+using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.Helpers;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,8 @@ namespace WEIXINSITE.Controllers
     {
         //
         // GET: /Client/
-        private string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
-        private string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
+        private string appId = ConfigurationManager.AppSettings["WeixinAppId"];
+        private string secret = ConfigurationManager.AppSettings["WeixinAppSecret"];
 
       
 
@@ -163,6 +164,27 @@ namespace WEIXINSITE.Controllers
             ViewData["Signature"] = jssdkUiPackage.Signature;
 
             return View(jssdkUiPackage);
+        }
+
+        public ActionResult TestQrCode()
+        {
+            CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, "omNkGw-0KdSriLortK49vKBQi6tw");
+            ViewBag.Pic =  QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+            return View();
+        }
+
+        public ActionResult Debug()
+        {
+            string tjr = "";
+
+
+            OAuthUserInfo user = new OAuthUserInfo();
+            user.openid =     "omNkGw-0KdSriLortK49vKBQi6tw" ;
+            user.nickname = "test";
+
+            DataService.DataService.AddNewUser(user, tjr);
+
+            return View();
         }
 
     }
