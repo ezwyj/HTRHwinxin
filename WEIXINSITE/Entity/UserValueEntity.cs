@@ -6,7 +6,9 @@ using System.Web;
 namespace WEIXINSITE.Entity
 {
     [PetaPoco.TableName("UserValue")]
-    public class UserValue
+    [PetaPoco.PrimaryKey("id")]
+
+    public class UserValueEntity
     {
         public int id { get; set; }
 

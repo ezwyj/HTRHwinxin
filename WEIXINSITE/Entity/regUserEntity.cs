@@ -36,5 +36,7 @@ namespace WEIXINSITE.Entity
         public string BankCardPic { get; set; }
 
         public string QrCodeURL { get; set; }
+
+        public string tjr { get; set; }
     }
 }

@@ -1,12 +1,16 @@
-﻿using Senparc.Weixin;
+﻿using PetaPoco;
+using Senparc.Weixin;
 using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.AdvancedAPIs.QrCode;
+using Senparc.Weixin.MP.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WEIXINSITE.Entity;
@@ -80,11 +84,29 @@ namespace WEIXINSITE.Controllers
                 if (!db.Exists<regUserEntity>("weixinOpenId='{0}'", user.weixinOpenId))
                 {
                     //判断是否是首次
-                    
-                    CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
-                    retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+
+                    //CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
+                    //retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+
+                    //GetPicture(retModel.RegUser.QrCodeURL, retModel.WeixinUserInfo.openid);
 
                     db.Insert("RegUser", "weixinOpenId", user);
+                }
+                else
+                {
+                    Sql sqlOpen=Sql.Builder;
+                    sqlOpen.Select("*").From("UserOpenAccount").Where("RegsisUserWeixinOpenId='{0}'",user.weixinOpenId);
+
+                    List<RegUserOpenAccountEntity> openAccount = db.Fetch<RegUserOpenAccountEntity>(sqlOpen);
+
+                    retModel.OpenAccounts = openAccount;
+
+                    Sql sqlValue = Sql.Builder;
+                    sqlValue.Select("*").From("UserValue").Where("",user.weixinOpenId);
+
+                    List<UserValueEntity> userValue = db.Fetch<UserValueEntity>(sqlValue);
+
+                    retModel.UserValue = userValue;
                 }
 
                     
@@ -98,11 +120,49 @@ namespace WEIXINSITE.Controllers
                 return Content(ex.Message);
             }
         }
-
-
-        public ActionResult New(int id)
+        private bool GetPicture(string picUrl,string weixinId)
         {
-            return View();
+            try
+            {
+                WebRequest request = WebRequest.Create(picUrl);
+                WebResponse response = request.GetResponse();
+                Stream reader = response.GetResponseStream();
+                
+                string fileName = weixinId + ".jpg";
+                string savePath = Server.MapPath("~/Download/") + fileName ;
+                FileStream writer = new FileStream(savePath, FileMode.OpenOrCreate, FileAccess.Write);
+                byte[] buff = new byte[512];
+                int c = 0; //实际读取的字节数
+                while ((c = reader.Read(buff, 0, buff.Length)) > 0)
+                {
+                    writer.Write(buff, 0, c);
+                }
+                writer.Close();
+                writer.Dispose();
+
+                reader.Close();
+                reader.Dispose();
+                response.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+           
+        }
+
+        public ActionResult Test()
+        {
+            var jssdkUiPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
+            ViewData["JsSdkUiPackage"] = jssdkUiPackage;
+            ViewData["AppId"] = appId;
+            ViewData["Timestamp"] = jssdkUiPackage.Timestamp;
+            ViewData["NonceStr"] = jssdkUiPackage.NonceStr;
+            ViewData["Signature"] = jssdkUiPackage.Signature;
+
+            return View(jssdkUiPackage);
         }
 
     }

@@ -155,12 +155,13 @@
     <Compile Include="Controllers\CustomMessageContext.cs" />
     <Compile Include="Controllers\CustomMessageHandler.cs" />
     <Compile Include="Controllers\CustomMessageHandler_Events.cs" />
+    <Compile Include="Controllers\DataService\DataService.cs" />
     <Compile Include="Controllers\OAuth2Controller.cs" />
     <Compile Include="Entity\regUserEntity.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\WeiXinController.cs" />
     <Compile Include="Entity\RegUserOpenAccountEntity.cs" />
-    <Compile Include="Entity\UserValue.cs" />
+    <Compile Include="Entity\UserValueEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -281,6 +282,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Client\demo.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -300,6 +302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Download\" />
     <Folder Include="Views\UserManage\" />
   </ItemGroup>
   <ItemGroup>

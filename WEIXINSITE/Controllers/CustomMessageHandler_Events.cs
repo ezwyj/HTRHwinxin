@@ -52,7 +52,7 @@ namespace WEIXINSITE.Controllers
                         strongResponseMessage.Image.MediaId = uploadResult.media_id;
 
                         break;
-                    }
+                    }  
                 case "OneClick":
                     {
                         //这个过程实际已经在OnTextOrEventRequest中完成，这里不会执行到。
@@ -173,17 +173,22 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
         {
             //通过扫描关注
-            string openWeixinId = requestMessage.EventKey;
+           
 
-            OAuthUserInfo userinfo = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetUserInfo( AccessTokenContainer.GetAccessToken(appId) ,openWeixinId);
+          //  OAuthUserInfo userinfo = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetUserInfo( AccessTokenContainer.GetAccessToken(appId) ,openWeixinId);
             
 
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
-            responseMessage.ToUserName = openWeixinId;
-            responseMessage.Content = "通过扫描关注。";
 
+            if (!string.IsNullOrEmpty(requestMessage.EventKey))
+            {
+                //responseMessage.ToUserName = requestMessage.EventKey;
+                responseMessage.Content = "\r\n成功介绍，场景值：" + requestMessage.EventKey  ;
 
-            //增加在后台数据库操作
+                //加介绍人数据
+            }
+
+            
 
 
             return responseMessage;
@@ -213,11 +218,20 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
-            responseMessage.Content = "";
+
+
+
+
+            
             if (!string.IsNullOrEmpty(requestMessage.EventKey))
             {
+                responseMessage.ToUserName = requestMessage.EventKey.Replace("qrscene_", "");
                 responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey + "_"+ requestMessage.FromUserName;
             }
+
+            
+
+
             return responseMessage;
         }
 

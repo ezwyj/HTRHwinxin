@@ -182,17 +182,7 @@ namespace WEIXINSITE.Controllers
 
 
 
-        /// <summary>
-        /// 处理事件请求（这个方法一般不用重写，这里仅作为示例出现。除非需要在判断具体Event类型以外对Event信息进行统一操作
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        public override IResponseMessageBase OnEventRequest(IRequestMessageEventBase requestMessage)
-        {
-            var eventResponseMessage = base.OnEventRequest(requestMessage);//对于Event下属分类的重写方法，见：CustomerMessageHandler_Events.cs
-            //TODO: 对Event信息进行统一操作
-            return eventResponseMessage;
-        }
+
 
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
@@ -203,7 +193,7 @@ namespace WEIXINSITE.Controllers
             * return responseMessage;
             */
 
-            //todo:取数据库记录
+            //业务
 
 
 
