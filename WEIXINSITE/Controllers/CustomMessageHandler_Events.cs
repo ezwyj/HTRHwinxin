@@ -57,9 +57,12 @@ namespace WEIXINSITE.Controllers
                 case "OneClick":
                     {
                         //这个过程实际已经在OnTextOrEventRequest中完成，这里不会执行到。
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
+                        var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
+                        //
+
                         reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Content = "您点击了底部按钮。\r\n为了测试微信软件换行bug的应对措施，这里做了一个——\r\n换行";
+                        //strongResponseMessage.Content = Units.BuilderQrCode(requestMessage.FromUserName);
+                        strongResponseMessage.Image.MediaId = Units.BuilderQrCode(requestMessage.FromUserName);
                     }
                     break;
                 case "SubClickRoot_Text":
@@ -223,15 +226,32 @@ namespace WEIXINSITE.Controllers
         /// <returns></returns>
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
-            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
-            if (!string.IsNullOrEmpty(requestMessage.EventKey))
+            var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            try
             {
-                string tjr = requestMessage.EventKey.Replace("qrscene_", "");
-                responseMessage.Content += "\r\n============\r\n场景值：" + requestMessage.EventKey + "_"+ requestMessage.FromUserName;
+                OAuthUserInfo userinfo = new OAuthUserInfo();
 
-                OAuthUserInfo user = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetUserInfo(AccessTokenContainer.TryGetAccessToken(appId, appSecret), requestMessage.ToUserName);
-                DataService.DataService.AddNewUser(user,tjr);
+                userinfo.openid = requestMessage.FromUserName;
+                var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
+                userinfo.nickname = user.nickname;
+                userinfo.headimgurl = user.headimgurl;
+
+                if (!string.IsNullOrEmpty(requestMessage.EventKey))
+                {
+                    //responseMessage.ToUserName = requestMessage.EventKey;
+                    responseMessage.Content = "订阅成功来者:" + userinfo.openid + "，场景值：" + requestMessage.EventKey;
+
+                }
+                responseMessage.Content += DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
+
+                //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
+
             }
+            catch (Exception e)
+            {
+                responseMessage.Content = e.Message;
+            }
+            return responseMessage;
 
             
             

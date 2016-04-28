@@ -121,38 +121,7 @@ namespace WEIXINSITE.Controllers
                 return Content(ex.Message);
             }
         }
-        private bool GetPicture(string picUrl,string weixinId)
-        {
-            try
-            {
-                WebRequest request = WebRequest.Create(picUrl);
-                WebResponse response = request.GetResponse();
-                Stream reader = response.GetResponseStream();
-                
-                string fileName = weixinId + ".jpg";
-                string savePath = Server.MapPath("~/Download/") + fileName ;
-                FileStream writer = new FileStream(savePath, FileMode.OpenOrCreate, FileAccess.Write);
-                byte[] buff = new byte[512];
-                int c = 0; //实际读取的字节数
-                while ((c = reader.Read(buff, 0, buff.Length)) > 0)
-                {
-                    writer.Write(buff, 0, c);
-                }
-                writer.Close();
-                writer.Dispose();
-
-                reader.Close();
-                reader.Dispose();
-                response.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-
-           
-        }
+       
         private string SavePicture(string name)
         {
             try
