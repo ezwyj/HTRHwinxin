@@ -1,5 +1,45 @@
 ﻿@{
     ViewBag.Title = "Debug";
 }
+<!DOCTYPE html>
 
-<h2>Debug</h2>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>开户</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
+
+    <script >
+        $(function () {    
+            $('#fileup').on('click', function () {
+            alert('bo');
+            var upData = {
+                RegUser: {
+                    weixinOpenId: 'omNkGw-0KdSriLortK49vKBQi6tw',
+                    realName: 'realNameValue',
+                    phone: 'phoneValue',
+                    CardPicFront: 'nwr2OIuRl00waGqLM26H4Eyo6n5RMfOJOkd_g3u28cngtNOY5AxB9doYkMvSVQj5',
+                    CardPicBackground: 'RREumL1j53HvHwZDfE1izciD4IeyrVT1U1PPGyQ1gf7zWj0pP5M-Kifjr4DquKlH',
+                    BankCardPic: 'BankValue'
+                }
+            }
+            console.log(JSON.stringify(upData));
+            $.post('debug', { dataJson: JSON.stringify(upData) }, function (res) {
+
+
+                alert('开户成功，请等待相关短信通知');
+            });
+        });
+        });
+    </script>
+</head>
+<body>
+    <input type="button" id="fileup" value="UP"  />
+</body>
+</html>

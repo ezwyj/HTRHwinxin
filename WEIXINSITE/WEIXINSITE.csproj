@@ -339,8 +339,9 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\OAuth2\Index.cshtml" />
     <Content Include="Views\Client\TestQrCode.cshtml" />
-    <Content Include="Views\Client\Test.cshtml" />
+    <Content Include="Views\Client\OpenAccount.cshtml" />
     <Content Include="Views\Client\Debug.cshtml" />
+    <Content Include="Views\Account\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

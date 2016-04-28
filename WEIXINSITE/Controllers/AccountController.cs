@@ -16,5 +16,14 @@ namespace WEIXINSITE.Controllers
             return View();
         }
 
+        public ActionResult List()
+        {
+            return View();
+        }
+
+        public JsonResult GetList()
+        {
+            return new JsonResult { Data = new { state = 's', msg = 'b' } };
+        }
     }
 }

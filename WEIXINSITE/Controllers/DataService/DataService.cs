@@ -19,7 +19,26 @@ namespace WEIXINSITE.Controllers.DataService
         private static string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
         private static string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
 
+        public static string UpdateUser(RegisterUserEntity user)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+                if (db.Exists<RegisterUserEntity>("weixinOpenId=@0", user.weixinOpenId))
+                {
+                    user.regTime = DateTime.Now;
+                    db.Save("RegUser", "weixinOpenId", user);
+                }
 
+
+                db.CloseSharedConnection();
+                return "";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
 
 
         public static string AddNewUser(OAuthUserInfo userInfo,string tjr)
@@ -28,13 +47,13 @@ namespace WEIXINSITE.Controllers.DataService
             {
                 var db = new PetaPoco.Database("DefaultConnection");
 
-                regUserEntity user = new regUserEntity();
+                RegisterUserEntity user = new RegisterUserEntity();
                 user.weixinOpenId = userInfo.openid;
                 user.nickName = userInfo.nickname;
                 user.regTime = DateTime.Now;
                 user.tjr = tjr;
 
-                if (!db.Exists<regUserEntity>("weixinOpenId=@0", user.weixinOpenId))
+                if (!db.Exists<RegisterUserEntity>("weixinOpenId=@0", user.weixinOpenId))
                 {
                     //判断是否是首次
 

@@ -6,7 +6,7 @@ using System.Text;
 namespace WEIXINSITE.Entity
 {
     [PetaPoco.TableName("RegUser")]
-    public class regUserEntity
+    public class RegisterUserEntity
     {
         /// <summary>
         /// 设计：weixinOpen

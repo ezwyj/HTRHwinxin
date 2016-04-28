@@ -69,8 +69,8 @@ namespace WEIXINSITE.Controllers
 
 
 
-                RegUserModel retModel = new RegUserModel();
-                retModel.RegUser = new regUserEntity();
+                UserModel retModel = new UserModel();
+                retModel.RegUser = new RegisterUserEntity();
                 retModel.WeixinUserInfo = userInfo;
 
 
@@ -153,17 +153,47 @@ namespace WEIXINSITE.Controllers
 
            
         }
+        private string SavePicture(string name)
+        {
+            try
+            {
+                MemoryStream front = new MemoryStream();
+                Senparc.Weixin.MP.AdvancedAPIs.MediaApi.Get(AccessTokenContainer.TryGetAccessToken(appId, secret), name, front);
+
+
+                var accessToken = AccessTokenContainer.TryGetAccessToken(appId,secret);
+                string fileName = name + ".jpg";
+                string savePath = Server.MapPath("~/Download/") + fileName;
+                FileStream writer = new FileStream(savePath, FileMode.OpenOrCreate, FileAccess.Write);
+                front.WriteTo(writer);
+                writer.Close();
+                writer.Dispose();
+                return "ok";
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
+        }
+
         [HttpPost]
-        public JsonResult Test(string dataJson)
+        public JsonResult OpenAccount(string dataJson)
         {
             string state = dataJson, msg = string.Empty;
             //存库和取图片
-            NpiModel retModel = Serializer.ToObject<NpiModel>(dataJson);
+            UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
 
+            state = SavePicture(retModel.RegUser.CardPicFront);
+            state += SavePicture(retModel.RegUser.CardPicBackground);
+            state += SavePicture(retModel.RegUser.BankCardPic);
+
+
+            msg=DataService.DataService.UpdateUser(retModel.RegUser);
             return new JsonResult { Data = new { state = state, msg = msg } };
+
         }
 
-        public ActionResult Test(string OpenUnit, string OpenId)
+        public ActionResult OpenAccount(string OpenUnit, string OpenId)
         {
             var jssdkUiPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
             ViewData["JsSdkUiPackage"] = jssdkUiPackage;
@@ -188,9 +218,19 @@ namespace WEIXINSITE.Controllers
 
         public ActionResult Debug()
         {
-           
-
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult Debug(string dataJson)
+        {
+           string state = dataJson, msg = string.Empty;
+            //存库和取图片
+            UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
+            state = SavePicture(retModel.RegUser.CardPicFront);
+            DataService.DataService.UpdateUser(retModel.RegUser);
+            return new JsonResult { Data = new { state = state, msg = msg } };
+            
         }
 
     }
