@@ -17,7 +17,7 @@ namespace WEIXINSITE
     public class MvcApplication : System.Web.HttpApplication
     {
         private string appId = ConfigurationManager.AppSettings["WeixinAppId"];
-        private string secret = ConfigurationManager.AppSettings["WeixinAppSecret"];
+        private string appSecret = ConfigurationManager.AppSettings["WeixinAppSecret"];
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -27,7 +27,14 @@ namespace WEIXINSITE
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            AccessTokenContainer.Register(appId, secret);
+            if (!AccessTokenContainer.CheckRegistered(appId))//检查是否已经注册
+            {
+
+                AccessTokenContainer.Register(appId, appSecret);//如果没有注册则进行注册
+
+            }
+
+            var result = AccessTokenContainer.GetAccessTokenResult(appId); 
         }
     }
 }

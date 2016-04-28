@@ -175,14 +175,7 @@ namespace WEIXINSITE.Controllers
 
         public ActionResult Debug()
         {
-            string tjr = "";
-
-
-            OAuthUserInfo user = new OAuthUserInfo();
-            user.openid =     "omNkGw-0KdSriLortK49vKBQi6tw" ;
-            user.nickname = "test";
-
-            DataService.DataService.AddNewUser(user, tjr);
+           
 
             return View();
         }

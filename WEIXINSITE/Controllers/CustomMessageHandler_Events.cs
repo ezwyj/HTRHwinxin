@@ -7,6 +7,7 @@ using System.Web;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
+using Senparc.Weixin.MP.AdvancedAPIs;
 
 namespace WEIXINSITE.Controllers
 {
@@ -172,28 +173,33 @@ namespace WEIXINSITE.Controllers
 
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
         {
-            //通过扫描关注
-           
-
-          //  OAuthUserInfo userinfo = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetUserInfo( AccessTokenContainer.GetAccessToken(appId) ,openWeixinId);
-            
-
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
-
-            if (!string.IsNullOrEmpty(requestMessage.EventKey))
+            //通过扫描关注
+            try
             {
-                //responseMessage.ToUserName = requestMessage.EventKey;
-                responseMessage.Content = "\r\n成功介绍，场景值：" + requestMessage.EventKey  ;
+                OAuthUserInfo userinfo = new OAuthUserInfo();
 
-                //加介绍人数据
+                userinfo.openid = requestMessage.FromUserName;
+                var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
+                userinfo.nickname = user.nickname;
+                userinfo.headimgurl = user.headimgurl;
+
+                if (!string.IsNullOrEmpty(requestMessage.EventKey))
+                {
+                    //responseMessage.ToUserName = requestMessage.EventKey;
+                    responseMessage.Content = "\r\n成功介绍,来者:" + requestMessage.ToUserName + "，场景值：" + requestMessage.EventKey;
+
+                }
+                responseMessage.Content += DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
+
+                //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
+
             }
-
-            
-
-
+            catch(Exception e)
+            {
+                responseMessage.Content = e.Message;
+            }
             return responseMessage;
-
-
         }
 
         public override IResponseMessageBase OnEvent_ViewRequest(RequestMessageEvent_View requestMessage)

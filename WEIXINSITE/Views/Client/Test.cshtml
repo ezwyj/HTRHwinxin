@@ -5,23 +5,25 @@
 
 <!DOCTYPE html>
 
-@*
-    使用JSSDK，首先要到微信公众平台【公众号设置】下的【功能设置】里面设置“JS接口安全域名”
-*@
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>公众号JSSDK演示</title>
-    <script src="http://apps.bdimg.com/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script>
-        wx.config({
-            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: '@Model.AppId', // 必填，公众号的唯一标识
-            timestamp: '@Model.Timestamp', // 必填，生成签名的时间戳
-            nonceStr: '@Model.NonceStr', // 必填，生成签名的随机串
-            signature: '@Model.Signature',// 必填，签名
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
+    <link href="~/Views/Client/weui.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
+<script>
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '@Model.AppId', // 必填，公众号的唯一标识
+        timestamp: '@Model.Timestamp', // 必填，生成签名的时间戳
+        nonceStr: '@Model.NonceStr', // 必填，生成签名的随机串
+        signature: '@Model.Signature',// 必填，签名
             jsApiList: [
                     'checkJsApi',
                     'onMenuShareTimeline',
@@ -66,9 +68,22 @@
         });
 
         wx.ready(function () {
-            var url = 'http://weixin.senparc.com';
-            var link = url + '@(Request.Url.PathAndQuery)';
-            var imgUrl = url + '/images/v2/ewm_01.png';
+          var images = {
+            localId: [],
+            serverId: []
+          };
+
+          $('#selectPic').on('click', function () {
+
+              wx.chooseImage({
+                  success: function (res) {
+                      images.localId = res.localIds;
+                      alert('已选择 ' + res.localIds.length + ' 张图片');
+                  }
+              });
+
+          });
+          
 
             //转发到朋友圈
             wx.onMenuShareTimeline({
@@ -102,11 +117,43 @@
 
 </head>
 <body>
-    <h1>公众号JSSDK演示</h1>
-    <div>
-        此页面是Senparc.Weixin.MP JSSDK的演示，可以点击右上方按钮，转发到朋友圈或者朋友进行测试。<br />
-        顺利的话，转发的内容可以看到自定义的标题，配有一个自定义图片。
-    </div>
 
+    <div class="panel panel-info" data-expand="Y">
+        <div class="panel-heading">
+            <div class="panel-option">
+                <button class="btn btn-sm btn-info">开户资料</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name">姓名</div>
+                    <div class="item-static"><input type="text" class="form-control"></div>
+                </div>
+             </div>
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name centered">身份证</div>
+                    <div class="item-static"><input type="text" class="form-control"></div>
+                </div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name centered">身份证照片</div>
+                    <div class="item-static"><input type="text" class="form-control"></div>
+                </div>
+                <div id="uploader-demo">
+                    <!--用来存放item-->
+                    <div id="fileList" class="uploader-list"></div>
+                    <div id="filePicker">选择图片</div>
+                </div>
+                J
+            </div>
+        </div>
+    </div>
+    <div class="main-option right">
+        <button class="btn btn-success">提交</button>
+        
+    </div>
 </body>
 </html>
