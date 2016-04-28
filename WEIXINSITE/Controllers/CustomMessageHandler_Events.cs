@@ -187,7 +187,7 @@ namespace WEIXINSITE.Controllers
                 if (!string.IsNullOrEmpty(requestMessage.EventKey))
                 {
                     //responseMessage.ToUserName = requestMessage.EventKey;
-                    responseMessage.Content = "\r\n成功介绍,来者:" + requestMessage.ToUserName + "，场景值：" + requestMessage.EventKey;
+                    responseMessage.Content = "\r\n成功介绍来者:" + userinfo.nickname + "，场景值：" + requestMessage.EventKey;
 
                 }
                 responseMessage.Content += DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);

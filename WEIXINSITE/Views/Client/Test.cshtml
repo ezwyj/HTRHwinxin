@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
-    <link href="~/Views/Client/weui.css" rel="stylesheet" />
     <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
 <script>
     wx.config({
@@ -34,31 +33,17 @@
                     'showMenuItems',
                     'hideAllNonBaseMenuItem',
                     'showAllNonBaseMenuItem',
-                    'translateVoice',
-                    'startRecord',
-                    'stopRecord',
-                    'onRecordEnd',
-                    'playVoice',
-                    'pauseVoice',
-                    'stopVoice',
-                    'uploadVoice',
-                    'downloadVoice',
                     'chooseImage',
                     'previewImage',
                     'uploadImage',
                     'downloadImage',
                     'getNetworkType',
-                    'openLocation',
-                    'getLocation',
                     'hideOptionMenu',
                     'showOptionMenu',
                     'closeWindow',
                     'scanQRCode',
                     'chooseWXPay',
-                    'openProductSpecificView',
-                    'addCard',
-                    'chooseCard',
-                    'openCard'
+                    'openProductSpecificView'
             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2。详见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
         });
 
@@ -68,28 +53,62 @@
         });
 
         wx.ready(function () {
-          var images = {
-            localId: [],
-            serverId: []
-          };
+            var images = {
+                localId: [],
+                serverId: []
+            };
 
-          $('#selectPic').on('click', function () {
+            $('#filePickerFront').on('click', function () {
+                wx.chooseImage({
+                    success: function (res) {
+                        var localIds = res.localIds;
+                        
+                        syncUpload(localIds, 'imgCardFront');
+                    }
+                });
+            });
+            $('#filePickerBack').on('click', function () {
+                wx.chooseImage({
+                    success: function (res) {
+                        var localIds = res.localIds;
 
-              wx.chooseImage({
-                  success: function (res) {
-                      images.localId = res.localIds;
-                      alert('已选择 ' + res.localIds.length + ' 张图片');
-                  }
-              });
+                        syncUpload(localIds, 'imgCardBack');
+                    }
+                });
+            });
+            $('#filePickerBank').on('click', function () {
+                wx.chooseImage({
+                    success: function (res) {
+                        var localIds = res.localIds;
 
-          });
+                        syncUpload(localIds, 'imgBank');
+                    }
+                });
+            });
+            var syncUpload = function (localIds,targetInput) {
+                var localId = localIds.pop();
+                $("#" + targetInput).attr('src', localIds[0]);
+                
+                wx.uploadImage({
+                    localId: localId,
+                    isShowProgressTips: 1,
+                    success: function (res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                        $("#" + targetInput).attr('title', serverId);
+                        //其他对serverId做处理的代码
+                        //if (localIds.length > 0) {
+                        //    syncUpload(localIds);
+                        //}
+                    }
+                });
+            };
           
 
             //转发到朋友圈
             wx.onMenuShareTimeline({
                 title: 'JSSDK朋友圈转发测试',
-                link: link,
-                imgUrl: imgUrl,
+                link: '',
+                imgUrl: '',
                 success: function () {
                     alert('转发成功！');
                 },
@@ -101,8 +120,8 @@
             wx.onMenuShareAppMessage({
                 title: 'JSSDK朋友圈转发测试',
                 desc: '转发给朋友',
-                link: link,
-                imgUrl: imgUrl,
+                link: '',
+                imgUrl: '',
                 type: 'link',
                 dataUrl: '',
                 success: function () {
@@ -112,7 +131,29 @@
                     alert('转发失败！');
                 }
             });
+
+            $('#submitForm').on('click', function () {
+                weixinOpenId = '@ViewData["OpenId"].ToString()'
+                var upData = {
+                    weixinOpenId: weixinOpenId ,
+                    realName: $('#realName').val(),
+                    phone: $('#phone').val(),
+                    CardPicFront: $("#imgCardFront").attr("title"),
+                    CardPicBackground: $("#imgCardBack").attr("title"),
+                    BankCardPic: $("#imgBank").attr("title")
+                }
+                //console.log(JSON.stringify(upData));
+                $.post('Test', { dataJson: JSON.stringify(upData) }, function (res) {
+                    
+
+                    if (res.state) {
+                       console.log(res.msg);
+                    }
+                });
+            });
         });
+        
+        
     </script>
 
 </head>
@@ -121,39 +162,47 @@
     <div class="panel panel-info" data-expand="Y">
         <div class="panel-heading">
             <div class="panel-option">
-                <button class="btn btn-sm btn-info">开户资料</button>
+                <button class="btn btn-sm btn-info">开户资料,@ViewData["OpenUnit"]</button>
             </div>
         </div>
         <div class="panel-body">
             <div class="row item-row">
                 <div class="col-md-12">
                     <div class="item-name">姓名</div>
-                    <div class="item-static"><input type="text" class="form-control"></div>
+                    <div class="item-static"><input type="text" class="form-control" id="realName"></div>
                 </div>
              </div>
             <div class="row item-row">
                 <div class="col-md-12">
-                    <div class="item-name centered">身份证</div>
-                    <div class="item-static"><input type="text" class="form-control"></div>
+                    <div class="item-name">手机</div>
+                    <div class="item-static"><input type="text" class="form-control" id="phone"></div>
                 </div>
             </div>
             <div class="row item-row">
                 <div class="col-md-12">
-                    <div class="item-name centered">身份证照片</div>
-                    <div class="item-static"><input type="text" class="form-control"></div>
+                    <div class="item-name centered">身份证正面</div>
+                    <div class="item-static"><img id="imgCardFront" width="80" height="80" /></div>
+                    <button class="btn btn-sm btn-info" id="filePickerFront">选择图片</button>
                 </div>
-                <div id="uploader-demo">
-                    <!--用来存放item-->
-                    <div id="fileList" class="uploader-list"></div>
-                    <div id="filePicker">选择图片</div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name centered">身份证背面</div>
+                    <div class="item-static"><img id="imgCardBack" width="80" height="80" /></div>
+                    <button class="btn btn-sm btn-info" id="filePickerBack">选择图片</button>
+                </div>                  
+            </div>
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name centered">银行卡</div>
+                    <div class="item-static"><img id="imgBank" width="80" height="80" /></div>
+                    <button class="btn btn-sm btn-info" id="filePickerBank">选择图片</button>
                 </div>
-                J
             </div>
         </div>
     </div>
     <div class="main-option right">
-        <button class="btn btn-success">提交</button>
-        
+        <button class="btn btn-success" id="submitForm">提交</button>
     </div>
 </body>
 </html>

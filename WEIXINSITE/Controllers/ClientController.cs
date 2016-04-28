@@ -67,48 +67,48 @@ namespace WEIXINSITE.Controllers
             {
                 OAuthUserInfo userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
 
-                
+
 
                 RegUserModel retModel = new RegUserModel();
                 retModel.RegUser = new regUserEntity();
                 retModel.WeixinUserInfo = userInfo;
 
 
-                var db = new PetaPoco.Database("DefaultConnection");
+                //var db = new PetaPoco.Database("DefaultConnection");
 
-                regUserEntity user = new regUserEntity();
-                user.weixinOpenId = userInfo.openid;
-                user.nickName = userInfo.nickname;
-                user.regTime = DateTime.Now;
+                //regUserEntity user = new regUserEntity();
+                //user.weixinOpenId = userInfo.openid;
+                //user.nickName = userInfo.nickname;
+                //user.regTime = DateTime.Now;
 
 
-                if (!db.Exists<regUserEntity>("weixinOpenId='{0}'", user.weixinOpenId))
-                {
-                    //判断是否是首次
+                //if (!db.Exists<regUserEntity>("weixinOpenId='{0}'", user.weixinOpenId))
+                //{
+                //    //判断是否是首次
 
-                    //CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
-                    //retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                //    //CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
+                //    //retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
 
-                    //GetPicture(retModel.RegUser.QrCodeURL, retModel.WeixinUserInfo.openid);
+                //    //GetPicture(retModel.RegUser.QrCodeURL, retModel.WeixinUserInfo.openid);
 
-                    db.Insert("RegUser", "weixinOpenId", user);
-                }
-                else
-                {
-                    Sql sqlOpen=Sql.Builder;
-                    sqlOpen.Select("*").From("UserOpenAccount").Where("RegsisUserWeixinOpenId='{0}'",user.weixinOpenId);
+                //    db.Insert("RegUser", "weixinOpenId", user);
+                //}
+                //else
+                //{
+                //    Sql sqlOpen=Sql.Builder;
+                //    sqlOpen.Select("*").From("UserOpenAccount").Where("RegsisUserWeixinOpenId='{0}'",user.weixinOpenId);
 
-                    List<RegUserOpenAccountEntity> openAccount = db.Fetch<RegUserOpenAccountEntity>(sqlOpen);
+                //    List<RegUserOpenAccountEntity> openAccount = db.Fetch<RegUserOpenAccountEntity>(sqlOpen);
 
-                    retModel.OpenAccounts = openAccount;
+                //    retModel.OpenAccounts = openAccount;
 
-                    Sql sqlValue = Sql.Builder;
-                    sqlValue.Select("*").From("UserValue").Where("",user.weixinOpenId);
+                //    Sql sqlValue = Sql.Builder;
+                //    sqlValue.Select("*").From("UserValue").Where("",user.weixinOpenId);
 
-                    List<UserValueEntity> userValue = db.Fetch<UserValueEntity>(sqlValue);
+                //    List<UserValueEntity> userValue = db.Fetch<UserValueEntity>(sqlValue);
 
-                    retModel.UserValue = userValue;
-                }
+                //    retModel.UserValue = userValue;
+                //}
 
                     
 
@@ -153,8 +153,17 @@ namespace WEIXINSITE.Controllers
 
            
         }
+        [HttpPost]
+        public JsonResult Test(string dataJson)
+        {
+            string state = dataJson, msg = string.Empty;
+            //存库和取图片
+            NpiModel retModel = Serializer.ToObject<NpiModel>(dataJson);
 
-        public ActionResult Test()
+            return new JsonResult { Data = new { state = state, msg = msg } };
+        }
+
+        public ActionResult Test(string OpenUnit, string OpenId)
         {
             var jssdkUiPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
             ViewData["JsSdkUiPackage"] = jssdkUiPackage;
@@ -162,6 +171,10 @@ namespace WEIXINSITE.Controllers
             ViewData["Timestamp"] = jssdkUiPackage.Timestamp;
             ViewData["NonceStr"] = jssdkUiPackage.NonceStr;
             ViewData["Signature"] = jssdkUiPackage.Signature;
+            ViewData["OpenUnit"] = OpenUnit;
+            ViewData["OpenId"] = OpenId;
+
+            //取照片和信息
 
             return View(jssdkUiPackage);
         }

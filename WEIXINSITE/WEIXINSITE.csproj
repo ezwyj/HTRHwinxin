@@ -157,6 +157,7 @@
     <Compile Include="Controllers\CustomMessageHandler_Events.cs" />
     <Compile Include="Controllers\DataService\DataService.cs" />
     <Compile Include="Controllers\OAuth2Controller.cs" />
+    <Compile Include="Controllers\Serializer.cs" />
     <Compile Include="Entity\regUserEntity.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\WeiXinController.cs" />
@@ -164,6 +165,9 @@
     <Compile Include="Entity\UserValueEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="HandlerUpload.ashx.cs">
+      <DependentUpon>HandlerUpload.ashx</DependentUpon>
     </Compile>
     <Compile Include="Models\Generated\Database.cs">
       <AutoGen>True</AutoGen>
@@ -189,6 +193,23 @@
     <Content Include="Content\assets\img\p04.png" />
     <Content Include="Content\assets\js\bootstrap.min.js" />
     <Content Include="Content\assets\js\jquery.js" />
+    <Content Include="Content\imgs\1.svg" />
+    <Content Include="Content\imgs\2.svg" />
+    <Content Include="Content\imgs\3.svg" />
+    <Content Include="Content\imgs\home-default17.jpg" />
+    <Content Include="Content\imgs\上海.png" />
+    <Content Include="Content\imgs\中南.png" />
+    <Content Include="Content\imgs\体现.png" />
+    <Content Include="Content\imgs\佣金.png" />
+    <Content Include="Content\imgs\分享.png" />
+    <Content Include="Content\imgs\南京文交所.png" />
+    <Content Include="Content\imgs\南方钱币邮票.png" />
+    <Content Include="Content\imgs\帮助.png" />
+    <Content Include="Content\imgs\成员.png" />
+    <Content Include="Content\imgs\成都.png" />
+    <Content Include="Content\imgs\排行榜.png" />
+    <Content Include="Content\imgs\订单.png" />
+    <Content Include="Content\imgs\问题.png" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\nav4.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -245,6 +266,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\webuploader\Uploader.swf" />
+    <Content Include="Content\webuploader\webuploader.css" />
+    <Content Include="Content\webuploader\webuploader.custom.js" />
+    <Content Include="Content\webuploader\webuploader.custom.min.js" />
+    <Content Include="Content\webuploader\webuploader.fis.js" />
+    <Content Include="Content\webuploader\webuploader.flashonly.js" />
+    <Content Include="Content\webuploader\webuploader.flashonly.min.js" />
+    <Content Include="Content\webuploader\webuploader.html5only.js" />
+    <Content Include="Content\webuploader\webuploader.html5only.min.js" />
+    <Content Include="Content\webuploader\webuploader.js" />
+    <Content Include="Content\webuploader\webuploader.min.js" />
+    <Content Include="Content\webuploader\webuploader.noimage.js" />
+    <Content Include="Content\webuploader\webuploader.noimage.min.js" />
+    <Content Include="Content\webuploader\webuploader.nolog.js" />
+    <Content Include="Content\webuploader\webuploader.nolog.min.js" />
+    <Content Include="Content\webuploader\webuploader.withoutimage.js" />
+    <Content Include="Content\webuploader\webuploader.withoutimage.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\assets\.DS_Store" />
@@ -266,6 +304,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Database.cs</LastGenOutput>
     </Content>
+    <Content Include="HandlerUpload.ashx" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -282,6 +321,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Content\ajaxfileupload.js" />
     <Content Include="Views\Client\example.css" />
     <Content Include="Views\Client\weui.css" />
     <Content Include="Web.config" />
@@ -305,6 +345,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Download\" />
+    <Folder Include="UpFile\" />
     <Folder Include="Views\UserManage\" />
   </ItemGroup>
   <ItemGroup>
