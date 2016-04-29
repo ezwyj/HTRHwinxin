@@ -41,27 +41,24 @@
                     field: '',
                     width: 80,
                     handler: function (value, data) {
-                        //var stage = data.ApproveStage || 0;
-                        //var other = '';
-                        return '<img src="../Download/' + data.CardPicFront + '.jpg" width=90 height=30/>';
+                        picurl = "../Download/" + data.CardPicFront + ".jpg";
+                        return '<a href='+picurl+ '> <img src='+picurl+' width=90 height=30/></a>';
                     }
                 }, {
                     name: '身份证背面',
                     field: 'State',
                     width: 80,
                     handler: function (value, data) {
-                        //var stage = data.ApproveStage || 0;
-                        //var other = '';
-                        return '<img src="../Download/' + data.CardPicBackground + '.jpg" width=90 height=30/>';
+                        picurl = "../Download/" + data.CardPicBackground +".jpg";
+                        return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
                     }
                 }, {
                     name: '银行正面',
                     field: 'createtime',
                     width: 90,
                     handler: function (value, data) {
-                        //var stage = data.ApproveStage || 0;
-                        //var other = '';
-                        return '<img src="../Download/' + data.BankCardPic + '.jpg" width=90 height=30/>';
+                        picurl = "../Download/" + data.BankCardPic +".jpg";
+                        return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
                     }
                 }, {
                     name: '推荐人',

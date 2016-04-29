@@ -8,6 +8,7 @@ using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.CommonAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.AdvancedAPIs;
+using System.Configuration;
 
 namespace WEIXINSITE.Controllers
 {
@@ -173,7 +174,7 @@ namespace WEIXINSITE.Controllers
             responseMessage.Content = "这里写什么都无所谓，比如：上帝爱你！";
             return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题）
         }
-
+        private string Scan = ConfigurationManager.AppSettings["Scan"];
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
         {
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
@@ -189,11 +190,18 @@ namespace WEIXINSITE.Controllers
 
                 if (!string.IsNullOrEmpty(requestMessage.EventKey))
                 {
-                    //responseMessage.ToUserName = requestMessage.EventKey;
-                    responseMessage.Content = "\r\n成功介绍来者:" + userinfo.nickname + "，场景值：" + requestMessage.EventKey;
+                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey);
+
+                    DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
+                    responseMessage.Content = string.Format(Subscribe, userinfo.nickname, userTJR.nickname);
+                    //"订阅成功来者:" + userinfo.openid + "，场景值：" + requestMessage.EventKey;
 
                 }
-                responseMessage.Content += DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
+                else
+                {
+                    DataService.DataService.AddNewUser(userinfo, "");
+                    responseMessage.Content = string.Format(Subscribe, userinfo.nickname);
+                }
 
                 //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
 
@@ -219,6 +227,8 @@ namespace WEIXINSITE.Controllers
             responseMessage.Content = "接收到了群发完成的信息。";
             return responseMessage;
         }
+       
+        private string Subscribe = ConfigurationManager.AppSettings["Subscribe"];
 
         /// <summary>
         /// 订阅（关注）事件
@@ -232,30 +242,35 @@ namespace WEIXINSITE.Controllers
                 OAuthUserInfo userinfo = new OAuthUserInfo();
 
                 userinfo.openid = requestMessage.FromUserName;
-                var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
-                userinfo.nickname = user.nickname;
-                userinfo.headimgurl = user.headimgurl;
+                var userFrom = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
+                userinfo.nickname = userFrom.nickname;
+                userinfo.headimgurl = userFrom.headimgurl;
+
+
+                
+               
 
                 if (!string.IsNullOrEmpty(requestMessage.EventKey))
                 {
-                    //responseMessage.ToUserName = requestMessage.EventKey;
-                    responseMessage.Content = "订阅成功来者:" + userinfo.openid + "，场景值：" + requestMessage.EventKey;
+                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_",""));
+
+                    DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
+                    responseMessage.Content = string.Format(Scan, userinfo.nickname,userTJR.nickname,userTJR.nickname);
+                    //"订阅成功来者:" + userinfo.openid + "，场景值：" + requestMessage.EventKey;
 
                 }
-                responseMessage.Content += DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
+                else
+                {
+                    DataService.DataService.AddNewUser(userinfo, "");
+                }
 
                 //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
 
             }
             catch (Exception e)
             {
-                responseMessage.Content = e.Message;
+                responseMessage.Content = e.Message + requestMessage.EventKey;
             }
-            return responseMessage;
-
-            
-            
-
             return responseMessage;
         }
 
