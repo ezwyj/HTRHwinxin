@@ -194,6 +194,7 @@
     <Content Include="Content\assets\img\p04.png" />
     <Content Include="Content\assets\js\bootstrap.min.js" />
     <Content Include="Content\assets\js\jquery.js" />
+    <Content Include="Content\common.css" />
     <Content Include="Content\imgs\1.svg" />
     <Content Include="Content\imgs\2.svg" />
     <Content Include="Content\imgs\3.svg" />
@@ -211,6 +212,7 @@
     <Content Include="Content\imgs\排行榜.png" />
     <Content Include="Content\imgs\订单.png" />
     <Content Include="Content\imgs\问题.png" />
+    <Content Include="Content\jquery.plugins.js" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\nav4.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

@@ -73,7 +73,27 @@ namespace WEIXINSITE.Controllers.DataService
                 return e.Message;
             }
         }
-               
 
+
+
+        internal static List<RegisterUserEntity> GetUser()
+        {
+           try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+                
+                string sql = "select * from [RegUser]";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch(Exception e){
+                return new List<RegisterUserEntity>();
+            }
+        }
+        
     }
 }

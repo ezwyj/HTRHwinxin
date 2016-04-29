@@ -38,5 +38,6 @@ namespace WEIXINSITE.Entity
         public string QrCodeURL { get; set; }
 
         public string tjr { get; set; }
+        public string tjrnickName { get; set; }
     }
 }
