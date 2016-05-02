@@ -159,10 +159,13 @@
     <Compile Include="Controllers\OAuth2Controller.cs" />
     <Compile Include="Controllers\Serializer.cs" />
     <Compile Include="Controllers\Units.cs" />
+    <Compile Include="Entity\CaseRecord.cs" />
+    <Compile Include="Entity\ConfigEntity.cs" />
     <Compile Include="Entity\regUserEntity.cs" />
     <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\WeiXinController.cs" />
     <Compile Include="Entity\RegUserOpenAccountEntity.cs" />
+    <Compile Include="Entity\UserApply.cs" />
     <Compile Include="Entity\UserValueEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -345,6 +348,7 @@
     <Content Include="Views\Client\OpenAccount.cshtml" />
     <Content Include="Views\Client\Debug.cshtml" />
     <Content Include="Views\Account\List.cshtml" />
+    <Content Include="Views\Client\Share.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

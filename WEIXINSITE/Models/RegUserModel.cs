@@ -10,10 +10,12 @@ namespace WEIXINSITE.Models
     public class UserModel
     {
         public Senparc.Weixin.MP.AdvancedAPIs.OAuth.OAuthUserInfo WeixinUserInfo { get; set; }
+
+        public Senparc.Weixin.MP.Helpers.JsSdkUiPackage JsSdkPackage { get; set; }
         public RegisterUserEntity RegUser { get; set; }
 
         public List<RegUserOpenAccountEntity> OpenAccounts { get; set; }
 
-        public List<UserValueEntity> UserValue { get; set; }
+       
     }
 }

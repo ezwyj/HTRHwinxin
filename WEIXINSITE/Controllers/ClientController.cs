@@ -26,20 +26,20 @@ namespace WEIXINSITE.Controllers
         private string appId = ConfigurationManager.AppSettings["WeixinAppId"];
         private string secret = ConfigurationManager.AppSettings["WeixinAppSecret"];
 
-      
-
-        public ActionResult Index(string code, string state)
+        private OAuthAccessTokenResult GetOAuthAccessTokenResult(string code, string state, out string msg)
         {
             if (string.IsNullOrEmpty(code))
             {
-                return Content("您拒绝了授权！");
+                msg = "no Code";
+                return null ;
             }
 
             if (state != "JeffreySu")
             {
                 //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
                 //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
-                return Content("验证失败！请从正规途径进入！");
+                msg = "no state";
+                return null;
             }
 
             OAuthAccessTokenResult result = null;
@@ -51,69 +51,70 @@ namespace WEIXINSITE.Controllers
             }
             catch (Exception ex)
             {
-                return Content(ex.Message);
+                msg = ex.Message;
+                return null;
             }
             if (result.errcode != ReturnCode.请求成功)
             {
-                return Content("错误：" + result.errmsg);
+                msg = "错误：" + result.errmsg;
+                return null;
             }
             //下面2个数据也可以自己封装成一个类，储存在数据库中（建议结合缓存）
             //如果可以确保安全，可以将access_token存入用户的cookie中，每一个人的access_token是不一样的
             Session["OAuthAccessTokenStartTime"] = DateTime.Now;
             Session["OAuthAccessToken"] = result;
+            msg = "OK";
+            return result;
+        }
 
+        public ActionResult Index(string code, string state)
+        {
+            
+            string msg="OK";
             //因为第一步选择的是OAuthScope.snsapi_userinfo，这里可以进一步获取用户详细信息
             try
             {
+                OAuthAccessTokenResult result = GetOAuthAccessTokenResult(code, state, out msg);
                 OAuthUserInfo userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
 
-
-
                 UserModel retModel = new UserModel();
-                retModel.RegUser = new RegisterUserEntity();
                 retModel.WeixinUserInfo = userInfo;
 
+                if (result != null)
+                {
 
-                //var db = new PetaPoco.Database("DefaultConnection");
+                    if (!DataService.DataService.ExistUser(result.openid, out msg))
+                    {
+                        ///添加用户
+                        retModel.RegUser = new RegisterUserEntity();
+                        retModel.RegUser.headImage = userInfo.headimgurl;
+                        retModel.RegUser.nickName = userInfo.nickname;
+                        retModel.RegUser.weixinOpenId = result.openid;
+                        retModel.RegUser.OpenState = 0;
+                        retModel.RegUser.SaleState = 0;
+                        retModel.RegUser.InMoneyState = 0;
+                        retModel.RegUser.BindState = 0;
+                        retModel.RegUser.regTime = DateTime.Now;
+                        retModel.WeixinUserInfo = userInfo;
 
-                //regUserEntity user = new regUserEntity();
-                //user.weixinOpenId = userInfo.openid;
-                //user.nickName = userInfo.nickname;
-                //user.regTime = DateTime.Now;
+                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, "", out msg);
 
+                        Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
-                //if (!db.Exists<regUserEntity>("weixinOpenId='{0}'", user.weixinOpenId))
-                //{
-                //    //判断是否是首次
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
+                        retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(retModel.RegUser.QrCodeURL, retModel.WeixinUserInfo.openid);
 
-                //    //CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
-                //    //retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
-
-                //    //GetPicture(retModel.RegUser.QrCodeURL, retModel.WeixinUserInfo.openid);
-
-                //    db.Insert("RegUser", "weixinOpenId", user);
-                //}
-                //else
-                //{
-                //    Sql sqlOpen=Sql.Builder;
-                //    sqlOpen.Select("*").From("UserOpenAccount").Where("RegsisUserWeixinOpenId='{0}'",user.weixinOpenId);
-
-                //    List<RegUserOpenAccountEntity> openAccount = db.Fetch<RegUserOpenAccountEntity>(sqlOpen);
-
-                //    retModel.OpenAccounts = openAccount;
-
-                //    Sql sqlValue = Sql.Builder;
-                //    sqlValue.Select("*").From("UserValue").Where("",user.weixinOpenId);
-
-                //    List<UserValueEntity> userValue = db.Fetch<UserValueEntity>(sqlValue);
-
-                //    retModel.UserValue = userValue;
-                //}
-
-                    
-
-
+                        retModel.RegUser = DataService.DataService.GetUserBaseDetail(result.openid, out msg);
+                    }
+                    else
+                    {
+                        retModel = DataService.DataService.GetUserDetial(userInfo.openid, out msg);
+                    }
+                }
+                ViewBag.ErrMsg = msg;
                 return View(retModel);
+                
             }
             catch (ErrorJsonResultException ex)
             {
@@ -122,7 +123,7 @@ namespace WEIXINSITE.Controllers
             }
         }
        
-        private string SavePicture(string name)
+        private bool SavePicture(string name,out string msg)
         {
             try
             {
@@ -137,32 +138,92 @@ namespace WEIXINSITE.Controllers
                 front.WriteTo(writer);
                 writer.Close();
                 writer.Dispose();
-                return "ok";
+                msg = string.Empty;
+                return true;
             }
             catch(Exception e)
             {
-                return e.Message;
+                msg = e.Message;
+                return false; 
             }
         }
 
         [HttpPost]
         public JsonResult OpenAccount(string dataJson)
         {
-            string state = dataJson, msg = string.Empty;
+            string msg = string.Empty;
+            bool state = false;
             //存库和取图片
             UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
 
-            state = SavePicture(retModel.RegUser.CardPicFront);
-            state += SavePicture(retModel.RegUser.CardPicBackground);
-            state += SavePicture(retModel.RegUser.BankCardPic);
+            state = SavePicture(retModel.RegUser.CardPicFront,out msg);
+            state = SavePicture(retModel.RegUser.CardPicBackground,out msg);
+            state = SavePicture(retModel.RegUser.BankCardPic,out msg);
 
 
-            msg=DataService.DataService.UpdateUser(retModel.RegUser);
+            state = DataService.DataService.UpdateUserInfo (retModel.RegUser, out msg);
             return new JsonResult { Data = new { state = state, msg = msg } };
 
         }
 
-        public ActionResult OpenAccount(string OpenUnit, string OpenId)
+        public ActionResult OpenAccount(string code,string state)
+        {
+            string msg = "OK";
+            //因为第一步选择的是OAuthScope.snsapi_userinfo，这里可以进一步获取用户详细信息
+            try
+            {
+                OAuthAccessTokenResult result = GetOAuthAccessTokenResult(code, state, out msg);
+                OAuthUserInfo userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
+
+                UserModel retModel = new UserModel();
+                retModel.WeixinUserInfo = userInfo;
+
+                if (result != null)
+                {
+
+                    if (!DataService.DataService.ExistUser(result.openid, out msg))
+                    {
+                        ///添加用户
+                        retModel.RegUser = new RegisterUserEntity();
+                        retModel.RegUser.headImage = userInfo.headimgurl;
+                        retModel.RegUser.nickName = userInfo.nickname;
+                        retModel.RegUser.weixinOpenId = result.openid;
+                        retModel.RegUser.OpenState = 0;
+                        retModel.RegUser.SaleState = 0;
+                        retModel.RegUser.InMoneyState = 0;
+                        retModel.RegUser.BindState = 0;
+                        retModel.RegUser.regTime = DateTime.Now;
+                        retModel.WeixinUserInfo = userInfo;
+
+                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, "", out msg);
+
+                        Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
+
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userInfo.openid);
+                        retModel.RegUser.QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(retModel.RegUser.QrCodeURL, retModel.WeixinUserInfo.openid);
+
+                        retModel.RegUser = DataService.DataService.GetUserBaseDetail(result.openid, out msg);
+                    }
+                    else
+                    {
+                        retModel = DataService.DataService.GetUserDetial(userInfo.openid, out msg);
+                    }
+                }
+                retModel.JsSdkPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
+                ViewBag.ErrMsg = msg;
+                return View(retModel);
+
+            }
+            catch (ErrorJsonResultException ex)
+            {
+                ViewBag.Error = ex.Message;
+                return Content(ex.Message);
+            }
+
+        }
+
+        public ActionResult Share()
         {
             var jssdkUiPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
             ViewData["JsSdkUiPackage"] = jssdkUiPackage;
@@ -170,8 +231,7 @@ namespace WEIXINSITE.Controllers
             ViewData["Timestamp"] = jssdkUiPackage.Timestamp;
             ViewData["NonceStr"] = jssdkUiPackage.NonceStr;
             ViewData["Signature"] = jssdkUiPackage.Signature;
-            ViewData["OpenUnit"] = OpenUnit;
-            ViewData["OpenId"] = OpenId;
+
 
             //取照片和信息
 
@@ -187,17 +247,80 @@ namespace WEIXINSITE.Controllers
 
         public ActionResult Debug()
         {
+            string msg = string.Empty;
+            string openid = "omNkGw6Gk7I6WTvfGIbMAe1G6p7k";
+
+            
+            //通过扫描关注
+            try
+            {
+                Entity.RegisterUserEntity userinfo = new Entity.RegisterUserEntity();
+
+                userinfo.weixinOpenId = openid;
+                var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, openid);
+                userinfo.nickName = user.nickname;
+                userinfo.headImage = user.headimgurl;
+                userinfo.regTime = DateTime.Now;
+                bool state = false;
+                
+                if (!string.IsNullOrEmpty(openid))
+                {
+                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, "omNkGw63zJaKGM1B8bI9LIoVsnv8");
+
+                    bool haveUser = DataService.DataService.ExistUser(openid, out msg);
+                    if (!haveUser)
+                    {
+                        state = DataService.DataService.AddNewUser(userinfo, "omNkGw63zJaKGM1B8bI9LIoVsnv8", out msg);
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(QrCodeURL, openid);
+                        Units.GetPictureHead(user.headimgurl, user.openid);
+                    }
+                    //responseMessage.Content = string.Format(Subscribe, userinfo.nickName, userTJR.nickname);
+
+                }
+                else
+                {
+                    bool haveUser = DataService.DataService.ExistUser(openid, out msg);
+                    if (string.IsNullOrEmpty(msg))
+                    {
+                        //responseMessage.Content = msg;
+                    }
+                    if (!haveUser)
+                    {
+                        state = DataService.DataService.AddNewUser(userinfo, "", out msg);
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(QrCodeURL, openid);
+                    }
+                    //responseMessage.Content = string.Format(Subscribe, userinfo.nickName, "");
+                }
+
+                //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
+
+            }
+            catch (Exception e)
+            {
+                //responseMessage.Content = e.Message;
+            }
+           
             return View();
         }
 
         [HttpPost]
         public JsonResult Debug(string dataJson)
         {
-           string state = dataJson, msg = string.Empty;
+            string msg = string.Empty;
+            bool state = false;
             //存库和取图片
             UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
-            state = SavePicture(retModel.RegUser.CardPicFront);
-            DataService.DataService.UpdateUser(retModel.RegUser);
+            state = SavePicture(retModel.RegUser.CardPicFront,out msg);
+            if (state)
+            {
+                state = DataService.DataService.UpdateUser(retModel.RegUser, out msg);
+            }
+
+            
             return new JsonResult { Data = new { state = state, msg = msg } };
             
         }

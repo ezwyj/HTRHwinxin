@@ -16,6 +16,7 @@ namespace WEIXINSITE.Entity
         public string weixinOpenId { get; set; }
         public string nickName { get; set; }
 
+        public string headImage { get; set; }
         public string realName { get; set; }
         public string phone { get; set; }
         public DateTime regTime { get; set; }
@@ -39,5 +40,13 @@ namespace WEIXINSITE.Entity
 
         public string tjr { get; set; }
         public string tjrnickName { get; set; }
+
+        public Int16 OpenState { get; set; }
+
+        public Int16 BindState { get; set; }
+
+        public Int16 InMoneyState { get; set; }
+
+        public Int16 SaleState { get; set; }
     }
 }

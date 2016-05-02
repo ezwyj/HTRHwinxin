@@ -35,35 +35,51 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_ClickRequest(RequestMessageEvent_Click requestMessage)
         {
             IResponseMessageBase reponseMessage = null;
-
+            string msg = string.Empty;
             //菜单点击，需要跟创建菜单时的Key匹配
             switch (requestMessage.EventKey)
             {
                 case "BuildQrCode":
                     {
-                        string tjr = requestMessage.FromUserName;
-                        // 本处逻辑从数据库取二维码上传后，下传
-                        string imgPic = "";
+                        //生成二维码
+                        bool haveQrCodePicture = false;
+                        string ResponseMediaId = string.Empty;
+                        string openid = requestMessage.FromUserName;
+                        haveQrCodePicture = DataService.DataService.ExistUserQrCode(openid, out msg);
 
-                        //上传图片
-                        var accessToken = Senparc.Weixin.MP.CommonAPIs.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
-                        var uploadResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image, imgPic);
-                        //设置图片信息
+                        string file = "error";
+                        if (!haveQrCodePicture)
+                        {
+                            //取已生成图片地址
+                            file = DataService.DataService.GetUserQrCode(openid, out msg);
+
+                        }
+                        else
+                        {
+                            //、进行上传，上传后取得媒体ID
+                           
+                            var userInfo = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, openid);
+
+                            //string qrCodePic = Units.GetPictureQrCode(userInfo.headimgurl, openid);
+                            file = Units.BuildSharePicture(openid, out msg);
+                            DataService.DataService.UpdateQrCode(openid, file, out msg);
+                        }
+
+                        Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult mediaResult = new Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult();
+                        if (file != "error")
+                        {
+                            mediaResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, Senparc.Weixin.MP.UploadMediaFileType.image, file);
+                            ResponseMediaId = mediaResult.media_id;
+
+                        }
+
                         var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
                         reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Image.MediaId = uploadResult.media_id;
+                        strongResponseMessage.Image.MediaId = ResponseMediaId;
 
-                        break;
-                    }  
-                case "OneClick":
-                    {
-                        //这个过程实际已经在OnTextOrEventRequest中完成，这里不会执行到。
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
-                        //
-
-                        reponseMessage = strongResponseMessage;
-                        //strongResponseMessage.Content = Units.BuilderQrCode(requestMessage.FromUserName);
-                        strongResponseMessage.Image.MediaId = Units.BuilderQrCode(requestMessage.FromUserName);
+                        //var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
+                        //reponseMessage = strongResponseMessage;
+                        //strongResponseMessage.Content = haveQrCodePicture.ToString();
                     }
                     break;
                 case "SubClickRoot_Text":
@@ -177,36 +193,57 @@ namespace WEIXINSITE.Controllers
         private string Scan = ConfigurationManager.AppSettings["Scan"];
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
         {
+
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             //通过扫描关注
             try
             {
-                OAuthUserInfo userinfo = new OAuthUserInfo();
+                Entity.RegisterUserEntity userinfo = new Entity.RegisterUserEntity();
 
-                userinfo.openid = requestMessage.FromUserName;
+                userinfo.weixinOpenId = requestMessage.FromUserName;
                 var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
-                userinfo.nickname = user.nickname;
-                userinfo.headimgurl = user.headimgurl;
+                userinfo.nickName = user.nickname;
+                userinfo.headImage = user.headimgurl;
+                userinfo.regTime = DateTime.Now;
 
+                bool state = false;
+                string msg = string.Empty;
                 if (!string.IsNullOrEmpty(requestMessage.EventKey))
                 {
-                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey);
+                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
 
-                    DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
-                    responseMessage.Content = string.Format(Subscribe, userinfo.nickname, userTJR.nickname);
-                    //"订阅成功来者:" + userinfo.openid + "，场景值：" + requestMessage.EventKey;
+                    bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
+                    if (!haveUser)
+                    {
+                        userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
+                        userinfo.tjrnickName = userTJR.nickname;
+                        state = DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey.Replace("qrscene_", ""), out msg);
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(QrCodeURL, user.openid);
+                        Units.GetPictureHead(user.headimgurl, user.openid);
+                    }
+                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, userTJR.nickname);
 
                 }
                 else
                 {
-                    DataService.DataService.AddNewUser(userinfo, "");
-                    responseMessage.Content = string.Format(Subscribe, userinfo.nickname);
+                    bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
+                    if (!haveUser)
+                    {
+
+                        state = DataService.DataService.AddNewUser(userinfo, "", out msg);
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(QrCodeURL, requestMessage.FromUserName);
+                    }
+                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, "");
                 }
 
                 //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 responseMessage.Content = e.Message;
             }
@@ -237,31 +274,49 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            //通过订阅关注
             try
             {
-                OAuthUserInfo userinfo = new OAuthUserInfo();
+                Entity.RegisterUserEntity userinfo = new Entity.RegisterUserEntity();
 
-                userinfo.openid = requestMessage.FromUserName;
-                var userFrom = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
-                userinfo.nickname = userFrom.nickname;
-                userinfo.headimgurl = userFrom.headimgurl;
+                userinfo.weixinOpenId = requestMessage.FromUserName;
+                var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
+                userinfo.nickName = user.nickname;
+                userinfo.headImage = user.headimgurl;
+                userinfo.regTime = DateTime.Now;
 
-
-                
-               
-
+                bool state = false;
+                string msg = string.Empty;
                 if (!string.IsNullOrEmpty(requestMessage.EventKey))
                 {
-                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_",""));
+                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
 
-                    DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey);
-                    responseMessage.Content = string.Format(Scan, userinfo.nickname,userTJR.nickname,userTJR.nickname);
-                    //"订阅成功来者:" + userinfo.openid + "，场景值：" + requestMessage.EventKey;
+                    bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
+                    if (!haveUser)
+                    {
+                        userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
+                        userinfo.tjrnickName = userTJR.nickname;
+                        state = DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey.Replace("qrscene_", ""), out msg);
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(QrCodeURL, user.openid);
+                        Units.GetPictureHead(user.headimgurl, user.openid);
+                    }
+                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, userTJR.nickname);
 
                 }
                 else
                 {
-                    DataService.DataService.AddNewUser(userinfo, "");
+                    bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
+                    if (!haveUser)
+                    {
+
+                        state = DataService.DataService.AddNewUser(userinfo, "", out msg);
+                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                        Units.GetPictureQrCode(QrCodeURL, requestMessage.FromUserName);
+                    }
+                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, "");
                 }
 
                 //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
@@ -269,7 +324,7 @@ namespace WEIXINSITE.Controllers
             }
             catch (Exception e)
             {
-                responseMessage.Content = e.Message + requestMessage.EventKey;
+                responseMessage.Content = e.Message;
             }
             return responseMessage;
         }
