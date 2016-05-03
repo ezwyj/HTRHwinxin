@@ -1,0 +1,160 @@
+﻿@model WEIXINSITE.Models.UserModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>开户</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesbdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>heet" href="http://apps.
+    <script>
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '@Model.JsSdkPackage.AppId', // 必填，公众号的唯一标识
+        timestamp: '@Model.JsSdkPackage.Timestamp', // 必填，生成签名的时间戳
+        nonceStr: '@Model.JsSdkPackage.NonceStr', // 必填，生成签名的随机串
+        signature: '@Model.JsSdkPackage.Signature',// 必填，签名
+            jsApiList: [
+                    'checkJsApi',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'hideMenuItems',
+                    'showMenuItems',
+                    'hideAllNonBaseMenuItem',
+                    'showAllNonBaseMenuItem',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'hideOptionMenu',
+                    'showOptionMenu',
+                    'closeWindow',
+                    'scanQRCode',
+                    'chooseWXPay',
+                    'openProductSpecificView'
+            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2。详见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+        });
+
+        wx.error(function (res) {
+            console.log(res);
+            alert('验证失败');
+        });
+
+        wx.ready(function () {
+            var images = {
+                localId: [],
+                serverId: []
+            };
+
+           //转发到朋友圈
+            wx.onMenuShareTimeline({
+                title: 'JSSDK朋友圈转发测试',
+                link: '',
+                imgUrl: '',
+                success: function () {
+                    alert('转发成功！');
+                },
+                cancel: function () {
+                    alert('转发失败！');
+                }
+            });
+            //转发给朋友
+            wx.onMenuShareAppMessage({
+                title: 'JSSDK朋友圈转发测试',
+                desc: '转发给朋友',
+                link: '',
+                imgUrl: '',
+                type: 'link',
+                dataUrl: '',
+                success: function () {
+                    alert('转发成功！');
+                },
+                cancel: function () {
+                    alert('转发失败！');
+                }
+            });
+
+            $('#submitForm').on('click', function () {
+                weixinOpenId = '@Model.RegUser.weixinOpenId'
+                var upData={
+                    UserApply: {
+                        weixinOpenId: weixinOpenId ,
+                        realName: $('#realName').val(),
+                        phone: $('#phone').val(),
+                        caseValue:$('#caseValue').val()
+                    }
+                }
+                console.log(JSON.stringify(upData));
+                $.post('OpenAccount', { dataJson: JSON.stringify(upData) }, function (res) {
+
+
+                    if (res.state) {
+                        alert("提现申请成功！");
+                    }
+                    else
+                    {
+                        alert(res.msg);
+                    }
+
+                });
+            });
+        });
+
+
+    </script>
+
+</head>
+<body>
+
+    <div class="panel panel-info" data-expand="Y">
+        <div class="panel-heading">
+            <div class="panel-option">
+                <button class="btn btn-sm btn-info">开户资料</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name">开户微信号</div>
+                    <div class="item-static"><input type="text" class="form-control" id="nickName" value="@Model.RegUser.nickName"></div>
+                </div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name">姓名</div>
+                    <div class="item-static"><input type="text" class="form-control" id="realName" value="@Model.RegUser.realName"></div>
+                </div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-12">
+                    <div class="item-name">手机</div>
+                    <div class="item-static"><input type="text" class="form-control" id="phone" value="@Model.RegUser.phone"></div>
+                </div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-3">
+                    <div class="item-name centered">申请金额</div>
+                    <div class="item-static">
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+    <div class="main-option right">
+        <button class="btn btn-success" id="submitForm">提交</button>
+    </div>
+</body>
+</html>

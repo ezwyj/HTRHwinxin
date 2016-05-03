@@ -22,6 +22,56 @@ namespace WEIXINSITE.Controllers
             return View();
         }
 
+        public ActionResult Tree()
+        {
+            return View();
+        }
+
+        public JsonResult GetTreeRoot()
+        {
+            bool state = true;
+            string msg = string.Empty;
+            int total = 0;
+            List<RegisterUserEntity> List = null;
+
+            try
+            {
+
+                List = DataService.DataService.GetUserTree();
+
+               
+
+                
+                
+
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+            return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+        public JsonResult GetTree(string parent)
+        {
+            bool state = true;
+            string msg = string.Empty;
+            int total = 0;
+            List<RegisterUserEntity> List = null;
+
+            try
+            {
+                List = DataService.DataService.GetUserTree(parent);
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+            return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
         public JsonResult GetList(int pageIndex=1, int pageSize=20, string type="", string keyword="")
         {
             bool state = true;

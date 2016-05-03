@@ -22,8 +22,8 @@ namespace WEIXINSITE.Controllers
         public ActionResult Index()
         {
             //此页面引导用户点击授权
-            ViewData["UrlUserInfo"] = OAuthApi.GetAuthorizeUrl(appId, "http://www.deviceiot.top/client/index", "JeffreySu", OAuthScope.snsapi_userinfo);
-            ViewData["UrlBase"] = OAuthApi.GetAuthorizeUrl(appId, "http://www.deviceiot.top/oauth2/BaseCallback", "JeffreySu", OAuthScope.snsapi_base);
+            ViewData["UrlUserInfo"] = OAuthApi.GetAuthorizeUrl(appId, "http://localhost:2478/client/index", "JeffreySu", OAuthScope.snsapi_userinfo);
+            ViewData["UrlBase"] = OAuthApi.GetAuthorizeUrl(appId, "http://localhost:2478/oauth2/BaseCallback", "JeffreySu", OAuthScope.snsapi_base);
             return View();
         }
 

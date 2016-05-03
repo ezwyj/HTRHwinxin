@@ -147,6 +147,44 @@ namespace WEIXINSITE.Controllers
                 return false; 
             }
         }
+        public ActionResult team(string openid)
+        {
+            UserModel retModel = new UserModel();
+
+            retModel.Level1 = DataService.DataService.GetLevel1User(openid);
+            retModel.Level2 = DataService.DataService.GetLevel2User(openid);
+            retModel.Level3 = DataService.DataService.GetLevel3User(openid);
+
+            return View(retModel);
+        }
+
+        public ActionResult perOpenAccount()
+        {
+            return View();
+        }
+
+        public ActionResult shenqingtx(string openid,string state)
+        {
+            UserModel retModel = new UserModel();
+            string msg = string.Empty;
+            retModel.HistoryApplyCash = DataService.DataService.GetApplyCash(openid,out msg);
+
+            return View(retModel);
+        }
+
+        [HttpPost]
+        public JsonResult shenqingtx(string dataJson)
+        {
+            string msg = string.Empty;
+            bool state = false;
+            //申请提现
+            UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
+
+            
+            return new JsonResult { Data = new { state = state, msg = msg } };
+
+        }
+
 
         [HttpPost]
         public JsonResult OpenAccount(string dataJson)
@@ -168,7 +206,7 @@ namespace WEIXINSITE.Controllers
 
         public ActionResult OpenAccount(string code,string state)
         {
-            string msg = "OK";
+            string msg = "";
             //因为第一步选择的是OAuthScope.snsapi_userinfo，这里可以进一步获取用户详细信息
             try
             {

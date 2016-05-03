@@ -103,6 +103,8 @@ namespace WEIXINSITE.Controllers.DataService
                 return false;
             }
         }
+
+
         public static bool AddNewUser(RegisterUserEntity userInfo,string tjr,out string msg)
         {
             try
@@ -126,8 +128,84 @@ namespace WEIXINSITE.Controllers.DataService
             }
         }
 
+        public static List<RegisterUserEntity> GetLevel2User(string openId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
 
 
+                string sql = "select * from [RegUser] where tjr in (select weixinOpenId from [RegUser] where tjr=@0)";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<RegisterUserEntity>();
+            }
+        }
+        public static List<RegisterUserEntity> GetLevel3User(string openId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select * from [RegUser] where trj in( select weixinOpenId from [RegUser] where tjr in (select weixinOpenId from [RegUser] where tjr=@0 ))";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<RegisterUserEntity>();
+            }
+        }
+        public static List<RegisterUserEntity> GetLevel1User(string openId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                
+                var sql = PetaPoco.Sql.Builder.Append("select * from [RegUser] where tjr=@0",openId);
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<RegisterUserEntity>();
+            }
+        }
+
+        public static List<RegisterUserEntity> GetUserTree()
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select * from [RegUser] where tjr is null or tjr=''";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<RegisterUserEntity>();
+            }
+        }
         public static List<RegisterUserEntity> GetUser()
         {
            try
@@ -248,6 +326,50 @@ namespace WEIXINSITE.Controllers.DataService
             {
                 msg = e.Message;
                 return null;
+            }
+        }
+
+        internal static List<UserApply> GetApplyCash(string openid,out string msg)
+        {
+            //取得历史申请取现记录
+            try
+            {
+
+                var db = new PetaPoco.Database("DefaultConnection");
+                string sql = "select * from [UserApply] where weixinOpenId=@0";
+                List<UserApply> UserApplyInfos = db.Fetch<UserApply>(sql, openid);
+
+
+                db.CloseSharedConnection();
+
+                msg = "";
+                return UserApplyInfos;
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return null;
+            }
+            throw new NotImplementedException();
+        }
+
+        internal static List<RegisterUserEntity> GetUserTree(string parent)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select * from [RegUser] where tjr=@0";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql,parent);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<RegisterUserEntity>();
             }
         }
     }

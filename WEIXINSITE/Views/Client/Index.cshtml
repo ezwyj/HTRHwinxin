@@ -3,6 +3,7 @@
     ViewBag.Title = "汇通融合";
     Layout = "~/Views/Shared/_FrontLayout.cshtml";
 
+    int teamCount = Model.Level1.Count + Model.Level2.Count + Model.Level3.Count;
 }
 
     
@@ -29,7 +30,6 @@
                         <div class="tab-pane active" id="about">
                             <h3>会员信息</h3>
                             <h5>姓名：@Model.RegUser.nickName</h5>
-                             @ViewBag.url
                             <hr>
                             <div class="am-g">
 
@@ -67,14 +67,14 @@
 
                                 <div class="am-u-sm-12" style="padding: 0px;">
                                     <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
-                                        <a href="javascript:void(0)" name="link" rel="achievenew_memberlist.aspx">
+                                        <a href="@Url.Action("team","client",new {openid=Model.RegUser.weixinOpenId})" name="link" rel="">
                                             <div class="am-list-item-textnum" style="text-align: center;">
                                                 <img src="../Content/imgs/成员.png" alt="家族成员" style="height: 36px; width: 36px;" />
                                             </div>
                                             <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">
                                                 团队成员
                                             </div>
-                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">0人</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">@teamCount 人</div>
                                         </a>
                                     </div>
                                     <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
@@ -96,12 +96,12 @@
                                         </a>
                                     </div>
                                     <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px;">
-                                        <a href="javascript:void(0)" name="link" rel="achievenew_cashout.aspx">
+                                        <a href="@Url.Action("", "client", new {  }) " name="link" rel="">
                                             <div class="am-list-item-textnum" style="text-align: center;">
                                                 <img src="../Content/imgs/体现.png" alt="申请提现" style="height: 36px; width: 36px;" />
                                             </div>
                                             <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">申请提现</div>
-                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">0元</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;"></div>
                                         </a>
                                     </div>
                                 </div>

@@ -1,0 +1,87 @@
+﻿@model WEIXINSITE.Models.UserModel
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]><html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title></title>
+
+    <!-- main JS libs -->
+    <script src="~/Content/VanillaCream/js/libs/modernizr.min.js"></script>
+    <script src="~/Content/VanillaCream/js/libs/jquery-1.10.0.js"></script>
+    <script src="~/Content/VanillaCream/js/libs/jquery-ui.min.js"></script>
+    <script src="~/Content/VanillaCream/js/libs/bootstrap.min.js"></script>
+
+    <!-- Style CSS -->
+    <link href="~/Content/VanillaCream/css/bootstrap.css" media="screen" rel="stylesheet">
+
+    <link href="~/Content/VanillaCream/style.css" rel="stylesheet" />
+    <!-- scripts -->
+    <script src="~/Content/VanillaCream/js/general.js"></script>
+
+    <!-- Include all needed stylesheets and scripts here -->
+    <!--[if lt IE 9]><script src="js/respond.min.js"></script><![endif]-->
+    <!--[if gte IE 9]>
+    <style type="text/css">
+        .gradient {filter: none !important;}
+    </style>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- container -->
+    <div class="container">
+
+        <div class="tabs_framed styled">
+            <div class="inner">
+                <ul class="tabs clearfix active_bookmark1">
+                    <li class="active"><a href="#one" data-toggle="tab">一级会员</a><sup class="note">@Model.Level1.Count </sup></li>
+                    <li><a href="#two" data-toggle="tab">二级会员</a><sup class="note">@Model.Level2.Count</sup></li>
+                    <li><a href="#three" data-toggle="tab">三级会员</a><sup class="note">@Model.Level3.Count</sup></li>
+                </ul>
+
+                <div class="tab-content clearfix">
+                    <div class="tab-pane fade in active" id="one">
+                        <ul>
+                            @foreach(var one  in Model.Level1)
+                            { 
+                            <li><img width="36" height="36" src="@one.headImage" />  @one.nickName </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="two">
+                        <ul>
+                            @foreach (var two in Model.Level2)
+                            {
+                                <li><img width="36" height="36" src="@two.headImage" />@two.nickName </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="three">
+                        <ul>
+                            @foreach (var three in Model.Level3)
+                            {
+                                <li><img width="36" height="36" src="@three.headImage" />@three.nickName </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--/ container -->
+</body>
+</html>
