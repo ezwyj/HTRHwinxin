@@ -27,18 +27,24 @@ namespace WEIXINSITE.Controllers
             return View();
         }
 
-        public JsonResult GetTreeRoot()
+        public JsonResult GetTreeNode(string pid)
         {
             bool state = true;
             string msg = string.Empty;
             int total = 0;
             List<RegisterUserEntity> List = null;
-
+            List<zTreeNode> retUser = new List<zTreeNode>();
             try
             {
-
-                List = DataService.DataService.GetUserTree();
-
+                if (string.IsNullOrEmpty(pid))
+                {
+                    pid = "";
+                }
+                List = DataService.DataService.GetUserTree(pid);
+                foreach (var item in List)
+                {
+                    retUser.Add(new zTreeNode { name = item.nickName, pid = item.weixinOpenId, isParent = true, icon = "/UpFile/head_"+item.weixinOpenId+".jpg" });
+                }
                
 
                 
@@ -50,7 +56,7 @@ namespace WEIXINSITE.Controllers
                 state = false;
                 msg = e.Message;
             }
-            return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return new JsonResult { Data = new { state = state, msg = msg, data = retUser, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
         public JsonResult GetTree(string parent)

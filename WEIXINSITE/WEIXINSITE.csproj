@@ -167,6 +167,7 @@
     <Compile Include="Entity\RegUserOpenAccountEntity.cs" />
     <Compile Include="Entity\UserApply.cs" />
     <Compile Include="Entity\UserValueEntity.cs" />
+    <Compile Include="Entity\zTreeNode.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
