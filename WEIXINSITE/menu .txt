@@ -20,7 +20,7 @@
                 },
                 {
                     "type": "view",
-                    "name": "大雪无痕",
+                    "name": "大雪无痕简介",
                     "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318859&idx=1&sn=71a2675b19817c2fc63c8a07a7be7b56#rd"
                 },
                 {
@@ -40,7 +40,7 @@
                 },
                 {
                     "type": "view",
-                    "name": "银商绑定",
+                    "name": "银商绑定教程",
                     "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318821&idx=1&sn=0a0ac962497d8977cf790594d618bad9#rd"
                 },
                {

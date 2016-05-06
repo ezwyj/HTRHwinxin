@@ -62,7 +62,7 @@ namespace WEIXINSITE.Controllers
 
        
 
-        public static string BuildSharePicture(string weixinOpenId,out string msg)
+        public static string BuildSharePicture(string weixinOpenId,string nickName,out string msg)
         {
  
             try
@@ -82,6 +82,9 @@ namespace WEIXINSITE.Controllers
                   //g.Clear(Color.White);
                     if (File.Exists(HttpContext.Current.Server.MapPath("~/Upfile/head_") + weixinOpenId + ".jpg")) g.DrawImage(imgHard, 29, 13, 95, 100);
                   g.DrawImage(imgQrCode, 150,500,180,187);
+                  g.DrawImage(imgHard, 175, 550, 12, 12);
+                  g.DrawImage(imgHard, 5, 5, 24, 24);
+                 g.DrawString(nickName, new Font(FontFamily.GenericSansSerif, 22), new SolidBrush(Color.Black), 32, 30, StringFormat.GenericDefault);
                 }
                 mybit.Save(fileName);
                 return fileName;

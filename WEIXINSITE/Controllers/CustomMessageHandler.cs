@@ -109,7 +109,7 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
             var responseMessage = this.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情（回复活动规则链接）回复数字2 了解 上海文交所简介 回复数字3 我要开户";
+            responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情 回复数字2 了解 上海文交所简介 回复数字3 我要开户";
             return responseMessage;
         }
     }

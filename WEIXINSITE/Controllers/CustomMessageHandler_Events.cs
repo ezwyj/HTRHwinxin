@@ -61,7 +61,7 @@ namespace WEIXINSITE.Controllers
                             var userInfo = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, openid);
 
                             //string qrCodePic = Units.GetPictureQrCode(userInfo.headimgurl, openid);
-                            file = Units.BuildSharePicture(openid, out msg);
+                            file = Units.BuildSharePicture(openid,userInfo.nickname, out msg);
                             DataService.DataService.UpdateQrCode(openid, file, out msg);
                         }
 
