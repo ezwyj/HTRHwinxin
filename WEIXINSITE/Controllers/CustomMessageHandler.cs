@@ -65,140 +65,51 @@ namespace WEIXINSITE.Controllers
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
-            //方法四（v0.6+），仅适合在HandlerMessage内部使用，本质上是对方法三的封装
-            //注意：下面泛型ResponseMessageText即返回给客户端的类型，可以根据自己的需要填写ResponseMessageNews等不同类型。
-
             var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
 
-            if (requestMessage.Content == null)
-            {
-
-            }
-            else if (requestMessage.Content == "约束")
-            {
-                responseMessage.Content =
-                    @"您正在进行微信内置浏览器约束判断测试。您可以：
-<a href=""http://weixin.senparc.com/FilterTest/"">点击这里</a>进行客户端约束测试（地址：http://weixin.senparc.com/FilterTest/），如果在微信外打开将直接返回文字。
-或：
-<a href=""http://weixin.senparc.com/FilterTest/Redirect"">点击这里</a>进行客户端约束测试（地址：http://weixin.senparc.com/FilterTest/Redirect），如果在微信外打开将重定向一次URL。";
-            }
-            else if (requestMessage.Content == "测试" || requestMessage.Content == "退出")
-            {
-
-                if (requestMessage.Content == "测试")
-                {
-                    //进入APP测试
-                    responseMessage.Content = "您已经进入的测试程序，请发送任意信息进行测试。发送文字【退出】退出测试对话。10分钟内无任何交互将自动退出应用对话状态。";
-                }
-                else
-                {
-                    //退出APP测试
-                    responseMessage.Content = "您已经退出的测试程序。";
-                }
-            }
-            else if (requestMessage.Content == "AsyncTest")
-            {
-                //异步并发测试（提供给单元测试使用）
-                DateTime begin = DateTime.Now;
-                int t1, t2, t3;
-                System.Threading.ThreadPool.GetAvailableThreads(out t1, out t3);
-                System.Threading.ThreadPool.GetMaxThreads(out t2, out t3);
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
-                DateTime end = DateTime.Now;
-                var thread = System.Threading.Thread.CurrentThread;
-                responseMessage.Content = string.Format("TId:{0}\tApp:{1}\tBegin:{2:mm:ss,ffff}\tEnd:{3:mm:ss,ffff}\tTPool：{4}",
-                        thread.ManagedThreadId,
-                        HttpContext.Current != null ? HttpContext.Current.ApplicationInstance.GetHashCode() : -1,
-                        begin,
-                        end,
-                        t2 - t1
-                        );
-            }
-            else if (requestMessage.Content == "open")
+           
+            
+            if (requestMessage.Content == "2")
             {
                 var openResponseMessage = requestMessage.CreateResponseMessage<ResponseMessageNews>();
                 openResponseMessage.Articles.Add(new Article()
                 {
-                    Title = "开放平台微信授权测试",
-                    Description = @"点击进入Open授权页面。
-
-授权之后，您的微信所收到的消息将转发到第三方的服务器上，并获得对应的回复。
-
-测试完成后，您可以登陆公众号后台取消授权。",
-                    Url = "http://weixin.senparc.com/OpenOAuth/JumpToMpOAuth"
+                    Title = "上海文交所简介",
+                    Description = @"2009年6月15日，上海文化产权交易所正式揭牌，成为国内成立的首家文化产权交易所，是上海市人民政府批准设",
+                    Url = "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318861&idx=1&sn=ec0f280e0bab2ae8d6011e31866a1cd1#rd"
                 });
                 return openResponseMessage;
             }
-            else if (requestMessage.Content == "错误")
+            if (requestMessage.Content == "1")
             {
-                var errorResponseMessage = requestMessage.CreateResponseMessage<ResponseMessageText>();
-                //因为没有设置errorResponseMessage.Content，所以这小消息将无法正确返回。
-                return errorResponseMessage;
+                var openResponseMessage = requestMessage.CreateResponseMessage<ResponseMessageNews>();
+                openResponseMessage.Articles.Add(new Article()
+                {
+                    Title = "【上海文交所】百万奖金等你拿！",
+                    Description = @"上海文交所委托我机构发展会员 特推出百万奖金等你拿活动。 只需要你有丰富的人脉和靠谱的执行力 诚邀你成为我司本项目战略合伙人。",
+                    Url = "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318804&idx=1&sn=9bc1414b70126318da08e6581ab95774#rd"
+                });
+                return openResponseMessage;
             }
-            else if (requestMessage.Content == "容错")
+            if (requestMessage.Content == "3")
             {
-                Thread.Sleep(1500);//故意延时1.5秒，让微信多次发送消息过来，观察返回结果
-                var faultTolerantResponseMessage = requestMessage.CreateResponseMessage<ResponseMessageText>();
-                faultTolerantResponseMessage.Content = string.Format("测试容错，MsgId：{0}，Ticks：{1}", requestMessage.MsgId,
-                    DateTime.Now.Ticks);
-                return faultTolerantResponseMessage;
+                responseMessage.Content =
+                    @"点击进入<a href=""https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu&connect_redirect=1#wechat_redirect"">“开户界面”</a>";
             }
             else
             {
-                var result = new StringBuilder();
-                result.AppendFormat("您刚才发送了文字信息：{0}\r\n\r\n", requestMessage.Content);
-
-                if (CurrentMessageContext.RequestMessages.Count > 1)
-                {
-                    result.AppendFormat("您刚才还发送了如下消息（{0}/{1}）：\r\n", CurrentMessageContext.RequestMessages.Count,
-                        CurrentMessageContext.StorageData);
-                    for (int i = CurrentMessageContext.RequestMessages.Count - 2; i >= 0; i--)
-                    {
-                        var historyMessage = CurrentMessageContext.RequestMessages[i];
-                        result.AppendFormat("{0} 【{1}】{2}\r\n",
-                            historyMessage.CreateTime.ToShortTimeString(),
-                            historyMessage.MsgType.ToString(),
-                            (historyMessage is RequestMessageText)
-                                ? (historyMessage as RequestMessageText).Content
-                                : "[非文字类型]"
-                            );
-                    }
-                    result.AppendLine("\r\n");
-                }
-
-                result.AppendFormat("如果您在{0}分钟内连续发送消息，记录将被自动保留（当前设置：最多记录{1}条）。过期后记录将会自动清除。\r\n",
-                    WeixinContext.ExpireMinutes, WeixinContext.MaxRecordCount);
-                result.AppendLine("\r\n");
-                result.AppendLine(
-                    "您还可以发送【位置】【图片】【语音】【视频】等类型的信息（注意是这几种类型，不是这几个文字），查看不同格式的回复。\r\nSDK官方地址：http://weixin.senparc.com");
-
-                responseMessage.Content = result.ToString();
+                responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情（回复活动规则链接）回复数字2 了解 上海文交所简介 回复数字3 我要开户";
             }
+            
             return responseMessage;
         }
 
 
 
-
-
-
-
-
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
-            /* 所有没有被处理的消息会默认返回这里的结果，
-            * 因此，如果想把整个微信请求委托出去（例如需要使用分布式或从其他服务器获取请求），
-            * 只需要在这里统一发出委托请求，如：
-            * var responseMessage = MessageAgent.RequestResponseMessage(agentUrl, agentToken, RequestDocument.ToString());
-            * return responseMessage;
-            */
-
-            //业务
-
-
-
             var responseMessage = this.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "谢谢来信，我们将及时回复";
+            responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情（回复活动规则链接）回复数字2 了解 上海文交所简介 回复数字3 我要开户";
             return responseMessage;
         }
     }

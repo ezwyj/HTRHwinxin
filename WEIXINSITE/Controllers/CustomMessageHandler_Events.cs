@@ -302,7 +302,7 @@ namespace WEIXINSITE.Controllers
                         Units.GetPictureQrCode(QrCodeURL, user.openid);
                         Units.GetPictureHead(user.headimgurl, user.openid);
                     }
-                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, userTJR.nickname);
+                    responseMessage.Content = Subscribe;
 
                 }
                 else
@@ -316,7 +316,7 @@ namespace WEIXINSITE.Controllers
                         string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
                         Units.GetPictureQrCode(QrCodeURL, requestMessage.FromUserName);
                     }
-                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, "");
+                    responseMessage.Content = Subscribe;
                 }
 
                 //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");

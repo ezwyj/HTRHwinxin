@@ -1,0 +1,69 @@
+﻿{
+    "button": [
+        {
+            "name": "百万奖金",
+            "sub_button": [
+                 {
+                    "type": "view",
+                    "name": "活动规则",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318804&idx=1&sn=9bc1414b70126318da08e6581ab95774#rd"
+                },
+                {
+                    "type": "click",
+                    "name": "我的二维码",
+                    "key": "BuildQrCode"
+                },
+                {
+                    "type": "view",
+                    "name": "我的奖金",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FIndex&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "大雪无痕",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318859&idx=1&sn=71a2675b19817c2fc63c8a07a7be7b56#rd"
+                },
+                {
+                    "type": "view",
+                    "name": "联系我们",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=214058948&idx=1&sn=bff89c5509972f515478dbd1f217d082&scene=0&previewkey=bwh%2F9qM2t0B0s%2BZTVVaEy8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect"
+                }
+            ]
+        },
+        {
+            "name": "在线开户",
+            "sub_button": [
+               {
+                    "type": "view",
+                    "name": "上海开户",
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "银商绑定",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318821&idx=1&sn=0a0ac962497d8977cf790594d618bad9#rd"
+                },
+               {
+                    "type": "view",
+                    "name": "客户端下载",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318856&idx=1&sn=e7b5e04eee4278e72930ee1a52165cb4#rd"
+                }
+            ]
+        },
+        {
+            "name": "汇通融合",
+            "sub_button": [
+               {
+                    "type": "view",
+                    "name": "汇通融合",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=214050656&idx=1&sn=9134522bf04dbb4b8d72f7499ca1ee0d&scene=18#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "公司业务",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318821&idx=1&sn=0a0ac962497d8977cf790594d618bad9#rd"
+                }
+            ]
+        }
+    ]
+}

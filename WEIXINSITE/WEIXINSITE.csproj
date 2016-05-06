@@ -876,6 +876,7 @@
     <Content Include="Content\assets\font\fontawesome-webfont-v=3.2.1.woff" />
     <Content Include="Content\assets\img\.DS_Store" />
     <Content Include="Content\assets\js\.DS_Store" />
+    <Content Include="menu .txt" />
     <Content Include="Models\Generated\PetaPoco.Core.ttinclude" />
     <Content Include="Models\Generated\PetaPoco.Generator.ttinclude" />
     <Content Include="Models\Generated\Database.tt">
