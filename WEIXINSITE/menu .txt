@@ -9,9 +9,9 @@
                     "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318804&idx=1&sn=9bc1414b70126318da08e6581ab95774#rd"
                 },
                 {
-                    "type": "click",
-                    "name": "我的二维码",
-                    "key": "BuildQrCode"
+                     "type": "click",
+                    "name":"我的二维码",
+                     "key":"BuildQrCode"
                 },
                 {
                     "type": "view",
@@ -61,7 +61,12 @@
                 {
                     "type": "view",
                     "name": "公司业务",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318821&idx=1&sn=0a0ac962497d8977cf790594d618bad9#rd"
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=214049693&idx=1&sn=b5640227a7beb5d5cfd2a287246f788a&scene=18#wechat_redirect"
+                },
+                {
+                    "type": "view",
+                    "name": "上海文交所",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318861&idx=1&sn=ec0f280e0bab2ae8d6011e31866a1cd1#rd"
                 }
             ]
         }

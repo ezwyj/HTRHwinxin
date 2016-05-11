@@ -82,9 +82,9 @@ namespace WEIXINSITE.Controllers
                   //g.Clear(Color.White);
                     if (File.Exists(HttpContext.Current.Server.MapPath("~/Upfile/head_") + weixinOpenId + ".jpg")) g.DrawImage(imgHard, 29, 13, 95, 100);
                   g.DrawImage(imgQrCode, 150,500,180,187);
-                  g.DrawImage(imgHard, 175, 550, 12, 12);
-                  g.DrawImage(imgHard, 5, 5, 24, 24);
-                 g.DrawString(nickName, new Font(FontFamily.GenericSansSerif, 22), new SolidBrush(Color.Black), 32, 30, StringFormat.GenericDefault);
+                  g.DrawImage(imgHard, 236, 590, 24, 24);
+
+                 g.DrawString(nickName, new Font(FontFamily.GenericSansSerif, 8), new SolidBrush(Color.Black), 180, 50, StringFormat.GenericDefault);
                 }
                 mybit.Save(fileName);
                 return fileName;

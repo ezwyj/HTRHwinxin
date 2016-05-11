@@ -26,7 +26,6 @@ namespace WEIXINSITE.Models
 
         public List<RegisterUserEntity> Level2 { get; set; }
 
-        public List<RegisterUserEntity> Level3 { get; set; }
 
        
     }

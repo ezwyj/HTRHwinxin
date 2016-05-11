@@ -49,7 +49,7 @@
                 <ul class="tabs clearfix active_bookmark1">
                     <li class="active"><a href="#one" data-toggle="tab">一级会员</a><sup class="note">@Model.Level1.Count </sup></li>
                     <li><a href="#two" data-toggle="tab">二级会员</a><sup class="note">@Model.Level2.Count</sup></li>
-                    <li><a href="#three" data-toggle="tab">三级会员</a><sup class="note">@Model.Level3.Count</sup></li>
+                    
                 </ul>
 
                 <div class="tab-content clearfix">
@@ -69,14 +69,7 @@
                             }
                         </ul>
                     </div>
-                    <div class="tab-pane fade" id="three">
-                        <ul>
-                            @foreach (var three in Model.Level3)
-                            {
-                                <li><img width="36" height="36" src="@three.headImage" />@three.nickName </li>
-                            }
-                        </ul>
-                    </div>
+                    
                 </div>
             </div>
         </div>

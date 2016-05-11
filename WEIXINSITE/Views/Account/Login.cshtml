@@ -1,67 +1,118 @@
 ﻿@{
-    ViewBag.Title = "Login";
+    Layout = null;
 }
 
 <!DOCTYPE html>
-<html lang="">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>登录</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="robots" content="" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="css/style.css" media="all" />
-    <!--[if IE]><link rel="stylesheet" href="css/ie.css" media="all" /><![endif]-->
-</head>
-<body class="login">
-    <section>
-        <h1><strong>登录</strong> </h1>
-        <form method="link" action="dashboard.html">
-            @Html.BeginForm(){
-            <input type="text" value="用户名" />
-            <input value="密码" type="password" />
-            <button class="blue">登录</button>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>管理后台-登录</title>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/bootstrap.min.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/common.css")">
+    <style>
+        body {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent url(../assets/img/login_bg.jpg) no-repeat;
+            background-size: cover;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../assets/img/login_bg.jpg', sizingMethod='scale');
+        }
+
+        .login-box {
+            width: 350px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            margin-left: -200px;
+            margin-top: -150px;
+            border-radius: 3px;
+            font-family: 'Helvetica Neue',STHeiti,'Microsoft YaHei',Helvetica,Arial,sans-serif;
+        }
+
+            .login-box .panel {
+                width: 100%;
+                height: 100%;
+                margin-bottom: 0;
+                border-width: 0;
+                box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
             }
-        </form>
-    </section>
-    <script src="js/jquery-1.6.1.min.js"></script>
-    <script type="text/javascript">
-        // Page load delay by Curtis Henson - http://curtishenson.com/articles/quick-tip-delay-page-loading-with-jquery/
-        $(function () {
-            $('.login button').click(function (e) {
-                // Get the url of the link
-                var toLoad = $(this).attr('href');
 
-                // Do some stuff
-                $(this).addClass("loading");
+            .login-box .panel-body {
+                padding: 25px 35px;
+            }
 
-                // Stop doing stuff
-                // Wait 700ms before loading the url
-                setTimeout(function () { window.location = toLoad }, 10000);
+        .panel-heading h3 {
+            text-align: center;
+            margin: 10px 0;
+        }
 
-                // Don't let the link do its natural thing
-                e.preventDefault
-            });
+        .login-box .form-row {
+            margin: 10px 0;
+        }
 
-            $('input').each(function () {
+        .login-box .form-control {
+            color: #333;
+            padding-left: 30px;
+        }
 
-                var default_value = this.value;
+        .login-box .user {
+            background: #fff url(../assets/img/user.png) no-repeat 8px center;
+        }
 
-                $(this).focus(function () {
-                    if (this.value == default_value) {
-                        this.value = '';
-                    }
-                });
+        .login-box .pwd {
+            background: #fff url(../assets/img/locked.png) no-repeat 8px center;
+        }
 
-                $(this).blur(function () {
-                    if (this.value == '') {
-                        this.value = default_value;
-                    }
-                });
+        .login-box .alert-danger {
+            text-align: center;
+            margin-bottom: 0;
+            padding: 5px;
+        }
 
-            });
-        });
-    </script>
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>后台管理</h3>
+            </div>
+            <div class="panel-body">
+                @if (!String.IsNullOrEmpty(ViewBag.errorMsg))
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.errorMsg
+                    </div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    <div class="form-row">
+                        <input type="text" name="username" class="form-control user" value="@ViewBag.username" placeholder="用户名" @Html.Raw(string.IsNullOrEmpty(ViewBag.username) ? "autofocus" : "") />
+                    </div>
+                    <div class="form-row">
+                        <input type="password" name="password" class="form-control pwd" placeholder="密码" @Html.Raw(string.IsNullOrEmpty(ViewBag.username) ? "" : "autofocus") />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">登录</button>
+                }
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <p class="text-center">Powered by 汇通融合 Inc.</p>
+    </div>
 </body>
 </html>

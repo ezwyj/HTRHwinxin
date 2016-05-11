@@ -224,7 +224,7 @@ namespace WEIXINSITE.Controllers
                         Units.GetPictureHead(user.headimgurl, user.openid);
                     }
                     responseMessage.Content = string.Format(Subscribe, userinfo.nickName, userTJR.nickname);
-
+                    Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,userTJR.openid , "在您的推荐下，“"+userinfo.nickName+"”成功报名参与百万大奖等你拿活动");
                 }
                 else
                 {
@@ -240,7 +240,7 @@ namespace WEIXINSITE.Controllers
                     responseMessage.Content = string.Format(Subscribe, userinfo.nickName, "");
                 }
 
-                //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,requestMessage.FromUserName, "关注者为");
+                
 
             }
             catch (Exception e)
@@ -264,8 +264,8 @@ namespace WEIXINSITE.Controllers
             responseMessage.Content = "接收到了群发完成的信息。";
             return responseMessage;
         }
-       
-        private string Subscribe = ConfigurationManager.AppSettings["Subscribe"];
+
+        private string Subscribe = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。 \r\n \r\n回复数字“1” 了解 活动详情 \r\n回复数字“2” 进入 我要开户 \r\n回复数字“3”了解 上海文交所";
 
         /// <summary>
         /// 订阅（关注）事件
@@ -302,7 +302,8 @@ namespace WEIXINSITE.Controllers
                         Units.GetPictureQrCode(QrCodeURL, user.openid);
                         Units.GetPictureHead(user.headimgurl, user.openid);
                     }
-                    responseMessage.Content = Subscribe;
+                    responseMessage.Content =Subscribe;
+                    Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名参与百万大奖等你拿活动");
 
                 }
                 else

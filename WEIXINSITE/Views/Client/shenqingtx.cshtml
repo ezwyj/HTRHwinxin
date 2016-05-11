@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesbdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>heet" href="http://apps.
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
     <script>
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -87,17 +87,16 @@
             });
 
             $('#submitForm').on('click', function () {
-                weixinOpenId = '@Model.RegUser.weixinOpenId'
-                var upData={
-                    UserApply: {
+                weixinOpenId = ''
+                var UserApply= {
                         weixinOpenId: weixinOpenId ,
                         realName: $('#realName').val(),
                         phone: $('#phone').val(),
                         caseValue:$('#caseValue').val()
                     }
-                }
-                console.log(JSON.stringify(upData));
-                $.post('OpenAccount', { dataJson: JSON.stringify(upData) }, function (res) {
+  
+                console.log(JSON.stringify(UserApply));
+                $.post('shenqingtx', { dataJson: JSON.stringify(UserApply) }, function (res) {
 
 
                     if (res.state) {
@@ -121,14 +120,14 @@
     <div class="panel panel-info" data-expand="Y">
         <div class="panel-heading">
             <div class="panel-option">
-                <button class="btn btn-sm btn-info">开户资料</button>
+                <button class="btn btn-sm btn-info">申请提现</button>
             </div>
         </div>
         <div class="panel-body">
             <div class="row item-row">
                 <div class="col-md-12">
                     <div class="item-name">开户微信号</div>
-                    <div class="item-static"><input type="text" class="form-control" id="nickName" value="@Model.RegUser.nickName"></div>
+                    <div class="item-static"><input type="text" class="form-control" id="nickName" value="@Model.WeixinUserInfo.nickname"></div>
                 </div>
             </div>
             <div class="row item-row">
@@ -146,7 +145,7 @@
             <div class="row item-row">
                 <div class="col-md-3">
                     <div class="item-name centered">申请金额</div>
-                    <div class="item-static">
+                    <div class="item-static"><input type="text" class="form-control" id="caseValue" value=""></div>
                 </div>
                 
             </div>

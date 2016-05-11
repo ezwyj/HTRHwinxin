@@ -69,13 +69,13 @@ namespace WEIXINSITE.Controllers
 
            
             
-            if (requestMessage.Content == "2")
+            if (requestMessage.Content == "3")
             {
                 var openResponseMessage = requestMessage.CreateResponseMessage<ResponseMessageNews>();
                 openResponseMessage.Articles.Add(new Article()
                 {
                     Title = "上海文交所简介",
-                    Description = @"2009年6月15日，上海文化产权交易所正式揭牌，成为国内成立的首家文化产权交易所，是上海市人民政府批准设",
+                    Description = @"2009年6月15日，上海文化产权交易所正式揭牌，成为国内成立的首家文化产权交易所，是上海市人民政府批准设立...",
                     Url = "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318861&idx=1&sn=ec0f280e0bab2ae8d6011e31866a1cd1#rd"
                 });
                 return openResponseMessage;
@@ -91,14 +91,14 @@ namespace WEIXINSITE.Controllers
                 });
                 return openResponseMessage;
             }
-            if (requestMessage.Content == "3")
+            if (requestMessage.Content == "2")
             {
                 responseMessage.Content =
                     @"点击进入<a href=""https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu&connect_redirect=1#wechat_redirect"">“开户界面”</a>";
             }
             else
             {
-                responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情（回复活动规则链接）回复数字2 了解 上海文交所简介 回复数字3 我要开户";
+                responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。 \r\n \r\n回复数字“1” 了解 活动详情 \r\n回复数字“2” 进入 我要开户 \r\n回复数字“3”了解 上海文交所";
             }
             
             return responseMessage;

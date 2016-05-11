@@ -1,46 +1,190 @@
-﻿@{
-    ViewBag.Title = "Debug";
+﻿@model WEIXINSITE.Models.UserModel
+@{
+    ViewBag.Title = "汇通融合";
+    Layout = "~/Views/Shared/_FrontLayout.cshtml";
+
+    int teamCount = Model.Level1.Count + Model.Level2.Count ;
+    string qrfile = "\\upfile\\qrcode_" + @Model.RegUser.weixinOpenId + ".jpg";
+
+    float teamMoney = Model.Level0.Count * 30 + Model.Level1.Count * 200 + Model.Level2.Count * 50;
 }
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>开户</title>
-    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
-
-    <script >
-        $(function () {    
-            $('#fileup').on('click', function () {
-            alert('bo');
-            var upData = {
-                RegUser: {
-                    weixinOpenId: 'omNkGw-0KdSriLortK49vKBQi6tw',
-                    realName: 'realNameValue',
-                    phone: 'phoneValue',
-                    CardPicFront: 'nwr2OIuRl00waGqLM26H4Eyo6n5RMfOJOkd_g3u28cngtNOY5AxB9doYkMvSVQj5',
-                    CardPicBackground: 'RREumL1j53HvHwZDfE1izciD4IeyrVT1U1PPGyQ1gf7zWj0pP5M-Kifjr4DquKlH',
-                    BankCardPic: 'BankValue'
-                }
-            }
-            console.log(JSON.stringify(upData));
-            $.post('debug', { dataJson: JSON.stringify(upData) }, function (res) {
 
 
-                alert('开户成功，请等待相关短信通知');
-            });
-        });
-        });
+
+<div class="container">
+    <div class="col-lg-6 col-lg-offset-3">
+
+        <!-- ===== vCard Navigation ===== -->
+        <div class="row w">
+            <div class="col-md-4">
+                <img class="img-responsive" src="@Model.RegUser.headImage" alt="">
+                <ul class="nav nav-tabs nav-stacked" id="myTab" style="display:none;">
+                    <li class="active"><a href="#about" id="aboutClick">我的信息</a></li>
+                    <li><a href="#profile" id="profileClick">我的奖金</a></li>
+                    <li><a href="#portfolio" id="portfolioClick">文交所</a></li>
+                    <!--<li><a href="#contact" id="contactClick">商城</a></li>-->
+                </ul>
+            </div><!-- col-md-4 -->
+            <!-- ===== vCard Content ===== -->
+            <div class="col-md-8">
+                <div class="tab-content">
+
+                    <!-- ===== First Tab ===== -->
+                    <div class="tab-pane active" id="about">
+                        <h3>会员信息</h3>
+                        <h5>
+                            姓名：@Model.RegUser.nickName<br>
+                            会员ID：@Model.RegUser.showId<br />
+                            参与活动时间：@Model.RegUser.regTime<br>
+                            推荐人：@Model.RegUser.tjrnickName
+                        </h5>
+                        <hr>
+                        <div class="am-g">
+
+                            <div class="am-u-sm-12" style="padding: 0px;">
+                                <div class="am-u-sm-6" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                    <a href="javascript:void(0)" name="link" rel="achievenew_memberlist.aspx">
+                                        <div class="am-list-item-textnum" style="text-align: center;">
+                                            @teamCount
+                                        </div>
+                                        <div class="am-list-item-textnum" style="text-align: center; font-size: 12px; margin-top: 8px;">
+                                            开户总量
+                                        </div>
+
+                                    </a>
+                                </div>
+                                <div class="am-u-sm-6" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                    <a href="javascript:void(0)" name="link" rel="achievenew_orderlist.aspx">
+                                        <div class="am-list-item-textnum" style="text-align: center;">
+                                            @teamMoney
+                                        </div>
+                                        <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">我的奖金</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="am-g">
+
+                                <div class="am-u-sm-12" style="padding: 0px;">
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                        <a href="@Url.Action("team","client",new {openid=Model.RegUser.weixinOpenId})" name="link" rel="">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/成员.png" alt="家族成员" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">
+                                                团队成员
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">@teamCount 人</div>
+                                        </a>
+                                    </div>
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                        <a href="javascript:void(0)" name="link" rel="achievenew_paihang.aspx">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/排行榜.png" alt="佣金排行榜" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">奖金排行榜</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">第0名</div>
+                                        </a>
+                                        
+                                    </div>
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                        <a href="javascript:void(0)" name="link" rel="achievenew_file.aspx?type=1">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/分享.png" alt="推广素材" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">推广素材</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">4份</div>
+                                        </a>
+                                        
+                                    </div>
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px;">
+                                        <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2Fshenqingtx&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect" name="link" rel="">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/体现.png" alt="申请提现" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">申请提现</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;"></div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="am-u-sm-12" style="height: 6px; background-color: #f1f1f1;">&nbsp;</div>
+                                <div class="am-u-sm-12" style="padding: 0px;display:none;">
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                        <a href="javascript:void(0)" name="link" rel="achievenew_orderlist.aspx">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/订单.png" alt="家族订单" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">团队订单</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">0单</div>
+                                        </a>
+                                    </div>
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                        <a href="javascript:void(0)" name="link" rel="achievenew_moneylist.aspx">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/佣金.png" alt="我的佣金" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">我的奖金</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">0元</div>
+                                        </a>
+                                    </div>
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
+                                        <a href="javascript:void(0)" name="link" rel="achievenew_file.aspx?type=2">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/帮助.png" alt="帮助中心" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">帮助中心</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">&nbsp;</div>
+                                        </a>
+                                    </div>
+                                    <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px;">
+                                        <a href="javascript:void(0)" name="link" rel="achievenew_feedback.aspx">
+                                            <div class="am-list-item-textnum" style="text-align: center;">
+                                                <img src="../Content/imgs/问题.png" alt="意见反馈" style="height: 36px; width: 36px;" />
+                                            </div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">意见反馈</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">&nbsp;</div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!-- tab about -->
+                    <!-- ===== Third Tab ===== -->
+                    <div class="tab-pane" id="portfolio">
+                        <div class="row">
+                            <img src="@qrfile" width="100%">
+                        </div>
+                        <!-- row -->
+                    </div><!-- /Tab Portfolio -->
+
+                </div><!-- Tab Content -->
+            </div><!-- col-md-8 -->
+        </div><!-- row w -->
+    </div><!-- col-lg-6 -->
+</div>
+
+<div data-role="widget" data-widget="nav4" class="nav4">
+    <nav>
+        <div id="nav4_ul" class="nav_4">
+            <ul class="box">
+                <li>
+                    <a href="javascript:;" onclick='$("#aboutClick").trigger("click");' class=""><span>会员中心</span></a>
+                </li>
+                <li>
+                    <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"><span>我要开户</span></a>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick='$("#portfolioClick").trigger("click");' class=""><span>我的二维码</span></a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div id="nav4_masklayer" class="masklayer_div on">&nbsp;</div>
+    <script src="../Content/nav4.js"></script>
+    <script type="text/javascript">
+        nav4.bindClick(document.getElementById("nav4_ul").querySelectorAll("li>a"), document.getElementById("nav4_masklayer"));
     </script>
-</head>
-<body>
-    @ViewBag.ErrMsg
-    <input type="button" id="fileup" value="UP"  />
-</body>
-</html>
+</div>

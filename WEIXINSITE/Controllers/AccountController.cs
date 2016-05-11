@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WEIXINSITE.Entity;
+using WEIXINSITE.Models;
 
 namespace WEIXINSITE.Controllers
 {
@@ -11,10 +12,65 @@ namespace WEIXINSITE.Controllers
     {
         //
         // GET: /Account/
+        public ActionResult Index()
+        {
+            string badge = HttpContext.User.Identity.Name;
+
+            if (badge=="admin")
+            {
+                Response.Redirect("~/Account/Tree", true);
+                return null;
+            }
+
+            return View();
+        }
+
+        public ActionResult Main()
+        {
+            return View();
+        }
 
         public ActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult Login(string username, string password)
+        {
+            Session.Clear();
+
+            //System.Web.Security.FormsAuthentication.SetAuthCookie(username, true);
+            //System.Web.Security.FormsAuthentication.RedirectFromLoginPage(username, false);
+            //return null;
+
+            if (!(string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)))
+            {
+                string msg = string.Empty;
+                bool result = false;
+
+
+                result = username=="admin"&&password=="000000";
+
+                if (result)
+                {
+                    System.Web.Security.FormsAuthentication.SetAuthCookie(username, true);
+                    Response.Redirect("/Account/Tree"); 
+                    return null;
+                }
+                else
+                {
+                    msg = "用户名密码错误";
+                    ViewBag.errorMsg = msg;
+                }
+            }
+            else
+            {
+                ViewBag.errorMsg = "用户名、密码不能为空！";
+                return View();
+            }
+
+            return View();
+
         }
 
         public ActionResult List()
@@ -43,13 +99,33 @@ namespace WEIXINSITE.Controllers
                 List = DataService.DataService.GetUserTree(pid);
                 foreach (var item in List)
                 {
-                    retUser.Add(new zTreeNode { name = item.nickName, pid = item.weixinOpenId, isParent = true, icon = "/UpFile/head_"+item.weixinOpenId+".jpg" });
+                    retUser.Add(new zTreeNode { name = item.nickName, pid = item.weixinOpenId, isParent = true, icon =item.headImage });
                 }
                
 
                 
                 
 
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+            return new JsonResult { Data = new { state = state, msg = msg, data = retUser, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+
+        public JsonResult GetUserModel(string weixinId)
+        {
+            bool state = true;
+            string msg = string.Empty;
+            int total = 0;
+            UserModel retUser = null;
+          
+            try
+            {
+                retUser = DataService.DataService.GetUserDetial(weixinId, out msg);
             }
             catch (Exception e)
             {

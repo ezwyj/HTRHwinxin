@@ -26,6 +26,8 @@ namespace WEIXINSITE.Entity
         public string phone { get; set; }
         public DateTime regTime { get; set; }
 
+        public string showId { get; set; }
+
         /// <summary>
         /// 身份证正面
         /// </summary>
