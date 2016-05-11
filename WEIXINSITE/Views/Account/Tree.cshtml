@@ -79,10 +79,22 @@
                 $('#realName').val(userModel.RegUser.realName)
                 $('#phone').val(userModel.RegUser.phone);
 
-                if (userModel.RegUser.OpenState == 1) $('#openState').attr("checked");
-                if (userModel.RegUser.BindState == 1) $('#bindState').attr("checked");
-                if (userModel.RegUser.InMoneyState == 1) $('#inMoneyState').attr("checked");
-                if (userModel.RegUser.SaleState == 1) $('#saleState').attr("checked");
+                if (userModel.RegUser.OpenState == 1) $('#openState').attr("checked","checked");
+                if (userModel.RegUser.BindState == 1) $('#bindState').attr("checked", "checked");
+                if (userModel.RegUser.InMoneyState == 1) $('#inMoneyState').attr("checked", "checked");
+                if (userModel.RegUser.SaleState == 1) $('#saleState').attr("checked", "checked");
+
+                if (userModel.RegUser.CardPicFront != null) {
+                    picurl = "../Download/" + userModel.RegUser.CardPicFront + ".jpg";
+                    $('#cardpicfronturl').attr("href", picurl);
+                    $('#cardpicfrontimg').attr("src", picurl);
+                }
+                if (userModel.RegUser.BankCardPic != null) {
+                    
+                    picurl = "../Download/" + userModel.RegUser.BankCardPic + ".jpg";
+                    $('#BankCardPicurl').attr("href", picurl);
+                    $('#BankCardPicimg').attr("src", picurl);
+                }
             } else {
                 $.tips(res.msg, 0);
             }
@@ -273,7 +285,7 @@
                         <div class="col-md-3">
                             <div class="item-name">开户：</div>
                             <div class="item-control">
-                                <input type="checkbox" class="form-control" id="openState" checked>
+                                <input type="checkbox" class="form-control" id="openState" >
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -299,19 +311,19 @@
                         <div class="col-md-4">
                             <div class="item-name">身份证照片正面：</div>
                             <div class="item-control">
-                                <a href=""> <img width="80" height="80" src=""/> </a>
+                                <a href="" > <img width="80" height="80" src=""/> </a>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="item-name">身份证照片背面：</div>
                             <div class="item-control">
-                                <a href=""> <img width="80" height="80" src="" /> </a>
+                                <a href="" id="cardpicfronturl"> <img width="80" height="80" src="" id="cardpicfrontimg"/> </a>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="item-name">银行卡照片：</div>
                             <div class="item-control">
-                                <a href=""> <img width="80" height="80" src="" /> </a>
+                                <a href="" id="BankCardPicurl"> <img width="80" height="80" src="" id="BankCardPicimg" /> </a>
                             </div>
                         </div>
                     </div>
@@ -325,7 +337,7 @@
                        </ul>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="home">
-                                <p>W3Cschoool菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+                                
                             </div>
                            
                             
@@ -341,7 +353,7 @@
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="home">
-                                <p>W3Cschoool菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+                                
                             </div>
 
                             <div class="tab-pane fade" id="jmeter">
