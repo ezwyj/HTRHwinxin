@@ -1,13 +1,13 @@
 ﻿@{
-    var userName = "管理员";
+    var userName = HttpContext.Current.User.Identity.Name;;
     var right = "";
 
-    if (userName == null)
+    if (string.IsNullOrWhiteSpace(userName))
     {
         Response.Redirect("/Account/Login");
     }
-    
-    
+
+
 }
 <!DOCTYPE html>
 <html>

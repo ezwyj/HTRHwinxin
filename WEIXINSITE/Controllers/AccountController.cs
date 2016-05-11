@@ -54,6 +54,7 @@ namespace WEIXINSITE.Controllers
                 if (result)
                 {
                     System.Web.Security.FormsAuthentication.SetAuthCookie(username, true);
+                    
                     Response.Redirect("/Account/Tree"); 
                     return null;
                 }
@@ -72,7 +73,13 @@ namespace WEIXINSITE.Controllers
             return View();
 
         }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            System.Web.Security.FormsAuthentication.SignOut();
 
+            return new RedirectResult("~/Account/Login");
+        }
         public ActionResult List()
         {
             return View();
