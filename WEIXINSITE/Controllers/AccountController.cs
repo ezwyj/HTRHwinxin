@@ -84,6 +84,41 @@ namespace WEIXINSITE.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult Detial(string weixinOpenId)
+        {
+            string msg=string.Empty;
+            return View(DataService.DataService.GetUserDetial(weixinOpenId,out msg));
+        }
+        [HttpPost]
+        public JsonResult Detial(string weixinOpenId, string postData)
+        {
+            bool state = true;
+            string msg = string.Empty;
+
+            try
+            {
+                
+
+                RegisterUserEntity userPost = Serializer.ToObject<RegisterUserEntity>(postData);
+                RegisterUserEntity user = DataService.DataService.GetUserBaseDetail(weixinOpenId, out msg);
+
+                user.OpenState = userPost.OpenState;
+                user.BindState = userPost.BindState;
+                user.InMoneyState = userPost.InMoneyState;
+                user.SaleState = userPost.SaleState;
+
+                state = DataService.DataService.UpdateUser(user,out msg);
+
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+
+            return new JsonResult { Data = new { state = state, msg = msg } };
+        }
 
         public ActionResult Tree()
         {

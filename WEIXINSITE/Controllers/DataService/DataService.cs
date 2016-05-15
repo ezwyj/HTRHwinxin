@@ -231,8 +231,8 @@ namespace WEIXINSITE.Controllers.DataService
             {
                 var db = new PetaPoco.Database("DefaultConnection");
 
-                
-                string sql = "select * from [RegUser]";
+
+                string sql = "select * from [RegUser] order by realname desc";
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
 
                 db.CloseSharedConnection();
@@ -395,5 +395,7 @@ namespace WEIXINSITE.Controllers.DataService
                 return new List<RegisterUserEntity>();
             }
         }
+
+        
     }
 }

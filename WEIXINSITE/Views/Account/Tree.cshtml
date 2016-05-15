@@ -6,373 +6,150 @@
     {
         Response.Redirect("/Account/Login");
     }
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
 
 
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/bootstrap.min.css")">
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/plugins.css")" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/tlayer.css")" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/common.css")">
-    <link href="~/Content/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
-    <link href="~/Content/VanillaCream/style.css" rel="stylesheet" />
-    <!-- scripts -->
-    
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/site.css")">
-    <!--[if lt IE 9]>
-        <script type="text/javascript" src="@Url.Content("~/assets/js/lib/html5shiv.min.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/assets/js/lib/respond.min.js")"></script>
-    <![endif]-->
-    <script src="~/assets/js/lib/jquery-1.11.3.js"></script>
-    <script src="~/assets/js/lib/jquery.ztree.all-3.5.min.js"></script>
-    <script src="~/assets/js/lib/bootstrap.min.js"></script>
-    <script type="text/javascript">
-    		<!--
-		var demoMsg = {
-		    async:"正在进行异步加载，请等一会儿再点击...",
-		    expandAllOver: "全部展开完毕",
-		    asyncAllOver: "后台异步加载完毕",
-		    asyncAll: "已经异步加载完毕，不再重新加载",
-		    expandAll: "已经异步加载完毕，使用 expandAll 方法"
-		}
-    var setting = {
-        async: {
-            enable: true,
-            url: "GetTreeNode",
-            autoParam: ["id", "pid", "level=lv"],
-            dataFilter: filter
-        },
-        callback: {
-            beforeAsync: beforeAsync,
-            onAsyncSuccess: onAsyncSuccess,
-            onAsyncError: onAsyncError,
-            onClick : onClick
-        }
-    };
 
-    function filter(treeId, parentNode, childNodes) {
-        if (!childNodes) return null;
+@section styles{
+  
+<link href="~/assets/plugins/ztree/zTreeStyle.css" rel="stylesheet" />
+}
 
-        return childNodes.data;
-    }
+<div class="container-fluid ">
+    <div class="panel panel-danger col-md-4">
+        <div class="panel-heading">
+            <h5>用户树</h5>
+        </div>
+        <div class="panel-body">
+            <div class="zTreeDemoBackground left col-md-4">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
 
-    function beforeAsync() {
-        curAsyncCount++;
-    }
 
-    function onAsyncSuccess(event, treeId, treeNode, msg) {
-        curAsyncCount--;
 
-    }
-    function onClick(event, treeId, treeNode) {
-        $.get('GetUserModel?weixinId='+treeNode.pid, function (res) {
-            if (res.state) {
-                var userModel = res.data;
 
-                $('#nickName').val(userModel.RegUser.nickName);
-                $('#realName').val(userModel.RegUser.realName)
-                $('#phone').val(userModel.RegUser.phone);
+        </div>
+    </div>
+    <div class="panel panel-info col-md-8">
+        <div class="panel-heading">
+            <h5>用户详细信息</h5>
+        </div>
+        <div class="panel-body">
+            <div class="row item-row">
+                <div class="col-md-4">
+                    <div class="item-name">昵称：</div>
+                    <div class="item-control">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly id="nickName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-name">姓名</div>
+                    <div class="item-control">
+                        <input type="text" class="form-control" id="realName">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-name">电话：</div>
+                    <div class="item-control">
+                        <input type="text" class="form-control" id="phone">
+                    </div>
+                </div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-3">
+                    <div class="item-name">开户：</div>
+                    <div class="item-control">
+                        <input type="checkbox" class="form-control" id="openState">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="item-name">绑定：</div>
+                    <div class="item-control">
+                        <input type="checkbox" class="form-control" id="bindState">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="item-name">入金：</div>
+                    <div class="item-control">
+                        <input type="checkbox" class="form-control" id="inMoneyState">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="item-name">配售：</div>
+                    <div class="item-control">
+                        <input type="checkbox" class="form-control" id="saleState">
+                    </div>
+                </div>
+            </div>
+            <div class="row item-row">
+                <div class="col-md-4">
+                    <div class="item-name">身份证照片正面：</div>
+                    <div class="item-control">
+                        <a href=""> <img width="80" height="80" src="" /> </a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-name">身份证照片背面：</div>
+                    <div class="item-control">
+                        <a href="" id="cardpicfronturl"> <img width="80" height="80" src="" id="cardpicfrontimg" /> </a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-name">银行卡照片：</div>
+                    <div class="item-control">
+                        <a href="" id="BankCardPicurl"> <img width="80" height="80" src="" id="BankCardPicimg" /> </a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab">
+                            一级会员
+                        </a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="home">
 
-                if (userModel.RegUser.OpenState == 1) $('#openState').attr("checked","checked");
-                if (userModel.RegUser.BindState == 1) $('#bindState').attr("checked", "checked");
-                if (userModel.RegUser.InMoneyState == 1) $('#inMoneyState').attr("checked", "checked");
-                if (userModel.RegUser.SaleState == 1) $('#saleState').attr("checked", "checked");
+                    </div>
 
-                if (userModel.RegUser.CardPicFront != null) {
-                    picurl = "../Download/" + userModel.RegUser.CardPicFront + ".jpg";
-                    $('#cardpicfronturl').attr("href", picurl);
-                    $('#cardpicfrontimg').attr("src", picurl);
-                }
-                if (userModel.RegUser.BankCardPic != null) {
-                    
-                    picurl = "../Download/" + userModel.RegUser.BankCardPic + ".jpg";
-                    $('#BankCardPicurl').attr("href", picurl);
-                    $('#BankCardPicimg').attr("src", picurl);
-                }
-            } else {
-                $.tips(res.msg, 0);
-            }
-        });
-    };
 
-    function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
-        curAsyncCount--;
+                </div>
+            </div>
+            <div class="panel">
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab">
+                            二级会员
+                        </a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="home">
 
-        if (curAsyncCount <= 0) {
-            curStatus = "";
-            if (treeNode!=null) asyncForAll = true;
-        }
-    }
+                    </div>
 
-    var curStatus = "init", curAsyncCount = 0, asyncForAll = false,
-    goAsync = false;
-    function expandAll() {
-        if (!check()) {
-            return;
-        }
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (asyncForAll) {
-            $("#demoMsg").text(demoMsg.expandAll);
-            zTree.expandAll(true);
-        } else {
-            expandNodes(zTree.getNodes());
-            if (!goAsync) {
-                $("#demoMsg").text(demoMsg.expandAll);
-                curStatus = "";
-            }
-        }
-    }
-    function expandNodes(nodes) {
-        if (!nodes) return;
-        curStatus = "expand";
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        for (var i=0, l=nodes.length; i<l; i++) {
-            zTree.expandNode(nodes[i], true, false, false);
-            if (nodes[i].isParent && nodes[i].zAsync) {
-                expandNodes(nodes[i].children);
-            } else {
-                goAsync = true;
-            }
-        }
-    }
+                    <div class="tab-pane fade" id="jmeter">
+                        <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+                    </div>
+                    <div class="tab-pane fade" id="ejb">
+                        <p>
+                            Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    function asyncAll() {
-        if (!check()) {
-            return;
-        }
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (asyncForAll) {
-            $("#demoMsg").text(demoMsg.asyncAll);
-        } else {
-            asyncNodes(zTree.getNodes());
-            if (!goAsync) {
-                $("#demoMsg").text(demoMsg.asyncAll);
-                curStatus = "";
-            }
-        }
-    }
-    function asyncNodes(nodes) {
-        if (!nodes) return;
-        curStatus = "async";
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        for (var i=0, l=nodes.length; i<l; i++) {
-            if (nodes[i].isParent && nodes[i].zAsync) {
-                asyncNodes(nodes[i].children);
-            } else {
-                goAsync = true;
-                zTree.reAsyncChildNodes(nodes[i], "refresh", true);
-            }
-        }
-    }
-
-    function reset() {
-        if (!check()) {
-            return;
-        }
-        asyncForAll = false;
-        goAsync = false;
-        $("#demoMsg").text("");
-        $.fn.zTree.init($("#treeDemo"), setting);
-    }
-
-    function check() {
-        if (curAsyncCount > 0) {
-            $("#demoMsg").text(demoMsg.async);
-            return false;
-        }
-        return true;
-    }
-
-    $(document).ready(function(){
-        $.fn.zTree.init($("#treeDemo"), setting);
-
-    });
-    //-->
+@section scripts {
+    <script>
+        OP_CONFIG.module = 'account';
+        OP_CONFIG.page = 'tree';
     </script>
-
-
-</head>
-<body>
-    <div class="navbar navbar-blue navbar-fixed-top" role="navigation" id="header">
-        <div class="container">
-            <div class="navbar-header">
-                <button class="collapsed navbar-toggle" type="button" data-toggle="collapse" data-target="#menu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                    <i class="glyphicon glyphicon-home"></i>
-                    后台管理
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="nav navbar-nav">
-
-                    <li id="menu-home-index"><a href="@Url.Action("Tree", "Account")">首页</a></li>
-
-                    <li id="menu-npi-list"><a href="@Url.Action("List", "Account")">用户清单</a></li>
-                    <li id="menu-npi-list"><a href="@Url.Action("Chart", "Account")">统计</a></li>
-                    @*<li id="menu-doc-manage"><a href="@Url.Action("Manage", "Analsis")">分析图</a></li>
-                        <li id="menu-system-setting"><a href="@Url.Action("Setting", "System")">值集维护</a></li>
-                        <li id="menu-system-log"><a href="@Url.Action("Log", "System")">日志查询</a></li>*@
-
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <div class="navbar-text">
-                            <i class="glyphicon glyphicon-user"></i>
-                            <span>欢迎您，@userName</span>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Logout", "Account")" class="navbar-link">退出</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="navbar-padding-top" id="main">
-        <div class="container-fluid ">
-            <div class="panel panel-danger col-md-4">
-                <div class="panel-heading">
-                    <h5>用户树</h5>
-                </div>
-                <div class="panel-body">
-                    <div class="zTreeDemoBackground left col-md-4">
-                        <ul id="treeDemo" class="ztree"></ul>
-                    </div>
-
-                    
-
-
-                </div>
-            </div>
-            <div class="panel panel-info col-md-8">
-                <div class="panel-heading">
-                    <h5>用户详细信息</h5>
-                </div>
-                <div class="panel-body">
-                    <div class="row item-row">
-                        <div class="col-md-4">
-                            <div class="item-name">昵称：</div>
-                            <div class="item-control">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" readonly  id="nickName" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="item-name">姓名</div>
-                            <div class="item-control">
-                                <input type="text" class="form-control" id="realName">
-                            </div> 
-                        </div>
-                        <div class="col-md-4">
-                            <div class="item-name">电话：</div>
-                            <div class="item-control">
-                                <input type="text" class="form-control" id="phone">
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="row item-row">
-                        <div class="col-md-3">
-                            <div class="item-name">开户：</div>
-                            <div class="item-control">
-                                <input type="checkbox" class="form-control" id="openState" >
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="item-name">绑定：</div>
-                            <div class="item-control">
-                                <input type="checkbox" class="form-control" id="bindState">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="item-name">入金：</div>
-                            <div class="item-control">
-                                <input type="checkbox" class="form-control" id="inMoneyState">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="item-name">配售：</div>
-                            <div class="item-control">
-                                <input type="checkbox" class="form-control" id="saleState">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row item-row">
-                        <div class="col-md-4">
-                            <div class="item-name">身份证照片正面：</div>
-                            <div class="item-control">
-                                <a href="" > <img width="80" height="80" src=""/> </a>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="item-name">身份证照片背面：</div>
-                            <div class="item-control">
-                                <a href="" id="cardpicfronturl"> <img width="80" height="80" src="" id="cardpicfrontimg"/> </a>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="item-name">银行卡照片：</div>
-                            <div class="item-control">
-                                <a href="" id="BankCardPicurl"> <img width="80" height="80" src="" id="BankCardPicimg" /> </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel" >
-                        <ul id="myTab" class="nav nav-tabs">
-                            <li class="active">
-                                <a href="#home" data-toggle="tab">
-                                    一级会员
-                                </a>
-                            </li>
-                       </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="home">
-                                
-                            </div>
-                           
-                            
-                        </div>
-                    </div>
-                    <div class="panel">
-                        <ul id="myTab" class="nav nav-tabs">
-                            <li class="active">
-                                <a href="#home" data-toggle="tab">
-                                    二级会员
-                                </a>
-                            </li>
-                        </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="home">
-                                
-                            </div>
-
-                            <div class="tab-pane fade" id="jmeter">
-                                <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
-                            </div>
-                            <div class="tab-pane fade" id="ejb">
-                                <p>
-                                    Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="footer">
-        <p class="text-center">Powered by 汇通融合 Inc.</p>
-    </div>
-    <script type="text/javascript" src="@Url.Content("~/assets/js/main.js")"></script>
-</body>
-</html>
+}

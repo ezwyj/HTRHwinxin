@@ -1,11 +1,6 @@
-﻿define(['common', 'util', 'uploadify', 'zTree', 'plugins', 'bootstrap'], function ($, util) {
-    var demoMsg = {
-        async: "正在进行异步加载，请等一会儿再点击...",
-        expandAllOver: "全部展开完毕",
-        asyncAllOver: "后台异步加载完毕",
-        asyncAll: "已经异步加载完毕，不再重新加载",
-        expandAll: "已经异步加载完毕，使用 expandAll 方法"
-    }
+﻿define(['common', 'util', 'zTree', 'plugins', 'bootstrap'], function ($, util) {
+    var rootUrl = OP_CONFIG.rootUrl;
+
     var setting = {
         async: {
             enable: true,
@@ -14,12 +9,18 @@
             dataFilter: filter
         },
         callback: {
-            beforeAsync: beforeAsync,
-            onAsyncSuccess: onAsyncSuccess,
-            onAsyncError: onAsyncError,
+            //beforeAsync: beforeAsync,
+            //onAsyncSuccess: onAsyncSuccess,
+            //onAsyncError: onAsyncError,
             onClick: onClick
         }
     };
+
+    $(document).ready(function () {
+        
+        $.fn.zTree.init($("#treeDemo"), setting);
+
+    });
 
     function filter(treeId, parentNode, childNodes) {
         if (!childNodes) return null;
@@ -27,107 +28,45 @@
         return childNodes.data;
     }
 
-    function beforeAsync() {
-        curAsyncCount++;
-    }
-
-    function onAsyncSuccess(event, treeId, treeNode, msg) {
-        curAsyncCount--;
-
-    }
     function onClick(event, treeId, treeNode) {
+        $.get('GetUserModel?weixinId=' + treeNode.pid, function (res) {
+            if (res.state) {
+                var userModel = res.data;
 
+                $('#nickName').val(userModel.RegUser.nickName);
+                $('#realName').val(userModel.RegUser.realName)
+                $('#phone').val(userModel.RegUser.phone);
+
+                if (userModel.RegUser.OpenState == 1) { $('#openState').attr("checked", "checked"); } else { $('#openState').attr("checked", false); }
+                if (userModel.RegUser.BindState == 1) { $('#bindState').attr("checked", "checked"); } else { $('#bindState').attr("checked", false);}
+                if (userModel.RegUser.InMoneyState == 1) { $('#inMoneyState').attr("checked", "checked"); } else { $('#inMoneyState').attr("checked", false); }
+                if (userModel.RegUser.SaleState == 1) { $('#saleState').attr("checked", "checked"); } else { $('#saleState').attr("checked", false) };
+
+                if (userModel.RegUser.CardPicFront != null) {
+                    picurl = "../Download/" + userModel.RegUser.CardPicFront + ".jpg";
+                    $('#cardpicfronturl').attr("href", picurl);
+                    $('#cardpicfrontimg').attr("src", picurl);
+                }
+                else
+                {
+                    $('#cardpicfronturl').attr("href", "");
+                    $('#cardpicfrontimg').attr("src", "");
+                }
+                if (userModel.RegUser.BankCardPic != null) {
+
+                    picurl = "../Download/" + userModel.RegUser.BankCardPic + ".jpg";
+                    $('#BankCardPicurl').attr("href", picurl);
+                    $('#BankCardPicimg').attr("src", picurl);
+                }
+                else
+                {
+                    $('#BankCardPicurl').attr("href", "");
+                    $('#BankCardPicimg').attr("src", "");
+                }
+            } else {
+                $.tips(res.msg, 0);
+            }
+        });
     };
-
-    function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
-        curAsyncCount--;
-
-        if (curAsyncCount <= 0) {
-            curStatus = "";
-            if (treeNode != null) asyncForAll = true;
-        }
-    }
-
-    var curStatus = "init", curAsyncCount = 0, asyncForAll = false,
-    goAsync = false;
-    function expandAll() {
-        if (!check()) {
-            return;
-        }
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (asyncForAll) {
-            $("#demoMsg").text(demoMsg.expandAll);
-            zTree.expandAll(true);
-        } else {
-            expandNodes(zTree.getNodes());
-            if (!goAsync) {
-                $("#demoMsg").text(demoMsg.expandAll);
-                curStatus = "";
-            }
-        }
-    }
-    function expandNodes(nodes) {
-        if (!nodes) return;
-        curStatus = "expand";
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            zTree.expandNode(nodes[i], true, false, false);
-            if (nodes[i].isParent && nodes[i].zAsync) {
-                expandNodes(nodes[i].children);
-            } else {
-                goAsync = true;
-            }
-        }
-    }
-
-    function asyncAll() {
-        if (!check()) {
-            return;
-        }
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (asyncForAll) {
-            $("#demoMsg").text(demoMsg.asyncAll);
-        } else {
-            asyncNodes(zTree.getNodes());
-            if (!goAsync) {
-                $("#demoMsg").text(demoMsg.asyncAll);
-                curStatus = "";
-            }
-        }
-    }
-    function asyncNodes(nodes) {
-        if (!nodes) return;
-        curStatus = "async";
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            if (nodes[i].isParent && nodes[i].zAsync) {
-                asyncNodes(nodes[i].children);
-            } else {
-                goAsync = true;
-                zTree.reAsyncChildNodes(nodes[i], "refresh", true);
-            }
-        }
-    }
-
-    function reset() {
-        if (!check()) {
-            return;
-        }
-        asyncForAll = false;
-        goAsync = false;
-        $("#demoMsg").text("");
-        $.fn.zTree.init($("#treeDemo"), setting);
-    }
-
-    function check() {
-        if (curAsyncCount > 0) {
-            $("#demoMsg").text(demoMsg.async);
-            return false;
-        }
-        return true;
-    }
-
-
-
 
 });

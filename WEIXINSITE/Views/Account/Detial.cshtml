@@ -1,0 +1,137 @@
+﻿@model WEIXINSITE.Models.UserModel
+@{
+    ViewBag.Title = "Detial";
+ 
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var CardPicFront = "../Download/" + Model.RegUser.CardPicFront + ".jpg";
+    var CardPicBackground = "../Download/" + Model.RegUser.CardPicBackground + ".jpg";
+    var BankCardPic = "../Download/" + Model.RegUser.BankCardPic + ".jpg";
+}
+<input type="hidden" name="weixinOpenId" id="weixinOpenId" value="@Model.RegUser.weixinOpenId" />
+<div class="container-fluid page-body">
+    <div class="panel-heading">
+        <h5>用户详细信息</h5>
+    </div>
+    <div class="panel-body">
+
+        <div class="row item-row">
+            <div class="col-md-4">
+                <div class="item-name">昵称：</div>
+                <div class="item-control">
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly id="nickName" value="@Model.RegUser.nickName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item-name">姓名</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" readonly id="realName" value="@Model.RegUser.realName" readonly>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item-name">电话：</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" readonly id="phone" value="@Model.RegUser.phone">
+                </div>
+            </div>
+        </div>
+        <div class="row item-row">
+            <div class="col-md-3">
+                <div class="item-name">开户：</div>
+                <div class="item-control">
+                    <input type="checkbox" class="form-control" id="openState" @(Model.RegUser.OpenState == 1 ? "checked=\"checked\"" : "")>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="item-name">绑定：</div>
+                <div class="item-control">
+                    <input type="checkbox" class="form-control" id="bindState" @(Model.RegUser.BindState==1 ? "checked=\"checked\"" : "")>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="item-name">入金：</div>
+                <div class="item-control">
+                    <input type="checkbox" class="form-control" id="inMoneyState" @(Model.RegUser.InMoneyState==1 ? "checked=\"checked\"" : "")>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="item-name">配售：</div>
+                <div class="item-control">
+                    <input type="checkbox" class="form-control" id="saleState" @(Model.RegUser.SaleState==1 ? "checked=\"checked\"" : "")>
+                </div>
+            </div>
+        </div>
+        <div class="row item-row">
+            <div class="col-md-4">
+                <div class="item-name">身份证照片正面：</div>
+                <div class="item-control">
+                    <a href="@CardPicFront"> <img width="80" height="80" src="@CardPicFront" /> </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item-name">身份证照片背面：</div>
+                <div class="item-control">
+                    
+                    <a href="@CardPicBackground" id="cardpicfronturl"> <img width="80" height="80" src="@CardPicBackground" id="cardpicfrontimg" /> </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item-name">银行卡照片：</div>
+                <div class="item-control">
+                    <a href="" id="@BankCardPic"> <img width="80" height="80" src="@BankCardPic" id="BankCardPicimg" /> </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#home" data-toggle="tab">
+                        一级会员
+                    </a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="home">
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="panel">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#home" data-toggle="tab">
+                        二级会员
+                    </a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="home">
+
+                </div>
+
+                <div class="tab-pane fade" id="jmeter">
+                    <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+                </div>
+                <div class="tab-pane fade" id="ejb">
+                    <p>
+                        Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-option">
+        <button class="btn btn-success" id="submit">保存</button>
+    </div>    
+</div>
+
+@section scripts {
+    <script>
+        OP_CONFIG.module = 'account';
+        OP_CONFIG.page = 'detial';
+    </script>
+}

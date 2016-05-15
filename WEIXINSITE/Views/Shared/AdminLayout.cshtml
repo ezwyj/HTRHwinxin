@@ -1,12 +1,11 @@
 ﻿@{
-    var userName = "管理员";
+    var userName = HttpContext.Current.User.Identity.Name; ;
     var right = "";
 
-    if (userName == null)
-    {
-        Response.Redirect("/Account/Login");
-    }
+   
 }
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,21 +39,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <a class="navbar-brand" href="@Url.Action("Tree", "Account")">
                     <i class="glyphicon glyphicon-home"></i>
-                    缺陷管理
+                    后台管理
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="nav navbar-nav">
 
-                    <li id="menu-home-index"><a href="@Url.Action("Tree", "Account")">首页</a></li>
-                    
-                    <li id="menu-npi-list"><a href="@Url.Action("List", "Account")">用户清单</a></li>
-                    @*<li id="menu-doc-manage"><a href="@Url.Action("Manage", "Analsis")">分析图</a></li>
-                    <li id="menu-system-setting"><a href="@Url.Action("Setting", "System")">值集维护</a></li>
-                    <li id="menu-system-log"><a href="@Url.Action("Log", "System")">日志查询</a></li>*@
 
+
+                    @if (right != null)
+                    {
+                    <li id="menu-home-index"><a href="@Url.Action("Tree", "Account")">首页</a></li>
+
+                    <li id="menu-npi-list"><a href="@Url.Action("List", "Account")">用户清单</a></li>
+                    <li id="menu-npi-list"><a href="@Url.Action("Chart", "Account")">统计</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>

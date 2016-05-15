@@ -1,92 +1,9 @@
 ﻿
 @{
     ViewBag.Title = "List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
-    <link href="~/Content/common.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css.map">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.css">
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
-    <script src="~/Content/jquery.plugins.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            var submitListTable = $('#List').table({
-                tableClass: 'table-condensed',
-                url: '../Account/GetList',
-                resizable: false,
-                colOptions: [{
-                    name: '序号',
-                    field: 'Id',
-                    width: 50,
-                    align: 'center'
-                }, {
-                    name: '昵称',
-                    field: 'nickName',
-                    width: 200
-
-                }, {
-                    name: '姓名',
-                    field: 'realName',
-                    width: 200
-
-                }, {
-                    name: '电话',
-                    field: 'phone',
-                    width: 80
-                }, {
-                    name: '身份证正面',
-                    field: '',
-                    width: 80,
-                    handler: function (value, data) {
-                        picurl = "../Download/" + data.CardPicFront + ".jpg";
-                        return '<a href='+picurl+ '> <img src='+picurl+' width=90 height=30/></a>';
-                    }
-                }, {
-                    name: '身份证背面',
-                    field: 'State',
-                    width: 80,
-                    handler: function (value, data) {
-                        picurl = "../Download/" + data.CardPicBackground +".jpg";
-                        return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
-                    }
-                }, {
-                    name: '银行正面',
-                    field: 'createtime',
-                    width: 90,
-                    handler: function (value, data) {
-                        picurl = "../Download/" + data.BankCardPic +".jpg";
-                        return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
-                    }
-                }, {
-                    name: '推荐人',
-                    field: 'tjrnickName',
-                    width: 90
-                }],
-                onInit: function () {
-                    $('[data-toggle="tooltip"]').tooltip({
-                        html: true
-                    });
-                },
-                resultVerify: function (res) {
-                    return {
-                        state: res.state,
-                        msg: res.msg
-                    }
-                }
-            });
-        });
-     
-    </script>
-</head>
-<body>
 
     <div class="container-fluid page-body">
         <div class="panel panel-danger">
@@ -98,7 +15,12 @@
             </div>
         </div>
     </div>
-</body>
-</html>
 
 
+@section scripts {
+    <script>
+        OP_CONFIG.module = 'account';
+        OP_CONFIG.page = 'list';
+    </script>
+
+}
