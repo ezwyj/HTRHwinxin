@@ -19,11 +19,11 @@
         }, {
             name: '电话',
             field: 'phone',
-            width: 80
+            width: 120
         }, {
             name: '身份证正面',
             field: '',
-            width: 80,
+            width: 120,
             handler: function (value, data) {
                 picurl = "../Download/" + data.CardPicFront + ".jpg";
                 return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
@@ -31,7 +31,7 @@
         }, {
             name: '身份证背面',
             field: 'State',
-            width: 80,
+            width: 120,
             handler: function (value, data) {
                 picurl = "../Download/" + data.CardPicBackground + ".jpg";
                 return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
@@ -39,7 +39,7 @@
         }, {
             name: '银行正面',
             field: 'createtime',
-            width: 90,
+            width: 120,
             handler: function (value, data) {
                 picurl = "../Download/" + data.BankCardPic + ".jpg";
                 return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
@@ -47,13 +47,12 @@
         }, {
             name: '推荐人',
             field: 'tjrnickName',
-            width: 90
+            width: 190
         },
         {
             name: '操作',
             field: 'weixinOpenId',
-            width: 90,
-            handler: function (value, data) {
+             handler: function (value, data) {
                 return '<a href="' + rootUrl + 'account/Detial?weixinOpenId=' + data.weixinOpenId + '">操作</a>';
             }
         }

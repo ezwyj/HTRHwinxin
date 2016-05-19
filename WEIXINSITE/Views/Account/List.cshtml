@@ -2,11 +2,17 @@
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+    string badge = HttpContext.Current.User.Identity.Name; ;
+
+    if (string.IsNullOrEmpty(badge) )
+    {
+        Response.Redirect("~/Account/Login");
+    }
 }
 
 
     <div class="container-fluid page-body">
-        <div class="panel panel-danger">
+        <div class="panel panel-success">
             <div class="panel-heading">
                 <h5>用户列表</h5>
             </div>
