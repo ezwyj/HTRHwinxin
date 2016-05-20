@@ -1,0 +1,66 @@
+公众号 汇通融合  2535654620@qq.com      111111
+
+AppID(应用ID) ：wx172908a22966fab3   AppSecret(应用密钥) ：d925cd66f04605ed7d5144661c8404f3
+
+共享虚拟主机经济版  qxw2332360043  
+主机地址：qxw2332360043.my3w.com  
+FTP：qxw2332360043    PASS:hql343400	 qxw2332360043.my3w.com
+数据库：     PASS:sql772863              qds137038438.my3w.com
+
+
+
+-----------------------------------------------达到开通条件，15991383628 通过认证
+公众号 西安蚂蚁  578690409@qq.com      my112233    
+
+AppID(应用ID) ：wx172908a22966fab3   AppSecret(应用密钥) ：d925cd66f04605ed7d5144661c8404f3
+
+虚拟主机免费版 ： qxw1192090111.my3w.com   主机地址：qxw1192090111.my3w.com  FTP：qxw1192090111.my3w.com
+ FTP登录主机地址：qxw1192090111.my3w.com   用户名：qxw1192090111       mywh.deviceiot.top
+域名：ybkdzp.top
+数据库名称： qds214529493_db
+数据库类型： SqlServer
+数据库连接地址： qds214529493.my3w.com
+数据库用户名： qds214529493
+(qds214529493)登录密码  zlqmirror
+
+--------------------------------未达到开通条件，未认证，并且是订阅号
+公众号 重庆涪陵 健彤文化  1年
+AppID(应用ID) ：wx1db9497d19e7540a   AppSecret(应用密钥)708836dfe8198bb35936f4b73692e7d3
+502037585@weiyun.help     123456nh
+新网 经济型E-0  JTWH.DEVICETOP.TOP  host6333486.xincache5.cn
+ftp:host6333486  jbabcdefgg   
+
+
+ 
+------------  -----0.5年
+公众号 天人合一文化沙龙 2407911778@qq.com  650303Madajun
+AppID(应用ID) ：wxfa0b85bad3f2ae49  AppSecret(应用密钥)：57133e4ddea6fe297fb7f651e21fe772
+新网 经济型E-0
+ftp:host4997478  jbhost499478
+sql:ms9740431  sqlabcdefgg
+
+
+--------------1年 要求通过登录
+公众号 浙江启富 15743969@qq.com    123qaz123.  
+新网 经济型E-0
+APPiD: WXB0129F2451E2 
+
+
+
+
+
+
+------------------------------------
+公众号 浙江启富
+12743969@qq.com  123qaz123
+
+
+
+
+
+
+
+---------------------------------------
+公众号  天人合一 半年
+2407911778@qq.com  650303madajun
+AppID(应用ID)wxfa0b85bad3f2ae49       AppSecret(应用密钥)57133e4ddea6fe297fb7f651e21fe772

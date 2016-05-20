@@ -94,7 +94,7 @@ namespace WEIXINSITE.Controllers
             if (requestMessage.Content == "2")
             {
                 responseMessage.Content =
-                    @"点击进入<a href=""https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu&connect_redirect=1#wechat_redirect"">“开户界面”</a>";
+                    @"点击进入<a href=""https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2F"+baseUrl+"%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu&connect_redirect=1#wechat_redirect"">“开户界面”</a>";
             }
             else
             {

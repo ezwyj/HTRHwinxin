@@ -18,11 +18,11 @@ namespace WEIXINSITE.Controllers
         //下面换成账号对应的信息，也可以放入web.config等地方方便配置和更换
         private string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
         private string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
-
+        private string baseUrl = ConfigurationManager.AppSettings["baseUrl"];
         public ActionResult Index()
         {
             //此页面引导用户点击授权
-            ViewData["UrlUserInfo"] = OAuthApi.GetAuthorizeUrl(appId, "http://www.deviceiot.top/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo);
+            ViewData["UrlUserInfo"] = OAuthApi.GetAuthorizeUrl(appId,baseUrl+ "/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo);
             ViewData["UrlBase"] = OAuthApi.GetAuthorizeUrl(appId, "http://localhost:2478/oauth2/BaseCallback", "JeffreySu", OAuthScope.snsapi_base);
             return View();
         }

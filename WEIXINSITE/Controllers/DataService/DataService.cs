@@ -154,7 +154,7 @@ namespace WEIXINSITE.Controllers.DataService
                 var db = new PetaPoco.Database("DefaultConnection");
 
 
-                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState and SaleState=1 and  tjr in (select weixinOpenId from [RegUser] where tjr=@0)";
+                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and  tjr in (select weixinOpenId from [RegUser] where tjr=@0)";
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
 
                 db.CloseSharedConnection();
@@ -173,7 +173,7 @@ namespace WEIXINSITE.Controllers.DataService
                 var db = new PetaPoco.Database("DefaultConnection");
 
 
-                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState and SaleState=1";
+                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1";
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
 
                 db.CloseSharedConnection();
@@ -193,7 +193,7 @@ namespace WEIXINSITE.Controllers.DataService
 
 
 
-                var sql = PetaPoco.Sql.Builder.Append("select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState and SaleState=1 and tjr=@0", openId);
+                var sql = PetaPoco.Sql.Builder.Append("select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and tjr=@0", openId);
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
 
                 db.CloseSharedConnection();

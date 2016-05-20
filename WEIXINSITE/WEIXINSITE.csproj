@@ -450,6 +450,7 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="新建文本文档.txt" />
     <None Include="Properties\PublishProfiles\XAMY.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
