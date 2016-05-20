@@ -16,7 +16,7 @@
                 {
                     "type": "view",
                     "name": "我的奖金",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FIndex&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FIndex&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
                 },
                 {
                     "type": "view",
@@ -36,7 +36,7 @@
                {
                     "type": "view",
                     "name": "上海开户",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
                 },
                 {
                     "type": "view",
@@ -52,23 +52,9 @@
         },
         {
             "name": "汇通融合",
-            "sub_button": [
-               {
-                    "type": "view",
-                    "name": "汇通融合",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=214050656&idx=1&sn=9134522bf04dbb4b8d72f7499ca1ee0d&scene=18#wechat_redirect"
-                },
-                {
-                    "type": "view",
-                    "name": "公司业务",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=214049693&idx=1&sn=b5640227a7beb5d5cfd2a287246f788a&scene=18#wechat_redirect"
-                },
-                {
-                    "type": "view",
-                    "name": "上海文交所",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318861&idx=1&sn=ec0f280e0bab2ae8d6011e31866a1cd1#rd"
-                }
-            ]
+			"type":"view",
+			"url":"http://mp.weixin.qq.com/s?__biz=MzI5ODI5ODk3MA==&mid=100000016&idx=1&sn=75d629efe4556eca78496063937d87b4#rd"
+           
         }
     ]
 }

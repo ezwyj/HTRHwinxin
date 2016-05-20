@@ -40,27 +40,12 @@ ftp:host4997478  jbhost499478
 sql:ms9740431  sqlabcdefgg
 
 
---------------1年 要求通过登录
+--------------1年 要求通过登录  zjqf.deviceiot.top
 公众号 浙江启富 15743969@qq.com    123qaz123.  
 新网 经济型E-0
-APPiD: WXB0129F2451E2 
+APPiD: wxb0129f2451e242da          d05539c5c667cb9e6ca6218e00e03844
+数据库账户： ms2264395      sql5934622  ms2264395.xincache1.cn
+host6333486  ftp6843336  host6333486.xincache5.cn
 
+  
 
-
-
-
-
-------------------------------------
-公众号 浙江启富
-12743969@qq.com  123qaz123
-
-
-
-
-
-
-
----------------------------------------
-公众号  天人合一 半年
-2407911778@qq.com  650303madajun
-AppID(应用ID)wxfa0b85bad3f2ae49       AppSecret(应用密钥)57133e4ddea6fe297fb7f651e21fe772
