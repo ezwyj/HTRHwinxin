@@ -61,10 +61,16 @@ namespace WEIXINSITE.Controllers
         }
 
        
-
+        /// <summary>
+        /// 生成外发二维码
+        /// </summary>
+        /// <param name="weixinOpenId"></param>
+        /// <param name="nickName"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public static string BuildSharePicture(string weixinOpenId,string nickName,out string msg)
         {
- 
+            string fileName = HttpContext.Current.Server.MapPath("~/Upfile/user_") + weixinOpenId + ".jpg";
             try
             {
                 Bitmap imgHard= new Bitmap(100,100);
@@ -74,8 +80,8 @@ namespace WEIXINSITE.Controllers
                   imgHard = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/Upfile/head_")+weixinOpenId+".jpg");
                 }
                 imgQrCode  = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/Upfile/qrcode_")+weixinOpenId+".jpg");
-                msg = "";
-                string fileName = HttpContext.Current.Server.MapPath("~/Upfile/user_") + weixinOpenId + ".jpg";
+                
+                
                 Bitmap mybit = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/upfile/base.jpg"));
                 using(Graphics g = Graphics.FromImage(mybit))
                 {
@@ -87,12 +93,15 @@ namespace WEIXINSITE.Controllers
                  g.DrawString(nickName, new Font(FontFamily.GenericSansSerif, 8), new SolidBrush(Color.Black), 180, 50, StringFormat.GenericDefault);
                 }
                 mybit.Save(fileName);
+                msg = "";
                 return fileName;
             }
-            catch
+            catch(Exception e)
             {
-                throw new Exception("生成图片错误");
+                msg = e.Message;
             }
+            msg = "";
+            return fileName;
         }
         
     }

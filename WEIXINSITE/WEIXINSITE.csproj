@@ -433,6 +433,7 @@
     <Content Include="Content\VanillaCream\js\video.js" />
     <Content Include="Content\VanillaCream\style.css" />
     <Content Include="Content\VanillaCream\template.html" />
+    <Content Include="Download\null.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="menu .txt" />
@@ -450,7 +451,9 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="UpFile\base.jpg" />
     <Content Include="新建文本文档.txt" />
+    <None Include="Properties\PublishProfiles\TRHY.pubxml" />
     <None Include="Properties\PublishProfiles\XAMY.pubxml" />
     <None Include="Properties\PublishProfiles\zjqf.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
@@ -469,8 +472,6 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="UpFile\shfxts.html" />
-    <Content Include="UpFile\shkfxz.html" />
     <Content Include="Views\Client\example.css" />
     <Content Include="Views\Client\weui.css" />
     <Content Include="Web.config" />
@@ -502,7 +503,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\js\app\home\" />
-    <Folder Include="Download\" />
     <Folder Include="Views\UserManage\" />
   </ItemGroup>
   <ItemGroup>

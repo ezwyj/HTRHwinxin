@@ -16,7 +16,7 @@
                 {
                     "type": "view",
                     "name": "我的奖金",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FIndex&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb0129f2451e242da&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FIndex&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
                 },
                 {
                     "type": "view",
@@ -36,7 +36,7 @@
                {
                     "type": "view",
                     "name": "上海开户",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb0129f2451e242da&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
                 },
                 {
                     "type": "view",
@@ -51,7 +51,7 @@
             ]
         },
         {
-            "name": "汇通融合",
+            "name": "温州启富",
 			"type":"view",
 			"url":"http://mp.weixin.qq.com/s?__biz=MzI5ODI5ODk3MA==&mid=100000016&idx=1&sn=75d629efe4556eca78496063937d87b4#rd"
            

@@ -12,12 +12,17 @@ using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Helpers;
 using Senparc.Weixin.MP.MessageHandlers;
 using Senparc.Weixin.MP.Entities.Request;
+using Senparc.Weixin.MP.AdvancedAPIs;
+using Senparc.Weixin.MP;
 namespace WEIXINSITE.Controllers
 {
     public partial class CustomMessageHandler : MessageHandler<CustomMessageContext>
     {
-        private string appId = WebConfigurationManager.AppSettings["WeixinAppId"];
-        private string appSecret = WebConfigurationManager.AppSettings["WeixinAppSecret"];
+        private static string appId = WebConfigurationManager.AppSettings["WeixinAppId"];
+        private static string appSecret = WebConfigurationManager.AppSettings["WeixinAppSecret"];
+
+        private static string baseUrl = "http://"+WebConfigurationManager.AppSettings["baseUrl"];
+        private static string baseUnit = WebConfigurationManager.AppSettings["baseUnit"];
 
         public CustomMessageHandler(Stream inputStream, PostModel postModel, int maxRecordCount = 0)
             : base(inputStream, postModel, maxRecordCount)
@@ -93,12 +98,11 @@ namespace WEIXINSITE.Controllers
             }
             if (requestMessage.Content == "2")
             {
-                responseMessage.Content =
-                    @"点击进入<a href=""https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu&connect_redirect=1#wechat_redirect"">“开户界面”</a>";
+                responseMessage.Content = "点击进入<a href=\"" + OAuthApi.GetAuthorizeUrl(appId, baseUrl + "/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo) +"\">“开户界面”</a>";
             }
             else
             {
-                responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。 \r\n \r\n回复数字“1” 了解 活动详情 \r\n回复数字“2” 进入 我要开户 \r\n回复数字“3”了解 上海文交所";
+                responseMessage.Content = "您好，感谢您关注"+baseUnit+"机构。邀请您参加目前火热开展的百万奖金等你拿活动。 \r\n \r\n回复数字“1” 了解 活动详情 \r\n回复数字“2” 进入 我要开户 \r\n回复数字“3”了解 上海文交所";
             }
             
             return responseMessage;
@@ -109,7 +113,7 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
             var responseMessage = this.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "您好，感谢您关注汇通融合机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情 回复数字2 了解 上海文交所简介 回复数字3 我要开户";
+            responseMessage.Content = "您好，感谢您关注"+baseUrl+"机构。邀请您参加目前火热开展的百万奖金等你拿活动。回复数字1了解 活动详情 回复数字2 了解 上海文交所简介 回复数字3 我要开户";
             return responseMessage;
         }
     }
