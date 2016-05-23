@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using WEIXINSITE.Entity;
@@ -128,6 +130,48 @@ namespace WEIXINSITE.Controllers
         public ActionResult Tree()
         {
             return View();
+        }
+
+
+
+        public FileResult ExportExcel()
+        {
+            var sbHtml = new StringBuilder();
+            sbHtml.Append("<table border='1' cellspacing='0' cellpadding='0'>");
+            sbHtml.Append("<tr>");
+            var lstTitle = new List<string> { "昵称", "姓名", "电话", "一级下线数量","一级下线名称","二级下线数量","二级下线名称" };
+            foreach (var item in lstTitle)
+            {
+                sbHtml.AppendFormat("<td style='font-size: 14px;text-align:center;background-color: #DCE0E2; font-weight:bold;' height='25'>{0}</td>", item);
+            }
+            sbHtml.Append("</tr>");
+
+            List<RegisterUserEntity> users = DataService.DataService.GetUser();
+            foreach(RegisterUserEntity user in users)
+            {
+                sbHtml.Append("<tr>");
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", user.nickName);
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", user.realName);
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", user.phone);
+                List<RegisterUserEntity> level0User =  DataService.DataService.GetLevel0User(user.weixinOpenId);
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>",level0User.Count  );
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", string.Join(",",level0User.ToList()));
+                List<RegisterUserEntity> level1User =  DataService.DataService.GetLevel1User(user.weixinOpenId);
+                
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>",level1User.Count  );
+                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", string.Join(",", level1User.ToList()));
+                 
+                sbHtml.Append("</tr>");
+            }
+            sbHtml.Append("</table>");
+
+            //第一种:使用FileContentResult
+            byte[] fileContents = Encoding.UTF8.GetBytes(sbHtml.ToString());
+
+            var fileStream = new MemoryStream(fileContents);
+            return File(fileStream, "application/octet-stream", "fileStream.xls");
+
+
         }
 
         public JsonResult GetTreeNode(string pid)

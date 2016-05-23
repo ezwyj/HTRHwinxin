@@ -10,17 +10,37 @@
     }
 }
 
-
-    <div class="container-fluid page-body">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h5>用户列表</h5>
+<div class="container-fluid page-body">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h5>查询</h5>
+            <div class="panel-search form-inline">
+                <div class="input-group" id="search-widget">
+                    <div class="input-group-btn dropdown">
+                        <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span class="dropdown-select">查询条件</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">昵称</a></li>
+                            <li><a href="#">姓名</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" placeholder="搜索">
+                </div>
+            </div>
+            <div class="panel-option">
+                <button class="btn btn-sm btn-primary" id="query">查询</button>
+                <button class="btn btn-sm btn-info" id="export">导出</button>
             </div>
             <div class="panel-body">
                 <div id="List"></div>
             </div>
         </div>
+
     </div>
+</div>
+
 
 
 @section scripts {

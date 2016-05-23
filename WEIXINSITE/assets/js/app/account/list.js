@@ -70,4 +70,11 @@
         }
     });
 
+    $('#export').on('click', function (e) {
+
+        window.open('ExportExcel', 'newwindow', 'height=400,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
+
+
+    });
+
 });
