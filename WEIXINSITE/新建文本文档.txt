@@ -10,18 +10,18 @@ FTP：qxw2332360043    PASS:hql343400	 qxw2332360043.my3w.com
 
 
 -----------------------------------------------达到开通条件，15991383628 通过认证
-公众号 西安蚂蚁  578690409@qq.com      my112233    
-
+公众号 西安蚂蚁  
+2444353636@qq.com     my112233
 AppID(应用ID) ：wx172908a22966fab3   AppSecret(应用密钥) ：d925cd66f04605ed7d5144661c8404f3
 新网 经济型E-0
-APPiD: wxb0129f2451e242da          d05539c5c667cb9e6ca6218e00e03844
+APPiD: wxb0129f2451e242da         
 数据库账户： ms2264395      sql5934622  ms2264395.xincache1.cn
 host6333486  ftp6843336  host6333486.xincache5.cn
 
---------------------------------未达到开通条件，未认证，并且是订阅号
+--------------------------------未达到开通条件，未认证
 公众号 重庆涪陵 健彤文化  1年
-AppID(应用ID) ：wx1db9497d19e7540a   AppSecret(应用密钥)708836dfe8198bb35936f4b73692e7d3
-502037585@weiyun.help     123456nh
+AppID(应用ID) ：   AppSecret(应用密钥)
+2656973522@qq.com     123456nh
 新网 经济型E-0  JTWH.DEVICETOP.TOP  host6333486.xincache5.cn
 ftp:host6333486  jbabcdefgg   
 
@@ -38,7 +38,9 @@ sql:ms9740431  650303madajun         ms9740431.xincache1.cn
 --------------1年 要求通过登录  zjqf.deviceiot.top  
 公众号 浙江启富 15743969@qq.com    123qaz123.  
   虚拟主机免费版 ： qxw1192090111.my3w.com   主机地址：qxw1192090111.my3w.com  FTP：qxw1192090111.my3w.com
- FTP登录主机地址：qxw1192090111.my3w.com   用户名：qxw1192090111       
+ FTP登录主机地址：qxw1192090111.my3w.com   用户名：qxw1192090111   
+wxb0129f2451e242da        d05539c5c667cb9e6ca6218e00e03844
+     
 域名：zjqf.deviceiot.top
 数据库名称： qds214529493_db
 数据库类型： SqlServer

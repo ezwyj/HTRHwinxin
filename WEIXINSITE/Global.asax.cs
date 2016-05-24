@@ -27,14 +27,14 @@ namespace WEIXINSITE
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //if (!AccessTokenContainer.CheckRegistered(appId))//检查是否已经注册
-            //{
+            if (!AccessTokenContainer.CheckRegistered(appId))//检查是否已经注册
+            {
 
-            //    AccessTokenContainer.Register(appId, appSecret);//如果没有注册则进行注册
+                AccessTokenContainer.Register(appId, appSecret);//如果没有注册则进行注册
 
-            //}
+            }
 
-            //var result = AccessTokenContainer.GetAccessTokenResult(appId); 
+            var result = AccessTokenContainer.GetAccessTokenResult(appId); 
         }
     }
 }
