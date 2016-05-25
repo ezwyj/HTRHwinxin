@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using WEIXINSITE.Entity;
 using WEIXINSITE.Models;
@@ -113,6 +114,9 @@ namespace WEIXINSITE.Controllers
                     }
                 }
                 ViewBag.ErrMsg = msg;
+                ViewBag.AppId = appId;
+                ViewBag.BaseUnit = WebConfigurationManager.AppSettings["baseUnit"];
+                ViewBag.BaseUrl = WebConfigurationManager.AppSettings["baseUrl"];
                 return View(retModel);
                 
             }

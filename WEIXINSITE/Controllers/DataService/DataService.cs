@@ -342,7 +342,7 @@ namespace WEIXINSITE.Controllers.DataService
 
                 db.CloseSharedConnection();
 
-                msg = string.Empty;
+                msg = "OK";
                 return UserRegInfo.QrCodeURL;
             }
             catch (Exception e)

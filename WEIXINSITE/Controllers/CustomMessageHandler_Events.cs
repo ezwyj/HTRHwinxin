@@ -37,136 +37,48 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_ClickRequest(RequestMessageEvent_Click requestMessage)
         {
             IResponseMessageBase reponseMessage = null;
-            string msg = string.Empty;
+            string msg = "OK";
             //菜单点击，需要跟创建菜单时的Key匹配
             switch (requestMessage.EventKey)
             {
                 case "BuildQrCode":
                     {
                         //生成二维码
-                        string ResponseMediaId = string.Empty;
-                        string openid = requestMessage.FromUserName;
-                        string file = "error";
- 
-                        file = DataService.DataService.GetUserQrCode(openid, out msg);
-                        if(string.IsNullOrEmpty(msg)){
-                            var errResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                            reponseMessage = errResponseMessage;
-                            errResponseMessage.Content = msg;
-                            return errResponseMessage;
-                        }
-                        Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult mediaResult = new Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult();
-                        if (file != "error")
-                        {
-                            mediaResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, Senparc.Weixin.MP.UploadMediaFileType.image, file);
-                            ResponseMediaId = mediaResult.media_id;
-                            var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
-                            reponseMessage = strongResponseMessage;
-                            strongResponseMessage.Image.MediaId = ResponseMediaId;
-                        }
-                        else
-                        {
-                            var errResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                            reponseMessage = errResponseMessage;
-                            errResponseMessage.Content = msg;
-                            return errResponseMessage;
-                        }
+                            string ResponseMediaId = string.Empty;
+                            string openid = requestMessage.FromUserName;
+                            string file = "error";
+
+                            file = DataService.DataService.GetUserQrCode(openid, out msg);
+                            if (msg!="OK")
+                            {
+                                var errResponseMessage = CreateResponseMessage<ResponseMessageText>();
+                                reponseMessage = errResponseMessage;
+                                errResponseMessage.Content = msg;
+                                return errResponseMessage;
+                            }
+                            if (file != "error")
+                            {
+                                Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult mediaResult = new Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult();
+                                //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, file);
+                                mediaResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, Senparc.Weixin.MP.UploadMediaFileType.image, file);
+                                ResponseMediaId = mediaResult.media_id;
+                                //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, ResponseMediaId);
+                                var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
+                                reponseMessage = strongResponseMessage;
+                                strongResponseMessage.Image.MediaId = ResponseMediaId;
+                            }
+                            else
+                            {
+                                var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
+                                reponseMessage = strongResponseMessage;
+                                strongResponseMessage.Content = "error";
+                            }
 
 
-                        //var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        //reponseMessage = strongResponseMessage;
-                        //strongResponseMessage.Content = haveQrCodePicture.ToString();
+                            
                     }
                     break;
-                case "SubClickRoot_Text":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Content = "您点击了子菜单按钮。";
-                    }
-                    break;
-                case "SubClickRoot_News":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageNews>();
-                        reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Articles.Add(new Article()
-                        {
-                            Title = "您点击了子菜单图文按钮",
-                            Description = "您点击了子菜单图文按钮，这是一条图文信息。",
-                            PicUrl = "http://weixin.senparc.com/Images/qrcode.jpg",
-                            Url = "http://weixin.senparc.com"
-                        });
-                    }
-                    break;
-
-                case "SubClickRoot_Image":
-                    {
-                        //上传图片
-                        //var accessToken = CommonAPIs.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
-                        //var uploadResult = AdvancedAPIs.MediaApi.UploadTemporaryMedia(accessToken, UploadMediaFileType.image,
-                        //                                             Server.GetMapPath("~/Images/Logo.jpg"));
-                        ////设置图片信息
-                        //var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
-                        //reponseMessage = strongResponseMessage;
-                        //strongResponseMessage.Image.MediaId = uploadResult.media_id;
-                    }
-                    break;
-
-                case "OAuth"://OAuth授权测试
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageNews>();
-                        strongResponseMessage.Articles.Add(new Article()
-                        {
-                            Title = "OAuth2.0测试",
-                            Description = "点击【查看全文】进入授权页面。\r\n注意：此页面仅供测试（是专门的一个临时测试账号的授权，并非Senparc.Weixin.MP SDK官方账号，所以如果授权后出现错误页面数正常情况），测试号随时可能过期。请将此DEMO部署到您自己的服务器上，并使用自己的appid和secret。",
-                            Url = "http://weixin.senparc.com/oauth2",
-                            PicUrl = "http://weixin.senparc.com/Images/qrcode.jpg"
-                        });
-                        reponseMessage = strongResponseMessage;
-                    }
-                    break;
-                case "Description":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        strongResponseMessage.Content = "description";
-                        reponseMessage = strongResponseMessage;
-                    }
-                    break;
-                case "SubClickRoot_PicPhotoOrAlbum":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Content = "您点击了【微信拍照】按钮。系统将会弹出拍照或者相册发图。";
-                    }
-                    break;
-                case "SubClickRoot_ScancodePush":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Content = "您点击了【微信扫码】按钮。";
-                    }
-                    break;
-                case "ConditionalMenu_Male":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Content = "您点击了个性化菜单按钮，您的微信性别设置为：男。";
-                    }
-                    break;
-                case "ConditionalMenu_Femle":
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Content = "您点击了个性化菜单按钮，您的微信性别设置为：女。";
-                    }
-                    break;
-                default:
-                    {
-                        var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-                        strongResponseMessage.Content = "您点击了按钮，EventKey：" + requestMessage.EventKey;
-                        reponseMessage = strongResponseMessage;
-                    }
-                    break;
+               
             }
 
             return reponseMessage;
@@ -191,7 +103,7 @@ namespace WEIXINSITE.Controllers
 
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             //通过扫描关注
-            try
+             try
             {
                 Entity.RegisterUserEntity userinfo = new Entity.RegisterUserEntity();
 
@@ -203,40 +115,31 @@ namespace WEIXINSITE.Controllers
 
                 bool state = false;
                 string msg = string.Empty;
-                if (!string.IsNullOrEmpty(requestMessage.EventKey))
+                string tjr= string.Empty;
+                bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
+                if (!haveUser)
                 {
-                    var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
 
-                    bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
-                    if (!haveUser)
+                    CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
+                    string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                    Units.GetPictureQrCode(QrCodeURL, user.openid);
+                    Units.GetPictureHead(user.headimgurl, user.openid);
+
+                    string qrFile = Units.BuildSharePicture(user.openid, user.nickname, out msg);
+                    userinfo.QrCodeURL = qrFile;
+                    if (!string.IsNullOrEmpty(requestMessage.EventKey)) //有推荐人
                     {
-                        userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
+                        var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
                         userinfo.tjrnickName = userTJR.nickname;
-                        state = DataService.DataService.AddNewUser(userinfo, requestMessage.EventKey.Replace("qrscene_", ""), out msg);
-                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
-                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
-                        Units.GetPictureQrCode(QrCodeURL, user.openid);
-                        Units.GetPictureHead(user.headimgurl, user.openid);
-                    }
-                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, userTJR.nickname);
-                    Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId,userTJR.openid , "在您的推荐下，“"+userinfo.nickName+"”成功报名参与百万大奖等你拿活动");
-                }
-                else
-                {
-                    bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
-                    if (!haveUser)
-                    {
+                        tjr = userinfo.tjr;
+                        Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名参与百万大奖等你拿活动");
 
-                        state = DataService.DataService.AddNewUser(userinfo, "", out msg);
-                        CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
-                        string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
-                        Units.GetPictureQrCode(QrCodeURL, requestMessage.FromUserName);
                     }
-                    responseMessage.Content = string.Format(Subscribe, userinfo.nickName, "");
-                }
+                    responseMessage.Content = Subscribe;
 
+                    state = DataService.DataService.AddNewUser(userinfo,tjr , out msg);
+                }
                 
-
             }
             catch (Exception e)
             {
@@ -295,6 +198,7 @@ namespace WEIXINSITE.Controllers
                     Units.GetPictureHead(user.headimgurl, user.openid);
 
                     string qrFile = Units.BuildSharePicture(user.openid, user.nickname, out msg);
+                    userinfo.QrCodeURL = qrFile;
                     if (!string.IsNullOrEmpty(requestMessage.EventKey)) //有推荐人
                     {
                         var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
