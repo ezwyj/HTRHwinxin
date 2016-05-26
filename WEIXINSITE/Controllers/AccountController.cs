@@ -190,7 +190,7 @@ namespace WEIXINSITE.Controllers
                 List = DataService.DataService.GetUserTree(pid);
                 foreach (var item in List)
                 {
-                    retUser.Add(new zTreeNode { name = item.nickName, pid = item.weixinOpenId, isParent = true, icon =item.headImage });
+                    retUser.Add(new zTreeNode { name = item.nickName, pid = item.weixinOpenId, isParent = true, icon = item.headImage });
                 }
                
 

@@ -63,6 +63,13 @@
                     $('#BankCardPicurl').attr("href", "");
                     $('#BankCardPicimg').attr("src", "");
                 }
+          
+                for(var i=0;i<userModel.Level1.length;i++){
+                    $('#myTabContentLevel1').append('<li>'+userModel.Level1[i].nickName+'</li>');
+                }
+                for (var i = 0; i < userModel.Level2.length; i++) {
+                    $('#myTabContentLevel2').append('<li>' + userModel.Level2[i].nickName + '</li>');
+                }
             } else {
                 $.tips(res.msg, 0);
             }
