@@ -49,9 +49,9 @@ namespace WEIXINSITE.Entity
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string QrCodeURL { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        
         public string tjr { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        
         public string tjrnickName { get; set; }
 
         public Int16 OpenState { get; set; }

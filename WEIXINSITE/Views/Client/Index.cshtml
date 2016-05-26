@@ -1,4 +1,5 @@
-﻿@model WEIXINSITE.Models.UserModel
+﻿@using Senparc.Weixin.MP;
+@model WEIXINSITE.Models.UserModel
 @{
     ViewBag.Title = ViewBag.BaseUnit+"百万奖金等你拿活动";
     Layout = "~/Views/Shared/_FrontLayout.cshtml";
@@ -7,8 +8,10 @@
     string qrfile = "\\upfile\\qrcode_" + @Model.RegUser.weixinOpenId + ".jpg";
 
     float teamMoney = Model.Level0.Count * 30 + Model.Level1.Count * 200 + Model.Level2.Count * 50;
-
-    string openAccountUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+ViewBag.AppId+"&redirect_uri=http%3A%2F%2F"+ViewBag.BaseUrl+"%2Fclient%2Fshenqingtx&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect";
+    string appId = ViewBag.AppId;
+    string baseUrl = ViewBag.BaseUrl;
+    string openAccountUrl = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetAuthorizeUrl(appId, "http://" + baseUrl + "/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo);
+    string cashUrl = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetAuthorizeUrl(appId, "http://" + baseUrl + "/client/shenqingtx", "JeffreySu", OAuthScope.snsapi_userinfo);
 }
 
 
@@ -100,7 +103,7 @@
 
                                     </div>
                                     <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px;">
-                                        <a href="@openAccountUrl" name="link" rel="">
+                                        <a href="@cashUrl" name="link" rel="">
                                             <div class="am-list-item-textnum" style="text-align: center;">
                                                 <img src="../Content/imgs/体现.png" alt="申请提现" style="height: 36px; width: 36px;" />
                                             </div>
@@ -175,7 +178,7 @@
                     <a href="javascript:;" onclick='$("#aboutClick").trigger("click");' class=""><span>会员中心</span></a>
                 </li>
                 <li>
-                    <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff617bb17b7d884b&redirect_uri=http%3A%2F%2Fwww.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"><span>我要开户</span></a>
+                    <a href="@openAccountUrl"><span>我要开户</span></a>
                 </li>
                 <li>
                     <a href="javascript:;" onclick='$("#portfolioClick").trigger("click");' class=""><span>我的二维码</span></a>

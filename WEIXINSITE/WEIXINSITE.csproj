@@ -452,7 +452,6 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="UpFile\base.jpg" />
-    <Content Include="新建文本文档.txt" />
     <None Include="Properties\PublishProfiles\base.pubxml" />
     <None Include="Properties\PublishProfiles\TRHY.pubxml" />
     <None Include="Properties\PublishProfiles\XAMY.pubxml" />

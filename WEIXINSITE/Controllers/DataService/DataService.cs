@@ -124,7 +124,7 @@ namespace WEIXINSITE.Controllers.DataService
         }
 
 
-        public static bool AddNewUser(RegisterUserEntity userInfo,string tjr,out string msg)
+        public static bool AddNewUser(RegisterUserEntity userInfo,out string msg)
         {
             try
             {
@@ -132,7 +132,6 @@ namespace WEIXINSITE.Controllers.DataService
 
                 if (!db.Exists<RegisterUserEntity>("weixinOpenId=@0", userInfo.weixinOpenId))
                 {
-                    userInfo.tjr = tjr;
                     db.Insert("RegUser", "weixinOpenId", userInfo);
                 }
 
@@ -173,7 +172,7 @@ namespace WEIXINSITE.Controllers.DataService
                 var db = new PetaPoco.Database("DefaultConnection");
 
 
-                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1";
+                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and weixinOpenId=" + openId + "'";
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
 
                 db.CloseSharedConnection();
@@ -396,6 +395,20 @@ namespace WEIXINSITE.Controllers.DataService
             }
         }
 
-        
+
+
+        internal static int GetUserCount()
+        {
+
+            var db = new PetaPoco.Database("DefaultConnection");
+
+
+            string sql = "select count(*)+1 from [RegUser] ";
+            int count = db.ExecuteScalar<int>(sql);
+
+            db.CloseSharedConnection();
+            return count;
+
+        }
     }
 }

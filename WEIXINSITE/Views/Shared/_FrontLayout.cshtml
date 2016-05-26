@@ -26,16 +26,12 @@
 
 <body>
     @RenderBody()
-
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
-
-
-    <!-- Bootstrap core JavaScript
+   <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="@Url.Content("~/content/assets/js/jquery.js")"></script>
     <script src="@Url.Content("~/content/assets/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/nav4.js")"></script>
     <script>
         $('#myTab a').click(function (e) {
             e.preventDefault()

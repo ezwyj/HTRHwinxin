@@ -98,7 +98,7 @@ namespace WEIXINSITE.Controllers
                         retModel.RegUser.regTime = DateTime.Now;
                         retModel.WeixinUserInfo = userInfo;
 
-                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, "", out msg);
+                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser,  out msg);
 
                         Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
@@ -246,7 +246,7 @@ namespace WEIXINSITE.Controllers
                         retModel.RegUser.regTime = DateTime.Now;
                         retModel.WeixinUserInfo = userInfo;
 
-                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, "", out msg);
+                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser,  out msg);
 
                         Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
@@ -388,7 +388,7 @@ namespace WEIXINSITE.Controllers
                         retModel.RegUser.regTime = DateTime.Now;
                         retModel.WeixinUserInfo = oUser;
 
-                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, "", out msg);
+                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, out msg);
 
                         Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
