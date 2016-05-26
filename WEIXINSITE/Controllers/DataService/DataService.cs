@@ -224,14 +224,18 @@ namespace WEIXINSITE.Controllers.DataService
                 return new List<RegisterUserEntity>();
             }
         }
-        public static List<RegisterUserEntity> GetUser()
+        public static List<RegisterUserEntity> GetUser(string name )
         {
            try
             {
                 var db = new PetaPoco.Database("DefaultConnection");
 
 
-                string sql = "select * from [RegUser] order by realname desc";
+                string sql = "select * from [RegUser] ";
+               if (name.Length>0) {
+                   sql = sql + " where realName like '%"+name+"%' or nickName like '%"+ name + "%'";
+               }
+               sql = sql + " order by realname desc";
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
 
                 db.CloseSharedConnection();

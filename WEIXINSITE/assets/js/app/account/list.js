@@ -2,9 +2,16 @@
     var rootUrl = OP_CONFIG.rootUrl;
 
 
-    $('#List').table({
+    var resultTable = $('#List').table({
         tableClass: 'table-condensed',
         url: '../Account/GetList',
+        data: function () {
+            return {
+
+                keyword: $('#keyword').val(),
+
+            };
+        },
         resizable: false,
         colOptions: [{
             name: '昵称',
@@ -77,4 +84,10 @@
 
     });
 
+    $('#query').on('click', function (e) {
+
+        resultTable.table('reload');
+
+
+    });
 });

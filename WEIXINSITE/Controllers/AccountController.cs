@@ -146,7 +146,7 @@ namespace WEIXINSITE.Controllers
             }
             sbHtml.Append("</tr>");
 
-            List<RegisterUserEntity> users = DataService.DataService.GetUser();
+            List<RegisterUserEntity> users = DataService.DataService.GetUser("");
             foreach(RegisterUserEntity user in users)
             {
                 sbHtml.Append("<tr>");
@@ -245,7 +245,7 @@ namespace WEIXINSITE.Controllers
             return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
-        public JsonResult GetList(int pageIndex=1, int pageSize=20, string type="", string keyword="")
+        public JsonResult GetList(int pageIndex=1, int pageSize=20, string keyword="")
         {
             bool state = true;
             string msg = string.Empty;
@@ -255,7 +255,7 @@ namespace WEIXINSITE.Controllers
             try
             {
                 
-                List = DataService.DataService.GetUser();
+                List = DataService.DataService.GetUser(keyword);
 
                 //switch (type)
                 //{
