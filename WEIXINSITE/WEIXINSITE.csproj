@@ -227,6 +227,7 @@
     <Content Include="assets\img\user.png" />
     <Content Include="assets\js\app\account\chart.js" />
     <Content Include="assets\js\app\account\detial.js" />
+    <Content Include="assets\js\app\account\tx.js" />
     <Content Include="assets\js\app\account\list.js" />
     <Content Include="assets\js\app\doc\detail.js" />
     <Content Include="assets\js\app\doc\list.js" />
@@ -499,6 +500,7 @@
     <Content Include="Views\Shared\AdminLayout.cshtml" />
     <Content Include="Views\Account\Detial.cshtml" />
     <Content Include="Views\Account\Chart.cshtml" />
+    <Content Include="Views\Account\shengqingtx.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

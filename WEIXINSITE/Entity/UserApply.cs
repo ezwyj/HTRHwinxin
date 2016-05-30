@@ -16,6 +16,11 @@ namespace WEIXINSITE.Entity
 
         public DateTime ApplyTime { get; set; }
 
+        public string phone { get; set; }
+
         public float CaseValue { get; set;  }
+
+        [PetaPoco.Ignore]
+        public string ApplyTimeExp { get { return ApplyTime.ToString(); } }
     }
 }

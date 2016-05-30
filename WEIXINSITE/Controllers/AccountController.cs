@@ -131,7 +131,10 @@ namespace WEIXINSITE.Controllers
         {
             return View();
         }
-
+        public ActionResult shengqingtx()
+        {
+            return View();
+        }
 
 
         public FileResult ExportExcel()
@@ -273,6 +276,45 @@ namespace WEIXINSITE.Controllers
                 total = List.Count;
                 List = List.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+            return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+
+
+        public JsonResult GetTxList(int pageIndex = 1, int pageSize = 20, string keyword = "")
+        {
+            bool state = true;
+            string msg = string.Empty;
+            int total = 0;
+            List<UserApply> List = null;
+
+            try
+            {
+
+                List = DataService.DataService.GetUserApply(keyword);
+
+                //switch (type)
+                //{
+                //    case "文件名":
+                //        submitList = submitList.FindAll(a => a.MainFile.FileName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
+                //        break;
+                //    case "版本号":
+                //        submitList = submitList.FindAll(a => a.ProjectCode.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
+                //        break;
+                //    case "发起人":
+                //        submitList = submitList.FindAll(a => a.Creator.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1 || a.CreatorExp.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
+                //        break;
+                //}
+
+                total = List.Count;
+                List = List.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
             }
             catch (Exception e)
             {

@@ -4,10 +4,10 @@
     ViewBag.Title = ViewBag.BaseUnit+"百万奖金等你拿活动";
     Layout = "~/Views/Shared/_FrontLayout.cshtml";
 
-    int teamCount = Model.Level1.Count + Model.Level2.Count;
+    int teamCount = ViewBag.Count;
     string qrfile = "\\upfile\\qrcode_" + @Model.RegUser.weixinOpenId + ".jpg";
 
-    float teamMoney = Model.Level0.Count * 30 + Model.Level1.Count * 200 + Model.Level2.Count * 50;
+    float teamMoney = Model.Level0.Count * 30 + Model.Level1.Count * 200 + Model.Level2.Count * 30;
     string appId = ViewBag.AppId;
     string baseUrl = ViewBag.BaseUrl;
     string openAccountUrl = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetAuthorizeUrl(appId, "http://" + baseUrl + "/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo);

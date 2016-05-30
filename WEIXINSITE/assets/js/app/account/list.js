@@ -33,7 +33,7 @@
             width: 120,
             handler: function (value, data) {
                 picurl = "../Download/" + data.CardPicFront + ".jpg";
-                return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
+                return '<a href=' + picurl + '  target="_blank"> <img src=' + picurl + ' width=90 height=30/></a>';
             }
         }, {
             name: '身份证背面',
@@ -41,7 +41,7 @@
             width: 120,
             handler: function (value, data) {
                 picurl = "../Download/" + data.CardPicBackground + ".jpg";
-                return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
+                return '<a href=' + picurl + '  target="_blank"> <img src=' + picurl + ' width=90 height=30/></a>';
             }
         }, {
             name: '银行正面',
@@ -49,7 +49,7 @@
             width: 120,
             handler: function (value, data) {
                 picurl = "../Download/" + data.BankCardPic + ".jpg";
-                return '<a href=' + picurl + '> <img src=' + picurl + ' width=90 height=30/></a>';
+                return '<a href=' + picurl + ' target="_blank"> <img src=' + picurl + ' width=90 height=30/></a>';
             }
         }, {
             name: '推荐人',

@@ -145,6 +145,65 @@ namespace WEIXINSITE.Controllers.DataService
                 return false;
             }
         }
+        public static int GetLevel1Count(string openId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+
+                var sql = PetaPoco.Sql.Builder.Append("select count(*) from [RegUser] where OpenState=1 and tjr=@0", openId);
+                int count = db.ExecuteScalar<int>(sql);
+
+                db.CloseSharedConnection();
+                return count;
+
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+        public static int  GetLevel2Count(string openId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select count(*) from [RegUser] where OpenState=1 and  tjr in (select weixinOpenId from [RegUser] where tjr=@0)";
+                int count = db.ExecuteScalar<int>(sql, openId);
+
+                db.CloseSharedConnection();
+                return count;
+
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+        public static int GetLevel0Count(string openId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select count(*) from [RegUser] where OpenState=1 and weixinOpenId='" + openId + "'";
+                int count = db.ExecuteScalar<int>(sql, openId);
+
+                db.CloseSharedConnection();
+                return count;
+
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
 
         public static List<RegisterUserEntity> GetLevel2User(string openId)
         {
@@ -172,7 +231,7 @@ namespace WEIXINSITE.Controllers.DataService
                 var db = new PetaPoco.Database("DefaultConnection");
 
 
-                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and weixinOpenId=" + openId + "'";
+                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and weixinOpenId='" + openId + "'";
                 List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
 
                 db.CloseSharedConnection();
@@ -413,6 +472,31 @@ namespace WEIXINSITE.Controllers.DataService
             db.CloseSharedConnection();
             return count;
 
+        }
+
+        internal static List<UserApply> GetUserApply(string keyword)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select * from [UserApply] ";
+                if (keyword.Length > 0)
+                {
+                    sql = sql + " where realName like '%" + keyword + "%' or phone like '%" + keyword + "%'";
+                }
+                sql = sql + " order by realname desc";
+                List<UserApply> list = db.Fetch<UserApply>(sql);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<UserApply>();
+            }
         }
     }
 }

@@ -103,58 +103,14 @@ namespace WEIXINSITE.Controllers
 
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             //通过扫描关注
-             try
-            {
-                Entity.RegisterUserEntity userinfo = new Entity.RegisterUserEntity();
+            
 
-                userinfo.weixinOpenId = requestMessage.FromUserName;
-                var user = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.FromUserName);
-                userinfo.nickName = user.nickname;
-                userinfo.headImage = user.headimgurl;
-                userinfo.regTime = DateTime.Now;
-                userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
-                bool state = false;
-                string msg = "OK";
-
-                bool haveUser = DataService.DataService.ExistUser(requestMessage.FromUserName, out msg);
-                if (!haveUser)
-                {
-
-                    CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
-                    string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
-                    Units.GetPictureQrCode(QrCodeURL, user.openid);
-                    Units.GetPictureHead(user.headimgurl, user.openid);
-
-                    string qrFile = Units.BuildSharePicture(user.openid, user.nickname, out msg);
-                    userinfo.QrCodeURL = qrFile;
-                    if (!string.IsNullOrEmpty(requestMessage.EventKey)) //有推荐人
-                    {
-                        userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
-                        var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
-                        userinfo.tjrnickName = userTJR.nickname;
+                    responseMessage.Content = Subscribe;
 
 
-                        Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名参与百万大奖等你拿活动");
-                        
-
-                    }
-                    
-                    responseMessage.Content = Subscribe  ;
-                   
-                   
-                    state = DataService.DataService.AddNewUser(userinfo,  out msg);
-                }
-                else
-                {
-                    //更新用户，增补推荐人
-
-                }
                 
-            }
-            catch (Exception e)
-            {
-                responseMessage.Content = e.Message;
-            }
+
+        
             return responseMessage;
         }
 

@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>开户</title>
+    <title>申请提现</title>
     <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.css">
@@ -87,12 +87,12 @@
             });
 
             $('#submitForm').on('click', function () {
-                weixinOpenId = ''
+                weixinOpenId = '@Model.WeixinUserInfo.openid';
                 var UserApply= {
-                        weixinOpenId: weixinOpenId ,
-                        realName: $('#realName').val(),
+                    WeixinOpenId: weixinOpenId,
+                    RealName: $('#realName').val(),
                         phone: $('#phone').val(),
-                        caseValue:$('#caseValue').val()
+                        CaseValue: $('#caseValue').val()
                     }
   
                 console.log(JSON.stringify(UserApply));
@@ -145,7 +145,7 @@
             <div class="row item-row">
                 <div class="col-md-3">
                     <div class="item-name centered">申请金额</div>
-                    <div class="item-static"><input type="text" class="form-control" id="caseValue" value=""></div>
+                    <div class="item-static"><input type="text" class="form-control" id="caseValue" ></div>
                 </div>
                 
             </div>

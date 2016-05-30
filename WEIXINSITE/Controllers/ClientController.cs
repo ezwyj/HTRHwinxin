@@ -111,8 +111,10 @@ namespace WEIXINSITE.Controllers
                     else
                     {
                         retModel = DataService.DataService.GetUserDetial(userInfo.openid, out msg);
+
                     }
                 }
+                ViewBag.Count = DataService.DataService.GetLevel0Count(userInfo.openid) + DataService.DataService.GetLevel1Count(userInfo.openid) + DataService.DataService.GetLevel2Count(userInfo.openid);
                 ViewBag.ErrMsg = msg;
                 ViewBag.AppId = appId;
                 ViewBag.BaseUnit = WebConfigurationManager.AppSettings["baseUnit"];
@@ -263,6 +265,7 @@ namespace WEIXINSITE.Controllers
                 }
                 retModel.JsSdkPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
                 ViewBag.ErrMsg = msg;
+                ViewBag.OpenAccountMessage = WebConfigurationManager.AppSettings["openAccountMessage"];
                 return View(retModel);
 
             }

@@ -15,11 +15,36 @@
             onClick: onClick
         }
     };
+    var timer;
+
+    function getScroll() {
+        var bodyTop = 0;
+        if (typeof window.pageYOffset != 'undefined') {
+            bodyTop = window.pageYOffset;
+        } else if (typeof document.compatMode != 'undefined' && document.compatMode != 'BackCompat') {
+            bodyTop = document.documentElement.scrollTop;
+        }
+        else if (typeof document.body != 'undefined') {
+            bodyTop = document.body.scrollTop;
+        }
+        return bodyTop
+    }
+
+
 
     $(document).ready(function () {
         
         $.fn.zTree.init($("#treeDemo"), setting);
-
+        $(window).scroll(function () {
+            clearInterval(timer);
+            var topScroll = getScroll();
+            var topDiv = "200px";
+            var top = topScroll + parseInt(topDiv);
+            timer = setInterval(function () {
+                //$(".test").css("top", top+"px");
+                $(".panel-info").animate({ "top": top }, 200);
+            }, 200)
+        })
     });
 
     function filter(treeId, parentNode, childNodes) {
