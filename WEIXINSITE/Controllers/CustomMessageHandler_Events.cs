@@ -172,6 +172,10 @@ namespace WEIXINSITE.Controllers
                         Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名参与百万大奖等你拿活动");
 
                     }
+                    else
+                    {
+                        userinfo.tjr = "";
+                    }
                     int count = DataService.DataService.GetUserCount();
                     string resultMessage = String.Format(Scan, count.ToString());
                     responseMessage.Content = Subscribe + "\n\r" + resultMessage;
