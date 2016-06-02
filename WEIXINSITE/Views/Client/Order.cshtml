@@ -1,0 +1,20 @@
+﻿@model List<WEIXINSITE.Entity.RegisterUserEntity>
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_FrontLayout.cshtml";
+}
+
+
+@foreach (var item in Model) { 
+<div class="weui_cell">
+    <div class="weui_cell_hd">
+    <img src="@item.headImage" alt="" style="width:20px;margin-right:5px;display:block">
+    </div>
+    <div class="weui_cell_bd weui_cell_primary">
+        <p>@item.nickName</p>
+    </div>
+    <div class="weui_cell_ft">
+        @item.MoneyOrder
+    </div>
+</div>
+}

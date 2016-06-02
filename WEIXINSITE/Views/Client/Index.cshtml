@@ -12,6 +12,7 @@
     string baseUrl = ViewBag.BaseUrl;
     string openAccountUrl = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetAuthorizeUrl(appId, "http://" + baseUrl + "/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo);
     string cashUrl = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetAuthorizeUrl(appId, "http://" + baseUrl + "/client/shenqingtx", "JeffreySu", OAuthScope.snsapi_userinfo);
+    string orderUrl = "http://" + baseUrl + "/client/order";
 }
 
 
@@ -83,7 +84,7 @@
                                         </a>
                                     </div>
                                     <div class="am-u-sm-3" style="padding: 15px 0px 18px 0px; border-right: 1px #f1f1f1 solid;">
-                                        <a href="javascript:void(0)" name="link" rel="achievenew_paihang.aspx">
+                                        <a href="@orderUrl" name="link" rel="achievenew_paihang.aspx">
                                             <div class="am-list-item-textnum" style="text-align: center;">
                                                 <img src="../Content/imgs/排行榜.png" alt="佣金排行榜" style="height: 36px; width: 36px;" />
                                             </div>
@@ -98,7 +99,7 @@
                                                 <img src="../Content/imgs/分享.png" alt="推广素材" style="height: 36px; width: 36px;" />
                                             </div>
                                             <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; margin-top: 8px;">推广素材</div>
-                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">4份</div>
+                                            <div class="am-list-item-textnum2" style="text-align: center; font-size: 12px; color: #707070; margin-top: 5px;">份</div>
                                         </a>
 
                                     </div>

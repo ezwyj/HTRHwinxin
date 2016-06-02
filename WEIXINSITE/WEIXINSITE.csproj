@@ -455,6 +455,14 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="UpFile\base.jpg" />
+    <Content Include="Content\assets\.DS_Store" />
+    <Content Include="Content\assets\css\.DS_Store" />
+    <Content Include="Content\assets\fonts\.DS_Store" />
+    <Content Include="Content\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\assets\font\.DS_Store" />
+    <Content Include="Content\assets\font\fontawesome-webfont-v=3.2.1.ttf" />
+    <Content Include="Content\assets\img\.DS_Store" />
+    <Content Include="Content\assets\js\.DS_Store" />
     <None Include="Properties\PublishProfiles\base.pubxml" />
     <None Include="Properties\PublishProfiles\TRHY.pubxml" />
     <None Include="Properties\PublishProfiles\XAMY.pubxml" />
@@ -476,7 +484,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Client\example.css" />
-    <Content Include="Views\Client\weui.css" />
+    <Content Include="Content\assets\css\weui.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -503,6 +511,7 @@
     <Content Include="Views\Account\Detial.cshtml" />
     <Content Include="Views\Account\Chart.cshtml" />
     <Content Include="Views\Account\shengqingtx.cshtml" />
+    <Content Include="Views\Client\Order.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

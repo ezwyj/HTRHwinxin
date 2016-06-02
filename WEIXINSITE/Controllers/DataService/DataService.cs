@@ -498,5 +498,32 @@ namespace WEIXINSITE.Controllers.DataService
                 return new List<UserApply>();
             }
         }
+
+        internal static List<RegisterUserEntity> GetUserOrder()
+        {
+            try
+            {
+                List<RegisterUserEntity> retList = new List<RegisterUserEntity>();
+
+                var db = new PetaPoco.Database("DefaultConnection");
+                string sql = "select weixinOpenId,nickName,headImage from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 ";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
+
+                foreach (RegisterUserEntity item in list)
+                {
+                    item.MoneyOrder = DataService.GetLevel0User(item.weixinOpenId).Count * 30 + DataService.GetLevel1User(item.weixinOpenId).Count * 200 + DataService.GetLevel2User(item.weixinOpenId).Count * 30;
+                }
+
+                db.CloseSharedConnection();
+                var query = from u in list orderby u.MoneyOrder descending select u;
+                retList = query.ToList();
+                return retList;
+
+            }
+            catch (Exception e)
+            {
+                return new List<RegisterUserEntity>();
+            }
+        }
     }
 }

@@ -67,7 +67,12 @@ namespace WEIXINSITE.Controllers
             msg = "OK";
             return result;
         }
+        public ActionResult Order()
+        {
+            List<RegisterUserEntity> user = DataService.DataService.GetUserOrder();
 
+            return View(user);
+        }
         public ActionResult Index(string code, string state)
         {
             

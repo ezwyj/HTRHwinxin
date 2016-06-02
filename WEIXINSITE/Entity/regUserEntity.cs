@@ -61,5 +61,11 @@ namespace WEIXINSITE.Entity
         public Int16 InMoneyState { get; set; }
 
         public Int16 SaleState { get; set; }
+
+        [PetaPoco.Ignore]
+        public int OpenAccountOrder { get; set; }
+
+        [PetaPoco.Ignore]
+        public int MoneyOrder { get; set; }
     }
 }
