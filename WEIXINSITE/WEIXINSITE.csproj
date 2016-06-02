@@ -184,9 +184,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\amazeUI.css" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\common.css" />
     <Content Include="assets\css\iconfont.css" />
+    <Content Include="assets\css\main.css" />
     <Content Include="assets\css\plugins.css" />
     <Content Include="assets\css\site.css" />
     <Content Include="assets\css\tlayer.css" />
