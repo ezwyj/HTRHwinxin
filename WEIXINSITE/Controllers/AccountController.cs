@@ -98,6 +98,15 @@ namespace WEIXINSITE.Controllers
             string msg=string.Empty;
             return View(DataService.DataService.GetUserDetial(weixinOpenId,out msg));
         }
+
+        [HttpGet]
+        public JsonResult ReBuildQrcode()
+        {
+            string msg = string.Empty;
+            var retData = DataService.DataService.ReBuildQrcode(out msg);
+            return new JsonResult { Data = new { state = retData, msg = msg } };
+        }
+
         [HttpPost]
         public JsonResult Detial(string weixinOpenId, string postData)
         {

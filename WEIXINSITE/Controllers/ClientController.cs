@@ -53,12 +53,12 @@ namespace WEIXINSITE.Controllers
             catch (Exception ex)
             {
                 msg = ex.Message;
-                return null;
+                
             }
             if (result.errcode != ReturnCode.请求成功)
             {
                 msg = "错误：" + result.errmsg;
-                return null;
+                
             }
             //下面2个数据也可以自己封装成一个类，储存在数据库中（建议结合缓存）
             //如果可以确保安全，可以将access_token存入用户的cookie中，每一个人的access_token是不一样的

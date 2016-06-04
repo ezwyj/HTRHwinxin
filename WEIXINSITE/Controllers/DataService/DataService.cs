@@ -75,6 +75,39 @@ namespace WEIXINSITE.Controllers.DataService
                 return true;
             }
         }
+
+        public static List<string> ReBuildQrcode(out string msg)
+        {
+            List<string> retList = new List<string>();
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+                string sql = "select * from [RegUser] where QrCodeURL is null or qrcodeUrl='' ";
+                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
+
+                foreach (RegisterUserEntity item in list)
+                {
+                    string err="";
+                    string qrUrl = Units.BuildSharePicture(item.weixinOpenId, item.nickName, out err);
+                    if (err=="")
+                    {
+                        db.Update("RegUser", "weixinOpenId", new { QrCodeURL = qrUrl }, item.weixinOpenId);
+                        retList.Add(item.weixinOpenId + ":OK");
+                    }
+                    else
+                    {
+                        retList.Add(item.weixinOpenId + ":" + err);
+                    }
+                }
+                msg = "";
+                return retList;
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return new List<string>();
+            }
+        }
         public static bool ExistUserQrCode(string weixinOpenId, out string msg)
         {
             try
