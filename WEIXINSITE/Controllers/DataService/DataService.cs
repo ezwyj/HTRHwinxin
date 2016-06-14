@@ -600,6 +600,27 @@ namespace WEIXINSITE.Controllers.DataService
             }
         }
 
+        public static float GetPayCash(string weixinOpenId)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select count(cashvalue) from [CaseRecord] where weixinOpenId=@0";
+
+                float payCash = db.ExecuteScalar<float>(sql, weixinOpenId);
+
+                db.CloseSharedConnection();
+                return payCash;
+
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+
         internal static List<CaseRecord> GetCashRecord(string keyword)
         {
             try

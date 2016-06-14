@@ -7,7 +7,8 @@
     int teamCount = ViewBag.Count;
     string qrfile = "\\upfile\\qrcode_" + @Model.RegUser.weixinOpenId + ".jpg";
 
-    float teamMoney = Model.Level0.Count * 30 + Model.Level1.Count * 200 + Model.Level2.Count * 30;
+    float payCash =(float) ViewBag.payCash ;
+    float teamMoney = Model.Level0.Count * 30 + Model.Level1.Count * 200 + Model.Level2.Count * 30 - ;
     string appId = ViewBag.AppId;
     string baseUrl = ViewBag.BaseUrl;
     string openAccountUrl = Senparc.Weixin.MP.AdvancedAPIs.OAuthApi.GetAuthorizeUrl(appId, "http://" + baseUrl + "/client/openAccount", "JeffreySu", OAuthScope.snsapi_userinfo);

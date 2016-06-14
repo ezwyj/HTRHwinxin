@@ -122,6 +122,7 @@ namespace WEIXINSITE.Controllers
                 ViewBag.Count = DataService.DataService.GetLevel0Count(userInfo.openid) + DataService.DataService.GetLevel1Count(userInfo.openid) + DataService.DataService.GetLevel2Count(userInfo.openid);
                 ViewBag.ErrMsg = msg;
                 ViewBag.AppId = appId;
+                ViewBag.payCash = DataService.DataService.GetPayCash(userInfo.openid);
                 ViewBag.BaseUnit = WebConfigurationManager.AppSettings["baseUnit"];
                 ViewBag.BaseUrl = WebConfigurationManager.AppSettings["baseUrl"];
                 return View(retModel);
