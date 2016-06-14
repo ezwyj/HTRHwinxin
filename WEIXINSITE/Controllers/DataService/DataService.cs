@@ -514,10 +514,10 @@ namespace WEIXINSITE.Controllers.DataService
                 var db = new PetaPoco.Database("DefaultConnection");
 
 
-                string sql = "select * from [UserApply] ";
+                string sql = "select * from [UserApply] where state=0";
                 if (keyword.Length > 0)
                 {
-                    sql = sql + " where realName like '%" + keyword + "%' or phone like '%" + keyword + "%'";
+                    sql = sql + " and realName like '%" + keyword + "%' or phone like '%" + keyword + "%'";
                 }
                 sql = sql + " order by realname desc";
                 List<UserApply> list = db.Fetch<UserApply>(sql);
@@ -556,6 +556,72 @@ namespace WEIXINSITE.Controllers.DataService
             catch (Exception e)
             {
                 return new List<RegisterUserEntity>();
+            }
+        }
+
+        internal static Entity.UserApply GetApplyCashDetial(string id, out string msg)
+        {
+            try
+            {
+                UserApply ret = new UserApply();
+
+                var db = new PetaPoco.Database("DefaultConnection");
+                string sql = "select * from [userApply] where id=@0";
+                ret = db.Single<UserApply>(sql, id);
+                msg = "";
+                db.CloseSharedConnection();
+                return ret;
+
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return null;
+            }
+        }
+
+        internal static bool SaveCashRecord(CaseRecord recordData,out string msg)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+                db.BeginTransaction();
+                db.Insert(recordData);
+                db.Update<UserApply>("set state=1 where Id=@0", recordData.UserApplyId);
+                db.CompleteTransaction();
+                db.CloseSharedConnection();
+                msg = "";
+                return true;
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return false;
+            }
+        }
+
+        internal static List<CaseRecord> GetCashRecord(string keyword)
+        {
+            try
+            {
+                var db = new PetaPoco.Database("DefaultConnection");
+
+
+                string sql = "select * from [CaseRecord] where 1=1";
+                if (keyword.Length > 0)
+                {
+                    sql = sql + " and realName like '%" + keyword + "%' or phone like '%" + keyword + "%'";
+                }
+                sql = sql + " order by realname desc";
+                List<CaseRecord> list = db.Fetch<CaseRecord>(sql);
+
+                db.CloseSharedConnection();
+                return list;
+
+            }
+            catch (Exception e)
+            {
+                return new List<CaseRecord>();
             }
         }
     }

@@ -1,10 +1,10 @@
-﻿define(['common', 'util',  'plugins', 'bootstrap'], function ($, util) {
+﻿define(['common', 'util', 'plugins', 'bootstrap'], function ($, util) {
     var rootUrl = OP_CONFIG.rootUrl;
 
 
     var resultTable = $('#List').table({
         tableClass: 'table-condensed',
-        url: '../Account/GetTxList',
+        url: '../Account/GetTxRecordList',
         data: function () {
             return {
 
@@ -15,29 +15,27 @@
         resizable: false,
         colOptions: [{
             name: '真实姓名',
-            field: 'RealName',
+            field: 'realName',
             width: 100
 
         }, {
             name: '电话',
             field: 'phone',
-            width: 120
+            width: 100
 
         }, {
-            name: '申请提现金额',
-            width:90,
-            field: 'CaseValue'
+            name: '提现金额',
+            width: 100,
+            field: 'CashValue'
         }, {
-            name: '申请时间',
-            field: 'ApplyTimeExp',
+            name: '操作时间',
+            field: 'operateTimeExp',
             width: 220
         }, {
-            name: '操作',
-            field: 'ApplyTimeExp',
-            handler: function (value, data) {
-                
-                return '<a href="' + rootUrl + 'account/txDetial?id=' + data.Id + '">操作</a>';
-            }
+            name: '银行卡',
+            field: 'BankCard',
+            name: '备注',
+            field: 'Remark'
         }
         ],
         onInit: function () {

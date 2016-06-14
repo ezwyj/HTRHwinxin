@@ -20,6 +20,8 @@ namespace WEIXINSITE.Entity
 
         public float CaseValue { get; set;  }
 
+        public bool State { get; set; }
+
         [PetaPoco.Ignore]
         public string ApplyTimeExp { get { return ApplyTime.ToString(); } }
     }

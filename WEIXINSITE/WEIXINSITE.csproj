@@ -231,6 +231,7 @@
     <Content Include="assets\js\app\account\detial.js" />
     <Content Include="assets\js\app\account\tx.js" />
     <Content Include="assets\js\app\account\list.js" />
+    <Content Include="assets\js\app\account\zfRecord.js" />
     <Content Include="assets\js\app\doc\detail.js" />
     <Content Include="assets\js\app\doc\list.js" />
     <Content Include="assets\js\app\doc\manage.js" />
@@ -512,6 +513,8 @@
     <Content Include="Views\Account\Chart.cshtml" />
     <Content Include="Views\Account\shengqingtx.cshtml" />
     <Content Include="Views\Client\Order.cshtml" />
+    <Content Include="Views\Account\txDetial.cshtml" />
+    <Content Include="Views\Account\cashRecordList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,83 @@
+﻿@model WEIXINSITE.Entity.UserApply
+@{
+    ViewBag.Title = "Detial";
+
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+
+}
+
+<!DOCTYPE html>
+
+<div class="container-fluid page-body">
+    <div class="panel-heading">
+        <h5>用户提现信息</h5>
+    </div>
+    <div class="panel-body">
+        <input type="hidden" id="weixinOpenId" value="@Model.WeixinOpenId" />
+        <input type="hidden" id="UserApplyId" value="@Model.Id" />
+        <div class="row item-row">
+            <div class="col-md-4">
+                <div class="item-name">提现人名称：</div>
+                <div class="item-control">
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly  id="realName" value="@Model.RealName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item-name">电话</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" readonly id="phone" value="@Model.phone">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item-name">申请时间：</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" readonly id="applyTime" value="@Model.ApplyTimeExp">
+                </div>
+            </div>
+        </div>
+        <div class="row item-row">
+            <div class="col-md-6">
+                <div class="item-name">申请提现金额：</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" readonly  value="@Model.CaseValue">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="item-name">实际支付金额</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" id="cashRecord" value="">
+                </div>
+            </div>
+
+        </div>
+        <div class="row item-row">
+            <div class="col-md-6">
+                <div class="item-name"> 银行卡：</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" id="bank" >
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="item-name">备注</div>
+                <div class="item-control">
+                    <input type="text" class="form-control" id="remark" value="">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="main-option">
+        <button class="btn btn-success" id="submitTx">保存</button>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        OP_CONFIG.module = 'account';
+        OP_CONFIG.page = 'detial';
+    </script>
+}

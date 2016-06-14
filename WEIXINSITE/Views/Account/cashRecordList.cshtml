@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "支付列表";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="container-fluid page-body">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h5>查询</h5>
+            <div class="panel-search form-inline">
+                <div class="input-group" id="search-widget">
+                    <input type="text" class="form-control" placeholder="搜索" id="keyword">
+                </div>
+            </div>
+            <div class="panel-option">
+                <button class="btn btn-sm btn-primary" id="query">查询</button>
+            </div>
+            <div class="panel-body">
+                <div id="List"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        OP_CONFIG.module = 'account';
+        OP_CONFIG.page = 'zfRecord';
+    </script>
+}

@@ -100,11 +100,44 @@ namespace WEIXINSITE.Controllers
         }
 
         [HttpGet]
+        public ActionResult txDetial(string id)
+        {
+            string msg = string.Empty;
+            var ret = DataService.DataService.GetApplyCashDetial(id, out msg);
+            ViewBag.msg = msg;
+            return View(ret);
+        }
+
+        [HttpGet]
         public JsonResult ReBuildQrcode()
         {
             string msg = string.Empty;
             var retData = DataService.DataService.ReBuildQrcode(out msg);
             return new JsonResult { Data = new { state = retData, msg = msg } };
+        }
+
+        [HttpPost]
+        public JsonResult SaveTx(string weixinOpenId, string postData)
+        {
+            bool state = true;
+            string msg = string.Empty;
+
+            try
+            {
+                Entity.CaseRecord recordData = Serializer.ToObject<CaseRecord>(postData);
+                recordData.OperateTime = DateTime.Now;
+
+
+                state = DataService.DataService.SaveCashRecord(recordData,out msg);
+
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+
+            return new JsonResult { Data = new { state = state, msg = msg } };
         }
 
         [HttpPost]
@@ -145,7 +178,10 @@ namespace WEIXINSITE.Controllers
         {
             return View();
         }
-
+        public ActionResult cashRecordList()
+        {
+            return View();
+        }
 
         public FileResult ExportExcel()
         {
@@ -308,6 +344,45 @@ namespace WEIXINSITE.Controllers
             {
 
                 List = DataService.DataService.GetUserApply(keyword);
+
+                //switch (type)
+                //{
+                //    case "文件名":
+                //        submitList = submitList.FindAll(a => a.MainFile.FileName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
+                //        break;
+                //    case "版本号":
+                //        submitList = submitList.FindAll(a => a.ProjectCode.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
+                //        break;
+                //    case "发起人":
+                //        submitList = submitList.FindAll(a => a.Creator.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1 || a.CreatorExp.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
+                //        break;
+                //}
+
+                total = List.Count;
+                List = List.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            }
+            catch (Exception e)
+            {
+                state = false;
+                msg = e.Message;
+            }
+            return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+
+        
+        public JsonResult GetTxRecordList(int pageIndex = 1, int pageSize = 20, string keyword = "")
+        {
+            bool state = true;
+            string msg = string.Empty;
+            int total = 0;
+            List<CaseRecord> List = null;
+
+            try
+            {
+
+                List = DataService.DataService.GetCashRecord(keyword);
 
                 //switch (type)
                 //{

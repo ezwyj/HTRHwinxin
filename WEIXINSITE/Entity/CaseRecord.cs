@@ -19,6 +19,15 @@ namespace WEIXINSITE.Entity
 
         public string Remark { get; set; }
 
+        [PetaPoco.Ignore]
+        public string operateTimeExp
+        {
+            get { return OperateTime.ToString(); }
+        }
         public DateTime OperateTime { get; set; }
+
+        [PetaPoco.Ignore]
+        public string UserApplyId { get; set; }
+        public string realName { get; set; }
     }
 }
