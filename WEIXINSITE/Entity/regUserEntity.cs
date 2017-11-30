@@ -26,7 +26,7 @@ namespace WEIXINSITE.Entity
         public string phone { get; set; }
         public DateTime regTime { get; set; }
 
-        public string showId { get; set; }
+
 
         /// <summary>
         /// 身份证正面
@@ -54,18 +54,6 @@ namespace WEIXINSITE.Entity
         
         public string tjrnickName { get; set; }
 
-        public Int16 OpenState { get; set; }
-
-        public Int16 BindState { get; set; }
-
-        public Int16 InMoneyState { get; set; }
-
-        public Int16 SaleState { get; set; }
-
-        [PetaPoco.Ignore]
-        public int OpenAccountOrder { get; set; }
-
-        [PetaPoco.Ignore]
-        public int MoneyOrder { get; set; }
+      
     }
 }
