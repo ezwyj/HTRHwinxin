@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+    var imgUrl ="/UpFile/" + ViewData["imgsource"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestQrCode</title>
+</head>
+<body>
+    <div>
+        @imgUrl
+        <img src="@imgUrl" width="100%" height="100%" />
+    </div>
+</body>
+</html>

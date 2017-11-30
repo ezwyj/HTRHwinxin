@@ -3,10 +3,12 @@ using Senparc.Weixin.Exceptions;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
+using Senparc.Weixin.MP.AdvancedAPIs.QrCode;
 using Senparc.Weixin.MP.CommonAPIs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,13 +18,13 @@ namespace WEIXINSITE.Controllers
     public class OAuth2Controller : Controller
     {
         //下面换成账号对应的信息，也可以放入web.config等地方方便配置和更换
-        private string appId = ConfigurationManager.AppSettings["TenPayV3_AppId"];
-        private string secret = ConfigurationManager.AppSettings["TenPayV3_AppSecret"];
+        private string appId = ConfigurationManager.AppSettings["WeixinAppId"];
+        private string secret = ConfigurationManager.AppSettings["WeixinAppSecret"];
         private string baseUrl = ConfigurationManager.AppSettings["baseUrl"];
         public ActionResult Index()
         {
             //此页面引导用户点击授权
-            ViewData["UrlUserInfo"] = OAuthApi.GetAuthorizeUrl(appId,"http://"+baseUrl+ "/client/index", "JeffreySu", OAuthScope.snsapi_userinfo);
+            ViewData["UrlUserInfo"] = OAuthApi.GetAuthorizeUrl(appId, "http://hqr.deviceiot.top/oAuth2/UserInfoCallback", "hqr", OAuthScope.snsapi_userinfo);
             ViewData["UrlBase"] = OAuthApi.GetAuthorizeUrl(appId, "http://localhost:2478/oauth2/BaseCallback", "JeffreySu", OAuthScope.snsapi_base);
             return View();
         }
@@ -40,7 +42,7 @@ namespace WEIXINSITE.Controllers
                 return Content("您拒绝了授权！");
             }
 
-            if (state != "JeffreySu")
+            if (state != "hqr")
             {
                 //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
                 //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
@@ -71,13 +73,34 @@ namespace WEIXINSITE.Controllers
             try
             {
                 OAuthUserInfo userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
-                return View(userInfo);
+
+                return TestQrCode(userInfo.openid);
             }
             catch (ErrorJsonResultException ex)
             {
                 return Content(ex.Message);
             }
         }
+        public ActionResult TestQrCode(string openid)
+        {
+            var check = Request.MapPath("~/upFile/") + "user_" + openid+".jpg";
+            if (!System.IO.File.Exists(check))
+            {
+                CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, openid);
+                var backQrUrl = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
+                Units.GetPictureQrCode(backQrUrl, openid);
+                var filenameOnly = System.IO.Path.GetFileName(Units.BuildSharePicture(openid));
+                ViewData["imgsource"] = "user_" + filenameOnly;
+
+            }
+            else
+            {
+                ViewData["imgsource"] = "user_" + openid + ".jpg";
+            }
+           
+            return View();
+        }
+
 
         /// <summary>
         /// OAuthScope.snsapi_base方式回调

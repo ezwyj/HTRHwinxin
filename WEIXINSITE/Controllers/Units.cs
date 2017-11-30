@@ -68,40 +68,25 @@ namespace WEIXINSITE.Controllers
         /// <param name="nickName"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static string BuildSharePicture(string weixinOpenId,string nickName,out string msg)
+        public static string BuildSharePicture(string weixinOpenId)
         {
             string fileName = HttpContext.Current.Server.MapPath("~/Upfile/user_") + weixinOpenId + ".jpg";
-            try
-            {
+
                 Bitmap imgHard= new Bitmap(100,100);
                 Bitmap imgQrCode ;
-                if (File.Exists(HttpContext.Current.Server.MapPath("~/Upfile/head_") + weixinOpenId + ".jpg"))
-                {
-                  imgHard = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/Upfile/head_")+weixinOpenId+".jpg");
-                }
                 imgQrCode  = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/Upfile/qrcode_")+weixinOpenId+".jpg");
                 
                 
-                Bitmap mybit = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/upfile/base.jpg"));
+                Bitmap mybit = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/upfile/base.png"));
                 using(Graphics g = Graphics.FromImage(mybit))
                 {
                   //g.Clear(Color.White);
                     if (File.Exists(HttpContext.Current.Server.MapPath("~/Upfile/head_") + weixinOpenId + ".jpg")) g.DrawImage(imgHard, 29, 13, 95, 100);
                   g.DrawImage(imgQrCode, 150,500,180,187);
-                  g.DrawImage(imgHard, 236, 590, 24, 24);
-
-                 g.DrawString(nickName, new Font(FontFamily.GenericSansSerif, 8), new SolidBrush(Color.Black), 180, 50, StringFormat.GenericDefault);
                 }
                 mybit.Save(fileName);
-                msg = "";
                 return fileName;
-            }
-            catch(Exception e)
-            {
-                msg = e.Message;
-            }
-            msg = "";
-            return fileName;
+
         }
         
     }

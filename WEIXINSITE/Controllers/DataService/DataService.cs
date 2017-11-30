@@ -41,24 +41,7 @@ namespace WEIXINSITE.Controllers.DataService
             }
         }
 
-        public static bool InsertTX(UserApply tx,out string msg)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-                db.Insert("UserApply", tx);
-
-
-                db.CloseSharedConnection();
-                msg = "";
-                return true;
-            }
-            catch (Exception e)
-            {
-                msg = e.Message;
-                return false;
-            }
-        }
+       
         public static bool UpdateQrCode(string weixinOpenId,string qrCodeUrl, out string msg)
         {
             try
@@ -88,7 +71,7 @@ namespace WEIXINSITE.Controllers.DataService
                 foreach (RegisterUserEntity item in list)
                 {
                     string err="";
-                    string qrUrl = Units.BuildSharePicture(item.weixinOpenId, item.nickName, out err);
+                    string qrUrl = "";// Units.BuildSharePicture(item.weixinOpenId, item.nickName, out err);
                     if (err=="")
                     {
                         db.Update("RegUser", "weixinOpenId", new { QrCodeURL = qrUrl }, item.weixinOpenId);
@@ -178,124 +161,9 @@ namespace WEIXINSITE.Controllers.DataService
                 return false;
             }
         }
-        public static int GetLevel1Count(string openId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
+        
 
-
-
-                var sql = PetaPoco.Sql.Builder.Append("select count(*) from [RegUser] where OpenState=1 and tjr=@0", openId);
-                int count = db.ExecuteScalar<int>(sql);
-
-                db.CloseSharedConnection();
-                return count;
-
-            }
-            catch (Exception e)
-            {
-                return -1;
-            }
-        }
-        public static int  GetLevel2Count(string openId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-                string sql = "select count(*) from [RegUser] where OpenState=1 and  tjr in (select weixinOpenId from [RegUser] where tjr=@0)";
-                int count = db.ExecuteScalar<int>(sql, openId);
-
-                db.CloseSharedConnection();
-                return count;
-
-            }
-            catch (Exception e)
-            {
-                return -1;
-            }
-        }
-
-        public static int GetLevel0Count(string openId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-                string sql = "select count(*) from [RegUser] where OpenState=1 and weixinOpenId='" + openId + "'";
-                int count = db.ExecuteScalar<int>(sql, openId);
-
-                db.CloseSharedConnection();
-                return count;
-
-            }
-            catch (Exception e)
-            {
-                return -1;
-            }
-        }
-
-        public static List<RegisterUserEntity> GetLevel2User(string openId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and  tjr in (select weixinOpenId from [RegUser] where tjr=@0)";
-                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
-
-                db.CloseSharedConnection();
-                return list;
-
-            }
-            catch (Exception e)
-            {
-                return new List<RegisterUserEntity>();
-            }
-        }
-        public static List<RegisterUserEntity> GetLevel0User(string openId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-                string sql = "select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and weixinOpenId='" + openId + "'";
-                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql, openId);
-
-                db.CloseSharedConnection();
-                return list;
-
-            }
-            catch (Exception e)
-            {
-                return new List<RegisterUserEntity>();
-            }
-        }
-        public static List<RegisterUserEntity> GetLevel1User(string openId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-
-                var sql = PetaPoco.Sql.Builder.Append("select * from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 and tjr=@0", openId);
-                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
-
-                db.CloseSharedConnection();
-                return list;
-
-            }
-            catch (Exception e)
-            {
-                return new List<RegisterUserEntity>();
-            }
-        }
+ 
 
         public static List<RegisterUserEntity> GetUserTree()
         {
@@ -406,9 +274,7 @@ namespace WEIXINSITE.Controllers.DataService
                 RegisterUserEntity UserRegInfo = db.Single<RegisterUserEntity>(sql, weixinId);
                 retModel.RegUser = UserRegInfo;
 
-                retModel.Level0 = GetLevel0User(weixinId);
-                retModel.Level1 = GetLevel1User(weixinId);
-                retModel.Level2 = GetLevel2User(weixinId);
+
 
                 db.CloseSharedConnection();
 
@@ -447,29 +313,6 @@ namespace WEIXINSITE.Controllers.DataService
             }
         }
 
-        internal static List<UserApply> GetApplyCash(string openid,out string msg)
-        {
-            //取得历史申请取现记录
-            try
-            {
-
-                var db = new PetaPoco.Database("DefaultConnection");
-                string sql = "select * from [UserApply] where weixinOpenId=@0";
-                List<UserApply> UserApplyInfos = db.Fetch<UserApply>(sql, openid);
-
-
-                db.CloseSharedConnection();
-
-                msg = "";
-                return UserApplyInfos;
-            }
-            catch (Exception e)
-            {
-                msg = e.Message;
-                return null;
-            }
-            throw new NotImplementedException();
-        }
 
         internal static List<RegisterUserEntity> GetUserTree(string parent)
         {
@@ -532,118 +375,8 @@ namespace WEIXINSITE.Controllers.DataService
             }
         }
 
-        internal static List<RegisterUserEntity> GetUserOrder()
-        {
-            try
-            {
-                List<RegisterUserEntity> retList = new List<RegisterUserEntity>();
+ 
 
-                var db = new PetaPoco.Database("DefaultConnection");
-                string sql = "select weixinOpenId,nickName,headImage from [RegUser] where OpenState=1 and BindState=1 and InMoneyState=1 and SaleState=1 ";
-                List<RegisterUserEntity> list = db.Fetch<RegisterUserEntity>(sql);
-
-                foreach (RegisterUserEntity item in list)
-                {
-                    item.MoneyOrder = DataService.GetLevel0User(item.weixinOpenId).Count * 30 + DataService.GetLevel1User(item.weixinOpenId).Count * 200 + DataService.GetLevel2User(item.weixinOpenId).Count * 30;
-                }
-
-                db.CloseSharedConnection();
-                var query = from u in list orderby u.MoneyOrder descending select u;
-                retList = query.ToList();
-                return retList;
-
-            }
-            catch (Exception e)
-            {
-                return new List<RegisterUserEntity>();
-            }
-        }
-
-        internal static Entity.UserApply GetApplyCashDetial(string id, out string msg)
-        {
-            try
-            {
-                UserApply ret = new UserApply();
-
-                var db = new PetaPoco.Database("DefaultConnection");
-                string sql = "select * from [userApply] where id=@0";
-                ret = db.Single<UserApply>(sql, id);
-                msg = "";
-                db.CloseSharedConnection();
-                return ret;
-
-            }
-            catch (Exception e)
-            {
-                msg = e.Message;
-                return null;
-            }
-        }
-
-        internal static bool SaveCashRecord(CaseRecord recordData,out string msg)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-                db.BeginTransaction();
-                db.Insert(recordData);
-                db.Update<UserApply>("set state=1 where Id=@0", recordData.UserApplyId);
-                db.CompleteTransaction();
-                db.CloseSharedConnection();
-                msg = "";
-                return true;
-            }
-            catch (Exception e)
-            {
-                msg = e.Message;
-                return false;
-            }
-        }
-
-        public static float GetPayCash(string weixinOpenId)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-                string sql = "select count(cashvalue) from [CaseRecord] where weixinOpenId=@0";
-
-                float payCash = db.ExecuteScalar<float>(sql, weixinOpenId);
-
-                db.CloseSharedConnection();
-                return payCash;
-
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
-        }
-
-        internal static List<CaseRecord> GetCashRecord(string keyword)
-        {
-            try
-            {
-                var db = new PetaPoco.Database("DefaultConnection");
-
-
-                string sql = "select * from [CaseRecord] where 1=1";
-                if (keyword.Length > 0)
-                {
-                    sql = sql + " and realName like '%" + keyword + "%' or phone like '%" + keyword + "%'";
-                }
-                sql = sql + " order by realname desc";
-                List<CaseRecord> list = db.Fetch<CaseRecord>(sql);
-
-                db.CloseSharedConnection();
-                return list;
-
-            }
-            catch (Exception e)
-            {
-                return new List<CaseRecord>();
-            }
-        }
+       
     }
 }

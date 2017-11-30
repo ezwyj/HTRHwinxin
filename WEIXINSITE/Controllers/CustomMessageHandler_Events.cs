@@ -131,7 +131,7 @@ namespace WEIXINSITE.Controllers
 
 
 
-        private string Subscribe = "您好，感谢您关注"+baseUnit+"机构。邀请您参加目前火热开展的百万奖金等你拿活动。 \r\n \r\n回复数字“1” 了解 活动详情 \r\n回复数字“2” 进入 我要开户 \r\n回复数字“3”了解 上海文交所";
+        private string Subscribe = "您好，感谢您关注番茄田美术机构。邀请您参加你扫码我请课活动。 ";
         private string Scan = "报名成功！恭喜您成为百万大奖等你拿活动的第{0}位会员。现在，您可以免费开通上海文交所交易账户，并获得开户奖金。分享您的专属二维码推荐他人开户，您还可获得额外二级奖金。组建您自己的“扫码团队”还可以享受更多的交易佣金返还！“百万奖金等你拿”，具体规则查看“活动规则”";
         /// <summary>
         /// 订阅（关注）事件
@@ -160,16 +160,16 @@ namespace WEIXINSITE.Controllers
                     CreateQrCodeResult qrResult = Senparc.Weixin.MP.AdvancedAPIs.QrCodeApi.CreateByStr(appId, userinfo.weixinOpenId);
                     string QrCodeURL = QrCodeApi.GetShowQrCodeUrl(qrResult.ticket);
                     Units.GetPictureQrCode(QrCodeURL, user.openid);
-                    Units.GetPictureHead(user.headimgurl, user.openid);
+                   
 
-                    string qrFile = Units.BuildSharePicture(user.openid, user.nickname, out msg);
+                    string qrFile = "";// Units.BuildSharePicture(user.openid, user.nickname, out msg);
                     userinfo.QrCodeURL = qrFile;
                     if (!string.IsNullOrEmpty(requestMessage.EventKey)) //有推荐人
                     {
                         var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
                         userinfo.tjrnickName = userTJR.nickname;
                         userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
-                        Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名参与百万大奖等你拿活动");
+                        Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名你扫码我请课活动");
 
                     }
                     else

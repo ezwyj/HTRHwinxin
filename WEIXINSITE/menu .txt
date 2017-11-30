@@ -1,60 +1,10 @@
 ﻿{
     "button": [
         {
-            "name": "百万奖金",
-            "sub_button": [
-                 {
-                    "type": "view",
-                    "name": "活动规则",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318804&idx=1&sn=9bc1414b70126318da08e6581ab95774#rd"
-                },
-                {
-                     "type": "click",
-                    "name":"我的二维码",
-                     "key":"BuildQrCode"
-                },
-                {
-                    "type": "view",
-                    "name": "我的奖金",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb0129f2451e242da&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FIndex&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
-                },
-                {
-                    "type": "view",
-                    "name": "大雪无痕简介",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318859&idx=1&sn=71a2675b19817c2fc63c8a07a7be7b56#rd"
-                },
-                {
-                    "type": "view",
-                    "name": "联系我们",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=214058948&idx=1&sn=bff89c5509972f515478dbd1f217d082&scene=0&previewkey=bwh%2F9qM2t0B0s%2BZTVVaEy8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect"
-                }
-            ]
-        },
-        {
-            "name": "在线开户",
-            "sub_button": [
-               {
-                    "type": "view",
-                    "name": "上海开户",
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb0129f2451e242da&redirect_uri=http%3A%2F%2Fzjqf.deviceiot.top%2Fclient%2FopenAccount&response_type=code&scope=snsapi_userinfo&state=JeffreySu#wechat_redirect"
-                },
-                {
-                    "type": "view",
-                    "name": "银商绑定教程",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318821&idx=1&sn=0a0ac962497d8977cf790594d618bad9#rd"
-                },
-               {
-                    "type": "view",
-                    "name": "客户端下载",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzI3MjAwNjA0MA==&mid=504318856&idx=1&sn=e7b5e04eee4278e72930ee1a52165cb4#rd"
-                }
-            ]
-        },
-        {
-            "name": "温州启富",
-			"type":"view",
-			"url":"http://mp.weixin.qq.com/s?__biz=MzI5ODI5ODk3MA==&mid=100000016&idx=1&sn=75d629efe4556eca78496063937d87b4#rd"
-           
+            "type": "view",
+            "name": "分享有礼",
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfbbd187c7a17774c&redirect_uri=http%3A%2F%2Fhqr.deviceiot.top%2FoAuth2%2FUserInfoCallback&response_type=code&scope=snsapi_userinfo&state=hqr#wechat_redirect"
+	                
         }
     ]
 }

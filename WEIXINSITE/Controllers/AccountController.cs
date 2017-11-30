@@ -99,14 +99,7 @@ namespace WEIXINSITE.Controllers
             return View(DataService.DataService.GetUserDetial(weixinOpenId,out msg));
         }
 
-        [HttpGet]
-        public ActionResult txDetial(string id)
-        {
-            string msg = string.Empty;
-            var ret = DataService.DataService.GetApplyCashDetial(id, out msg);
-            ViewBag.msg = msg;
-            return View(ret);
-        }
+        
 
         [HttpGet]
         public JsonResult ReBuildQrcode()
@@ -116,30 +109,7 @@ namespace WEIXINSITE.Controllers
             return new JsonResult { Data = new { state = retData, msg = msg } };
         }
 
-        [HttpPost]
-        public JsonResult SaveTx(string weixinOpenId, string postData)
-        {
-            bool state = true;
-            string msg = string.Empty;
-
-            try
-            {
-                Entity.CaseRecord recordData = Serializer.ToObject<CaseRecord>(postData);
-                recordData.OperateTime = DateTime.Now;
-
-
-                state = DataService.DataService.SaveCashRecord(recordData,out msg);
-
-            }
-            catch (Exception e)
-            {
-                state = false;
-                msg = e.Message;
-            }
-
-            return new JsonResult { Data = new { state = state, msg = msg } };
-        }
-
+     
         [HttpPost]
         public JsonResult Detial(string weixinOpenId, string postData)
         {
@@ -202,13 +172,6 @@ namespace WEIXINSITE.Controllers
                 sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", user.nickName);
                 sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", user.realName);
                 sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", user.phone);
-                List<RegisterUserEntity> level0User =  DataService.DataService.GetLevel0User(user.weixinOpenId);
-                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>",level0User.Count  );
-                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", string.Join(",",level0User.ToList()));
-                List<RegisterUserEntity> level1User =  DataService.DataService.GetLevel1User(user.weixinOpenId);
-                
-                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>",level1User.Count  );
-                sbHtml.AppendFormat("<td style='font-size: 12px;height:20px;'>{0}</td>", string.Join(",", level1User.ToList()));
                  
                 sbHtml.Append("</tr>");
             }
@@ -372,42 +335,5 @@ namespace WEIXINSITE.Controllers
         }
 
         
-        public JsonResult GetTxRecordList(int pageIndex = 1, int pageSize = 20, string keyword = "")
-        {
-            bool state = true;
-            string msg = string.Empty;
-            int total = 0;
-            List<CaseRecord> List = null;
-
-            try
-            {
-
-                List = DataService.DataService.GetCashRecord(keyword);
-
-                //switch (type)
-                //{
-                //    case "文件名":
-                //        submitList = submitList.FindAll(a => a.MainFile.FileName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
-                //        break;
-                //    case "版本号":
-                //        submitList = submitList.FindAll(a => a.ProjectCode.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
-                //        break;
-                //    case "发起人":
-                //        submitList = submitList.FindAll(a => a.Creator.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1 || a.CreatorExp.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > -1);
-                //        break;
-                //}
-
-                total = List.Count;
-                List = List.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-
-            }
-            catch (Exception e)
-            {
-                state = false;
-                msg = e.Message;
-            }
-            return new JsonResult { Data = new { state = state, msg = msg, data = List, total = total }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-
-        }
     }
 }

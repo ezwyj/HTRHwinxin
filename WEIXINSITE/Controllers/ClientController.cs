@@ -67,12 +67,7 @@ namespace WEIXINSITE.Controllers
             msg = "OK";
             return result;
         }
-        public ActionResult Order()
-        {
-            List<RegisterUserEntity> user = DataService.DataService.GetUserOrder();
-
-            return View(user);
-        }
+       
         public ActionResult Index(string code, string state)
         {
             
@@ -119,12 +114,9 @@ namespace WEIXINSITE.Controllers
 
                     }
                 }
-                ViewBag.Count = DataService.DataService.GetLevel0Count(userInfo.openid) + DataService.DataService.GetLevel1Count(userInfo.openid) + DataService.DataService.GetLevel2Count(userInfo.openid);
                 ViewBag.ErrMsg = msg;
                 ViewBag.AppId = appId;
-                ViewBag.payCash = DataService.DataService.GetPayCash(userInfo.openid);
-                ViewBag.BaseUnit = WebConfigurationManager.AppSettings["baseUnit"];
-                ViewBag.BaseUrl = WebConfigurationManager.AppSettings["baseUrl"];
+
                 return View(retModel);
                 
             }
@@ -159,52 +151,13 @@ namespace WEIXINSITE.Controllers
                 return false; 
             }
         }
-        public ActionResult team(string openid)
-        {
-            UserModel retModel = new UserModel();
+        
 
-            retModel.Level1 = DataService.DataService.GetLevel1User(openid);
-            retModel.Level2 = DataService.DataService.GetLevel2User(openid);
+        
 
+      
 
-            return View(retModel);
-        }
-
-        public ActionResult perOpenAccount()
-        {
-            return View();
-        }
-
-        public ActionResult shenqingtx(string code, string state)
-        {
-            string msg = "";
-            //因为第一步选择的是OAuthScope.snsapi_userinfo，这里可以进一步获取用户详细信息
-            OAuthAccessTokenResult result = GetOAuthAccessTokenResult(code, state, out msg);
-            OAuthUserInfo userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
-
-                UserModel retModel = new UserModel();
-                retModel.WeixinUserInfo = userInfo;
-                retModel.RegUser = DataService.DataService.GetUserBaseDetail(userInfo.openid, out msg);
-
-                retModel.JsSdkPackage = JSSDKHelper.GetJsSdkUiPackage(appId, secret, Request.Url.AbsoluteUri);
-                ViewBag.ErrMsg = msg;
-                return View(retModel);
-
-        }
-
-        [HttpPost]
-        public JsonResult shenqingtx(string dataJson)
-        {
-            string msg = string.Empty;
-            bool state = false;
-            //申请提现
-            UserApply retModel = Serializer.ToObject<UserApply>(dataJson);
-            retModel.ApplyTime = DateTime.Now;
-            state = DataService.DataService.InsertTX(retModel, out msg);
-            
-            return new JsonResult { Data = new { state = state, msg = msg } };
-
-        }
+        
 
 
         [HttpPost]
