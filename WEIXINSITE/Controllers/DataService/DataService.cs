@@ -140,26 +140,20 @@ namespace WEIXINSITE.Controllers.DataService
         }
 
 
-        public static bool AddNewUser(RegisterUserEntity userInfo,out string msg)
+        public static void AddNewUser(RegisterUserEntity userInfo)
         {
-            try
-            {
+
                 var db = new PetaPoco.Database("DefaultConnection");
 
-                if (!db.Exists<RegisterUserEntity>("weixinOpenId=@0", userInfo.weixinOpenId))
+                if (!db.Exists<RegisterUserEntity>("where weixinOpenId=@0", userInfo.weixinOpenId))
                 {
                     db.Insert("RegUser", "weixinOpenId", userInfo);
                 }
 
                 db.CloseSharedConnection();
-                msg = "";
-                return true;
 
-            }
-            catch(Exception e){
-                msg = e.Message;
-                return false;
-            }
+
+            
         }
         
 
@@ -231,7 +225,7 @@ namespace WEIXINSITE.Controllers.DataService
                 var db = new PetaPoco.Database("DefaultConnection");
                 db.BeginTransaction();
                 //db.Update("articles", "article_id", new { title="New title" }, 123); 
-                db.Update("RegUser", "weixinOpenId", new { realName = user.realName, phone = user.phone, cardPicFront = user.CardPicFront, cardPicBackground = user.CardPicBackground, bankCardPic = user.BankCardPic }, user.weixinOpenId);
+                //db.Update("RegUser", "weixinOpenId", new { realName = user.realName, phone = user.phone, cardPicFront = user.CardPicFront, cardPicBackground = user.CardPicBackground, bankCardPic = user.BankCardPic }, user.weixinOpenId);
                 db.CompleteTransaction();
                 db.CloseSharedConnection();
                 msg = "";

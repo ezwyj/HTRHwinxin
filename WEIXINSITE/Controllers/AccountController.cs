@@ -123,10 +123,7 @@ namespace WEIXINSITE.Controllers
                 RegisterUserEntity userPost = Serializer.ToObject<RegisterUserEntity>(postData);
                 RegisterUserEntity user = DataService.DataService.GetUserBaseDetail(weixinOpenId, out msg);
 
-                user.OpenState = userPost.OpenState;
-                user.BindState = userPost.BindState;
-                user.InMoneyState = userPost.InMoneyState;
-                user.SaleState = userPost.SaleState;
+
 
                 state = DataService.DataService.UpdateUser(user,out msg);
 

@@ -28,23 +28,23 @@ namespace WEIXINSITE.Entity
 
 
 
-        /// <summary>
-        /// 身份证正面
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string CardPicFront { get; set; }
+        ///// <summary>
+        ///// 身份证正面
+        ///// </summary>
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public string CardPicFront { get; set; }
 
 
-        /// <summary>
-        /// 身份证背面
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string CardPicBackground { get; set; }
-        /// <summary>
-        /// 银行卡照片
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string BankCardPic { get; set; }
+        ///// <summary>
+        ///// 身份证背面
+        ///// </summary>
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public string CardPicBackground { get; set; }
+        ///// <summary>
+        ///// 银行卡照片
+        ///// </summary>
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public string BankCardPic { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string QrCodeURL { get; set; }

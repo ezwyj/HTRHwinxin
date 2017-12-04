@@ -140,6 +140,7 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            //responseMessage.Content = "订阅（关注）事件";
             //通过订阅关注
             try
             {
@@ -162,25 +163,25 @@ namespace WEIXINSITE.Controllers
                     Units.GetPictureQrCode(QrCodeURL, user.openid);
                    
 
-                    string qrFile = "";// Units.BuildSharePicture(user.openid, user.nickname, out msg);
+                    string qrFile =  Units.BuildSharePicture(user.openid);
                     userinfo.QrCodeURL = qrFile;
                     if (!string.IsNullOrEmpty(requestMessage.EventKey)) //有推荐人
                     {
                         var userTJR = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetUserInfo(appId, requestMessage.EventKey.Replace("qrscene_", ""));
                         userinfo.tjrnickName = userTJR.nickname;
                         userinfo.tjr = requestMessage.EventKey.Replace("qrscene_", "");
-                        Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名你扫码我请课活动");
+                        //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, userTJR.openid, "在您的推荐下，“" + userinfo.nickName + "”成功报名你扫码我请课活动");
 
                     }
                     else
                     {
                         userinfo.tjr = "";
                     }
-                    int count = DataService.DataService.GetUserCount();
-                    string resultMessage = String.Format(Scan, count.ToString());
-                    responseMessage.Content = Subscribe + "\n\r" + resultMessage;
+                    //int count = DataService.DataService.GetUserCount();
+                    //string resultMessage = String.Format(Scan, count.ToString());
+                    ;
 
-                    state = DataService.DataService.AddNewUser(userinfo, out msg);
+                   DataService.DataService.AddNewUser(userinfo);
                 }
                 
             }

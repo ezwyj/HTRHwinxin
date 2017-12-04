@@ -91,14 +91,14 @@ namespace WEIXINSITE.Controllers
                         retModel.RegUser.headImage = userInfo.headimgurl;
                         retModel.RegUser.nickName = userInfo.nickname;
                         retModel.RegUser.weixinOpenId = result.openid;
-                        retModel.RegUser.OpenState = 0;
-                        retModel.RegUser.SaleState = 0;
-                        retModel.RegUser.InMoneyState = 0;
-                        retModel.RegUser.BindState = 0;
+                        //retModel.RegUser.OpenState = 0;
+                        //retModel.RegUser.SaleState = 0;
+                        //retModel.RegUser.InMoneyState = 0;
+                        //retModel.RegUser.BindState = 0;
                         retModel.RegUser.regTime = DateTime.Now;
                         retModel.WeixinUserInfo = userInfo;
 
-                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser,  out msg);
+                         DataService.DataService.AddNewUser(retModel.RegUser);
 
                         Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
@@ -168,9 +168,9 @@ namespace WEIXINSITE.Controllers
             //存库和取图片
             UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
 
-            state = SavePicture(retModel.RegUser.CardPicFront,out msg);
-            state = SavePicture(retModel.RegUser.CardPicBackground,out msg);
-            state = SavePicture(retModel.RegUser.BankCardPic,out msg);
+            //state = SavePicture(retModel.RegUser.CardPicFront,out msg);
+            //state = SavePicture(retModel.RegUser.CardPicBackground,out msg);
+            //state = SavePicture(retModel.RegUser.BankCardPic,out msg);
 
 
             state = DataService.DataService.UpdateUserInfo (retModel.RegUser, out msg);
@@ -200,14 +200,14 @@ namespace WEIXINSITE.Controllers
                         retModel.RegUser.headImage = userInfo.headimgurl;
                         retModel.RegUser.nickName = userInfo.nickname;
                         retModel.RegUser.weixinOpenId = result.openid;
-                        retModel.RegUser.OpenState = 0;
-                        retModel.RegUser.SaleState = 0;
-                        retModel.RegUser.InMoneyState = 0;
-                        retModel.RegUser.BindState = 0;
+                        //retModel.RegUser.OpenState = 0;
+                        //retModel.RegUser.SaleState = 0;
+                        //retModel.RegUser.InMoneyState = 0;
+                        //retModel.RegUser.BindState = 0;
                         retModel.RegUser.regTime = DateTime.Now;
                         retModel.WeixinUserInfo = userInfo;
 
-                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser,  out msg);
+                         DataService.DataService.AddNewUser(retModel.RegUser);
 
                         Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
@@ -343,14 +343,14 @@ namespace WEIXINSITE.Controllers
                         retModel.RegUser.headImage = userInfo.headimgurl;
                         retModel.RegUser.nickName = userInfo.nickname;
                         retModel.RegUser.weixinOpenId = oUser.openid;
-                        retModel.RegUser.OpenState = 0;
-                        retModel.RegUser.SaleState = 0;
-                        retModel.RegUser.InMoneyState = 0;
-                        retModel.RegUser.BindState = 0;
+                        //retModel.RegUser.OpenState = 0;
+                        //retModel.RegUser.SaleState = 0;
+                        //retModel.RegUser.InMoneyState = 0;
+                        //retModel.RegUser.BindState = 0;
                         retModel.RegUser.regTime = DateTime.Now;
                         retModel.WeixinUserInfo = oUser;
 
-                        bool stateAdd = DataService.DataService.AddNewUser(retModel.RegUser, out msg);
+                        DataService.DataService.AddNewUser(retModel.RegUser);
 
                         Units.GetPictureHead(retModel.RegUser.headImage, retModel.WeixinUserInfo.openid);
 
@@ -378,7 +378,7 @@ namespace WEIXINSITE.Controllers
             bool state = false;
             //存库和取图片
             UserModel retModel = Serializer.ToObject<UserModel>(dataJson);
-            state = SavePicture(retModel.RegUser.CardPicFront,out msg);
+            //state = SavePicture(retModel.RegUser.CardPicFront,out msg);
             if (state)
             {
                 state = DataService.DataService.UpdateUser(retModel.RegUser, out msg);
