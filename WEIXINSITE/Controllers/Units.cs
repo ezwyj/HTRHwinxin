@@ -82,7 +82,7 @@ namespace WEIXINSITE.Controllers
                 {
                   //g.Clear(Color.White);
                     if (File.Exists(HttpContext.Current.Server.MapPath("~/Upfile/head_") + weixinOpenId + ".jpg")) g.DrawImage(imgHard, 29, 13, 95, 100);
-                  g.DrawImage(imgQrCode, 350,700,260,260);
+                  g.DrawImage(imgQrCode, 900,1950,240,240);
                 }
                 mybit.Save(fileName);
                 return fileName;

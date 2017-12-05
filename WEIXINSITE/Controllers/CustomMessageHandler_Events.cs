@@ -101,17 +101,26 @@ namespace WEIXINSITE.Controllers
         public override IResponseMessageBase OnEvent_ScanRequest(RequestMessageEvent_Scan requestMessage)
         {
 
-            var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            var responseMessage = CreateResponseMessage<ResponseMessageImage>();
             //通过扫描关注
+
+            string msg = string.Empty;
+                    //responseMessage.Content = Subscribe;
+            var userinfo = DataService.DataService.GetUserBaseDetail(requestMessage.FromUserName , out msg);
+            Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult mediaResult = new Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult();
+            //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, file);
+            mediaResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, Senparc.Weixin.MP.UploadMediaFileType.image, userinfo.QrCodeURL);
+            var ResponseMediaId = mediaResult.media_id;
+            //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, ResponseMediaId);
+            var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
+            responseMessage = strongResponseMessage;
+            
+            strongResponseMessage.Image.MediaId = ResponseMediaId;
+
             
 
-                    responseMessage.Content = Subscribe;
 
-
-                
-
-        
-            return responseMessage;
+            return strongResponseMessage;
         }
 
         public override IResponseMessageBase OnEvent_ViewRequest(RequestMessageEvent_View requestMessage)
@@ -139,7 +148,7 @@ namespace WEIXINSITE.Controllers
         /// <returns></returns>
         public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
         {
-            var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            IResponseMessageBase reponseMessage = null;
             //responseMessage.Content = "订阅（关注）事件";
             //通过订阅关注
             try
@@ -182,14 +191,38 @@ namespace WEIXINSITE.Controllers
                     ;
 
                    DataService.DataService.AddNewUser(userinfo);
+
+                    //发送图文消息
+                    Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult mediaResult = new Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult();
+                    //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, file);
+                    mediaResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, Senparc.Weixin.MP.UploadMediaFileType.image, userinfo.QrCodeURL);
+                    var ResponseMediaId = mediaResult.media_id;
+                    //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, ResponseMediaId);
+                    var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
+                    reponseMessage = strongResponseMessage;
+                    strongResponseMessage.Image.MediaId = ResponseMediaId;
                 }
-                
+                else
+                {
+                    userinfo = DataService.DataService.GetUserBaseDetail(userinfo.weixinOpenId, out msg);
+                    Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult mediaResult = new Senparc.Weixin.MP.AdvancedAPIs.Media.UploadTemporaryMediaResult();
+                    //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, file);
+                    mediaResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, Senparc.Weixin.MP.UploadMediaFileType.image, userinfo.QrCodeURL);
+                    var ResponseMediaId = mediaResult.media_id;
+                    //Senparc.Weixin.MP.AdvancedAPIs.CustomApi.SendText(appId, openid, ResponseMediaId);
+                    var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
+                    reponseMessage = strongResponseMessage;
+                    strongResponseMessage.Image.MediaId = ResponseMediaId;
+                }
             }
             catch (Exception e)
             {
-                responseMessage.Content = e.Message;
+                var errResponseMessage = CreateResponseMessage<ResponseMessageText>();
+                reponseMessage = errResponseMessage;
+                errResponseMessage.Content = e.Message;
+                return errResponseMessage;
             }
-            return responseMessage;
+            return reponseMessage;
         }
 
         /// <summary>
