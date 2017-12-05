@@ -77,12 +77,12 @@ namespace WEIXINSITE.Controllers
                 imgQrCode  = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/Upfile/qrcode_")+weixinOpenId+".jpg");
                 
                 
-                Bitmap mybit = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/upfile/base.png"));
+                Bitmap mybit = (Bitmap)Image.FromFile(HttpContext.Current.Server.MapPath("~/upfile/base.jpg"));
                 using(Graphics g = Graphics.FromImage(mybit))
                 {
                   //g.Clear(Color.White);
                     if (File.Exists(HttpContext.Current.Server.MapPath("~/Upfile/head_") + weixinOpenId + ".jpg")) g.DrawImage(imgHard, 29, 13, 95, 100);
-                  g.DrawImage(imgQrCode, 150,500,180,187);
+                  g.DrawImage(imgQrCode, 350,700,260,260);
                 }
                 mybit.Save(fileName);
                 return fileName;

@@ -485,6 +485,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="UpFile\base.jpg" />
     <Content Include="UpFile\base.png" />
     <Content Include="Views\Client\example.css" />
     <Content Include="Content\assets\css\weui.css" />
