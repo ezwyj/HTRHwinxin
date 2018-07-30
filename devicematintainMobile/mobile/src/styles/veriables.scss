@@ -1,0 +1,24 @@
+/**
+ * 样式变量
+ */
+
+// 改变 icon 字体路径变量，必需
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+$fa-font-path: '~font-awesome/fonts';
+
+// 去掉圆角
+$--border-radius-base: 0 !default;
+
+// 定义大屏为1600px
+$--xl: 1600px !default;
+
+// 分页样式
+$--pagination-border-radius: 0 !default;
+$--pagination-font-size: 12px !default;
+
+// 按钮样式
+$--button-mini-padding-vertical: 5px !default;
+$--button-mini-padding-horizontal: 8px !default;
+
+// input字号
+$--input-small-font-size: 12px !default;
